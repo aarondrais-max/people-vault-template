@@ -450,9 +450,8 @@
         <div class="step-number">1</div>
         <div class="step-content">
           <h3>Download the vault</h3>
-          <p>Download the ZIP from GitHub and unzip it somewhere permanent — not your Downloads folder. A good location is <code>~/Documents/PeopleVault</code>.</p>
-          <p><a href="[GITHUB_REPO_URL]" target="_blank">[GITHUB_REPO_URL]</a></p>
-          <div class="callout"><strong>What this looks like:</strong> You’ll have a folder with subfolders: <code>wiki/</code>, <code>skills/</code>, <code>sources/</code>, and config files including several <code>CLAUDE-*.md</code> files.</div>
+          <p>Go to <a href="https://github.com/aarondrais-max/people-vault-template" target="_blank">github.com/aarondrais-max/people-vault-template</a>, click the green <strong>Code</strong> button, then <strong>Download ZIP</strong>. Unzip it somewhere permanent — a good spot is <code>~/Documents/PeopleVault</code>.</p>
+          <div class="callout"><strong>Tip:</strong> Don’t leave it in Downloads. The vault grows over time and you want it somewhere you’ll remember.</div>
         </div>
       </div>
 
@@ -460,150 +459,87 @@
         <div class="step-number">2</div>
         <div class="step-content">
           <h3>Install Obsidian</h3>
-          <p>Download Obsidian for free from <a href="https://obsidian.md" target="_blank">obsidian.md</a>. Open it, choose <strong>Open folder as vault</strong>, and select the folder you just unzipped. You’ll see all the wiki pages in the left sidebar.</p>
-          <div class="callout"><strong>Tip:</strong> Use <kbd>Cmd+P</kbd> (Mac) or <kbd>Ctrl+P</kbd> (Windows) to search across all your vault pages instantly.</div>
+          <p>Download Obsidian for free from <a href="https://obsidian.md" target="_blank">obsidian.md</a>. Open it, choose <strong>Open folder as vault</strong>, and select the folder you just unzipped. You’ll see all the wiki pages in the left sidebar — this is where your structured notes will live.</p>
+          <div class="callout"><strong>Tip:</strong> Use <kbd>Cmd+P</kbd> to search across all your vault pages instantly.</div>
         </div>
       </div>
 
       <div class="setup-step">
         <div class="step-number">3</div>
         <div class="step-content">
-          <h3>Choose your CLAUDE.md</h3>
-          <p>The vault includes a <code>CLAUDE.md</code> variant for each role. This is what Claude reads to understand your role and how your vault is structured.</p>
-          <div data-show-role="recruiter">
-            <p>You’re a <strong>Recruiter</strong> — rename <code>CLAUDE-recruiter.md</code> to <code>CLAUDE.md</code>.</p>
-            <div id="s3-recruiter-full" style="display:none"><div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">mv CLAUDE-recruiter.md CLAUDE.md &amp;&amp; rm CLAUDE-*.md</span></pre></div></div>
-            <div id="s3-recruiter-std" style="display:none"><p>In Finder: rename <code>CLAUDE-recruiter.md</code> to <code>CLAUDE.md</code>, then delete the other <code>CLAUDE-*.md</code> files.</p></div>
-          </div>
-          <div data-show-role="hrbp">
-            <p>You’re an <strong>HR Business Partner</strong> — rename <code>CLAUDE-hrbp.md</code> to <code>CLAUDE.md</code>.</p>
-            <div id="s3-hrbp-full" style="display:none"><div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">mv CLAUDE-hrbp.md CLAUDE.md &amp;&amp; rm CLAUDE-*.md</span></pre></div></div>
-            <div id="s3-hrbp-std" style="display:none"><p>In Finder: rename <code>CLAUDE-hrbp.md</code> to <code>CLAUDE.md</code>, then delete the other <code>CLAUDE-*.md</code> files.</p></div>
-          </div>
-          <div data-show-role="comp">
-            <p>You’re in <strong>Comp &amp; Total Rewards</strong> — rename <code>CLAUDE-comp.md</code> to <code>CLAUDE.md</code>.</p>
-            <div id="s3-comp-full" style="display:none"><div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">mv CLAUDE-comp.md CLAUDE.md &amp;&amp; rm CLAUDE-*.md</span></pre></div></div>
-            <div id="s3-comp-std" style="display:none"><p>In Finder: rename <code>CLAUDE-comp.md</code> to <code>CLAUDE.md</code>, then delete the other <code>CLAUDE-*.md</code> files.</p></div>
-          </div>
-          <div data-show-role="generic">
-            <p>You’re in <strong>Facilities, L&amp;D, or People Ops</strong> — rename <code>CLAUDE-generic.md</code> to <code>CLAUDE.md</code>.</p>
-            <div id="s3-generic-full" style="display:none"><div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">mv CLAUDE-generic.md CLAUDE.md &amp;&amp; rm CLAUDE-*.md</span></pre></div></div>
-            <div id="s3-generic-std" style="display:none"><p>In Finder: rename <code>CLAUDE-generic.md</code> to <code>CLAUDE.md</code>, then delete the other <code>CLAUDE-*.md</code> files.</p></div>
-          </div>
-          <div class="callout callout-note"><strong>Why this matters:</strong> The CLAUDE.md file is what Claude reads to understand your role and how your vault is structured. Picking the right one means Claude already knows what matters to you — your wiki layout, session boot sequence, and which skills apply to your work.</div>
+          <h3>Open Claude Code in your vault folder</h3>
+          <p>You already have Claude Code — it comes with Claude Desktop. Open <strong>Terminal</strong> (Spotlight → type “Terminal” → Enter) and run:</p>
+          <div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">cd ~/Documents/PeopleVault && claude</span></pre></div>
+          <p style="margin-top:12px">Claude Code will open inside your vault folder and is ready for the next step.</p>
+          <div class="callout"><strong>Note:</strong> If you unzipped the vault to a different folder name, adjust the path above to match — e.g. <code>cd ~/Documents/people-vault-template && claude</code></div>
         </div>
       </div>
 
       <div class="setup-step">
         <div class="step-number">4</div>
         <div class="step-content">
-          <h3>Edit your config</h3>
-          <p>Open <code>CLAUDE.md</code> in Obsidian and replace all <code>[YOUR_NAME]</code>, <code>[YOUR_ROLE]</code>, <code>[YOUR_TIMEZONE]</code> placeholders with your actual details. Do the same in <code>vault.yaml</code>.</p>
-          <div id="s4-full-extra" style="display:none"><p>In <code>vault.yaml</code>, also fill in your Slack channels to monitor, DM contacts (name + Slack user ID), timezone, and whether you want your daily brief sent to Slack or saved locally.</p></div>
-          <div class="callout callout-note"><strong>Note:</strong> Take your time here. The more accurately you fill in <code>CLAUDE.md</code>, the more useful Claude’s responses will be.</div>
+          <h3>Run the setup wizard</h3>
+          <p>In Claude Code, paste the following and press Enter:</p>
+          <div class="code-block"><pre><span class="code-cmd">Please read skills/vault-setup.md and run the setup wizard for me.</span></pre></div>
+          <p style="margin-top:12px">Claude will ask you a short series of questions — your role, name, timezone, which tools you have connected (Slack, Gmail, Granola), and how you want your daily brief delivered. Takes about 5 minutes.</p>
+          <p>When it’s done, Claude will have written your personalised <code>CLAUDE.md</code> and <code>vault.yaml</code> — no manual editing needed.</p>
+          <div class="callout"><strong>What Claude asks:</strong> role → name &amp; timezone → vault location → connected tools → Slack channels to monitor → brief delivery (Slack DM or local file)</div>
         </div>
       </div>
 
+      <!-- Standard path: step 5 — first session -->
       <div class="setup-step" id="s5-std" style="display:none">
         <div class="step-number">5</div>
         <div class="step-content">
-          <h3>Connect Claude</h3>
-          <p>Open <a href="https://claude.ai" target="_blank">Claude.ai</a> and start a new chat. In Obsidian, open <code>skills/vault-boot.md</code>, select all the text, and paste it as your first message to Claude.</p>
-          <p>This loads the vault context into the conversation — Claude now understands your setup, your role, and how the vault is structured.</p>
+          <h3>Start your first session</h3>
+          <p>You’re set up. Open a new Claude chat (claude.ai or Cowork) and paste this to load your vault context:</p>
+          <div class="code-block"><pre><span class="code-cmd">Boot the vault</span></pre></div>
+          <p style="margin-top:12px">Claude will read your <code>CLAUDE.md</code>, understand your role and current work, and be ready to help. Try a first ask relevant to what you’re working on:</p>
+          <div data-show-role="recruiter"><div class="callout"><strong>Good first ask:</strong> “Help me create a wiki page for the [job title] role I’m hiring for”</div></div>
+          <div data-show-role="hrbp"><div class="callout"><strong>Good first ask:</strong> “Help me capture key notes from my last 1:1 with [manager name] as a wiki page”</div></div>
+          <div data-show-role="comp"><div class="callout"><strong>Good first ask:</strong> “Help me create a benchmark page for [job family] with our current range”</div></div>
+          <div data-show-role="generic"><div class="callout"><strong>Good first ask:</strong> “Help me create a project page for [initiative you’re running]”</div></div>
         </div>
       </div>
 
+      <!-- Full Pipeline path: step 5 — run first pipeline -->
       <div class="setup-step" id="s5-full" style="display:none">
         <div class="step-number">5</div>
         <div class="step-content">
-          <h3>Install Claude Code</h3>
-          <p>Open Terminal and run the following. You’ll need Node.js first — if you don’t have it, download it from <a href="https://nodejs.org" target="_blank">nodejs.org</a>.</p>
-          <div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-comment"># Install Claude Code globally</span>
-<span class="code-cmd">npm install -g @anthropic/claude-code</span>
-<span class="code-comment"># Verify the installation</span>
-<span class="code-cmd">claude --version</span></pre></div>
+          <h3>Run your first pipeline</h3>
+          <p>Still in Claude Code, type the following and press Enter:</p>
+          <div class="code-block"><pre><span class="code-cmd">/vault-orchestrator</span></pre></div>
+          <p style="margin-top:12px">This ingests from your connected tools (Slack, Gmail, Granola), builds your wiki pages, and generates your first morning brief. The first run takes a few minutes — subsequent runs are faster.</p>
+          <div class="callout"><strong>After the run:</strong> Open <code>HOT.md</code> in Obsidian — it’ll show your current pipeline state, what needs attention, and what Claude surfaced from your tools.</div>
         </div>
       </div>
 
+      <!-- Standard path: step 6 — using skills -->
       <div class="setup-step" id="s6-std" style="display:none">
         <div class="step-number">6</div>
         <div class="step-content">
-          <h3>Your first ask</h3>
-          <p>Try asking Claude something relevant to your role to get started:</p>
-          <div data-show-role="recruiter"><div class="callout"><strong>Good first ask:</strong> “Help me create a wiki page for [job title you’re hiring for]”</div></div>
-          <div data-show-role="hrbp"><div class="callout"><strong>Good first ask:</strong> “Help me capture notes from my last 1:1 with [manager name] as a wiki page”</div></div>
-          <div data-show-role="comp"><div class="callout"><strong>Good first ask:</strong> “Help me create a benchmark page for [job family you’re working on]”</div></div>
-          <div data-show-role="generic"><div class="callout"><strong>Good first ask:</strong> “Help me create a project page for [initiative you’re working on]”</div></div>
+          <h3>Using skills day-to-day</h3>
+          <p>The <code>skills/</code> folder has instruction files for specific tasks. In Claude Code, trigger them by name — e.g. <code>/vault-boot</code> to load context, <code>/daily-brief</code> for your morning snapshot. In Claude chat, paste the skill file contents to run the same tasks manually.</p>
+          <p>See the <a href="#skills">Skills Reference</a> below for the full list.</p>
         </div>
       </div>
 
+      <!-- Full Pipeline path: step 6 — schedule it -->
       <div class="setup-step" id="s6-full" style="display:none">
         <div class="step-number">6</div>
         <div class="step-content">
-          <h3>Configure MCP integrations</h3>
-          <p>MCP connectors allow Claude Code to read from your work tools. You need these set up before running the pipeline.</p>
-          <p>If you already have MCP connectors configured, skip this step. Otherwise, follow the setup guide: <a href="[MCP_SETUP_DOCS_URL]" target="_blank">[MCP_SETUP_DOCS_URL]</a></p>
-          <div data-show-role="recruiter"><p><strong>Required:</strong> Slack, Gmail, Granola. <strong>Optional:</strong> Glean (cross-app signal discovery).</p></div>
-          <div data-show-role="hrbp"><p><strong>Required:</strong> Slack, Gmail, Granola.</p></div>
-          <div data-show-role="comp"><p><strong>Required:</strong> Slack, Gmail, Granola.</p></div>
-          <div data-show-role="generic"><p><strong>Required:</strong> Slack, Gmail, Granola.</p></div>
+          <h3>Schedule the pipeline <span style="font-weight:400;font-size:13px;color:var(--text-muted);margin-left:6px">(optional)</span></h3>
+          <p>The pipeline can run automatically every morning so your vault is always fresh when you start work. Recommended schedule: full pipeline at 07:08, lighter update at 13:09.</p>
+          <p>See <code>SETUP-TECH.md</code> in your vault folder for the exact scheduler configuration. Or just run <code>/vault-orchestrator</code> manually in Claude Code whenever you want a refresh.</p>
         </div>
       </div>
 
-      <div class="setup-step" id="s7-full" style="display:none">
-        <div class="step-number">7</div>
-        <div class="step-content">
-          <h3>Update MCP permissions</h3>
-          <p>Open <code>claude-settings-template.json</code>. Replace the <code>[UUID]</code> placeholders with your actual MCP tool identifiers (find these via <code>/mcp</code> in Claude Code). Then copy the file into place:</p>
-          <div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">mkdir -p .claude &amp;&amp; cp claude-settings-template.json .claude/settings.json</span></pre></div>
-          <div class="callout"><strong>Why this matters:</strong> This tells Claude Code which tool calls to allow without prompting you each time — critical for a scheduled pipeline that runs while you sleep.</div>
-        </div>
-      </div>
-
-      <div class="setup-step" id="s8-full" style="display:none">
-        <div class="step-number">8</div>
-        <div class="step-content">
-          <h3>Run your first pipeline</h3>
-          <p>Navigate to your vault folder in Terminal and start Claude Code:</p>
-          <div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">cd ~/Documents/PeopleVault</span>
-<span class="code-cmd">claude</span></pre></div>
-          <p style="margin-top:12px">Once open, type the following and press Enter:</p>
-          <div class="code-block"><pre><span class="code-cmd">/vault-orchestrator</span></pre></div>
-          <p style="margin-top:12px">The pipeline will run for the first time — ingesting from Slack, Gmail, and Granola, then building your wiki pages. This first run may take several minutes.</p>
-          <div class="callout"><strong>Pro tip:</strong> Run with <code>claude --permission-mode acceptEdits</code> to skip approval prompts during active building sessions.</div>
-        </div>
-      </div>
-
-      <div class="setup-step" id="s9-full" style="display:none">
-        <div class="step-number">9</div>
-        <div class="step-content">
-          <h3>Set up git <span style="font-weight:400;font-size:13px;color:var(--text-muted);margin-left:6px">(optional but recommended)</span></h3>
-          <p>Initialise a git repo in your vault folder to get version history on your wiki.</p>
-          <div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">git init</span>
-<span class="code-cmd">git add .</span>
-<span class="code-cmd">git commit -m "vault: initial setup"</span></pre></div>
-          <p style="margin-top:12px">The <code>vault.yaml</code> <code>git.snapshot: true</code> setting will auto-commit after each pipeline run if git is initialised.</p>
-        </div>
-      </div>
-
-      <div class="setup-step" id="s10-full" style="display:none">
-        <div class="step-number">10</div>
-        <div class="step-content">
-          <h3>Schedule the pipeline</h3>
-          <p>Use the Claude Code scheduler to run the pipeline every morning automatically. The recommended schedule runs a full pipeline at 07:08 local time and a lighter delta-only run at 13:09.</p>
-          <p>See <code>SETUP-TECH.md</code> in your vault for the exact cron configuration and scheduler setup instructions.</p>
-        </div>
-      </div>
-
-      <div class="setup-step" id="s7-std" style="display:none">
-        <div class="step-number">7</div>
-        <div class="step-content">
-          <h3>Using skills</h3>
-          <p>The <code>skills/</code> folder contains instruction files for specific tasks. Any time you want Claude to do something specific — run a daily brief, process meeting notes — open the relevant skill file, copy the contents, and paste it into Claude chat.</p>
-          <p>See the <a href="#skills">Skills Reference</a> section below for the full list.</p>
-          <div class="callout"><strong>Workflow tip:</strong> Keep a Claude chat open in one window and Obsidian open in another. Drag skill files into Claude to load them quickly.</div>
-        </div>
-      </div>
+      <!-- Hidden steps — kept for JS compatibility, content removed -->
+      <div class="setup-step" id="s7-full" style="display:none"></div>
+      <div class="setup-step" id="s8-full" style="display:none"></div>
+      <div class="setup-step" id="s9-full" style="display:none"></div>
+      <div class="setup-step" id="s10-full" style="display:none"></div>
+      <div class="setup-step" id="s7-std" style="display:none"></div>
 
     </div>
   </div>
