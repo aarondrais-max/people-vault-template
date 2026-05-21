@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>People Team Knowledge Vault — Setup Guide</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --accent:#6B4FBB;--accent-light:#EEE9FB;--accent-dark:#5239A3;
+    --text:#1A1A2E;--text-secondary:#555577;--text-muted:#888899;
+    --bg:#FFFFFF;--bg-subtle:#F7F7FB;--bg-dark:#1A1A2E;--border:#E2E2EE;
+    --code-bg:#1E1E30;--code-text:#C9D1D9;
+    --radius:12px;--radius-sm:8px;
+    --shadow-sm:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.04);
+    --shadow:0 4px 12px rgba(0,0,0,0.08),0 2px 4px rgba(0,0,0,0.04);
+    --font:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    --mono:'SF Mono','Fira Code','Cascadia Code',Consolas,'Courier New',monospace;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased}
+
+  /* NAV */
+  .site-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0 24px}
+  .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;gap:16px}
+  .nav-logo{font-weight:700;font-size:14px;color:var(--accent);white-space:nowrap;text-decoration:none;letter-spacing:-0.01em}
+  .nav-links{display:flex;gap:4px;list-style:none;flex-wrap:wrap;justify-content:flex-end}
+  .nav-links a{font-size:13px;font-weight:500;color:var(--text-secondary);text-decoration:none;padding:6px 12px;border-radius:6px;transition:color .15s,background .15s;white-space:nowrap}
+  .nav-links a:hover,.nav-links a.active{color:var(--accent);background:var(--accent-light)}
+
+  /* LAYOUT */
+  .section{padding:80px 24px}
+  .section-alt{background:var(--bg-subtle)}
+  .container{max-width:900px;margin:0 auto}
+  .container-wide{max-width:1100px;margin:0 auto}
+  .anchor-target{scroll-margin-top:72px}
+  .section-divider{height:1px;background:var(--border);margin:0}
+
+  /* TYPE */
+  .section-label{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+  h1{font-size:clamp(32px,5vw,52px);font-weight:800;line-height:1.15;letter-spacing:-.03em;color:var(--text)}
+  h2{font-size:clamp(24px,3.5vw,36px);font-weight:750;line-height:1.2;letter-spacing:-.02em;color:var(--text);margin-bottom:8px}
+  h3{font-size:20px;font-weight:650;line-height:1.3;letter-spacing:-.01em;color:var(--text);margin-bottom:6px}
+  .section-subtitle{font-size:18px;color:var(--text-secondary);margin-bottom:48px;font-weight:400}
+  p{margin-bottom:16px} p:last-child{margin-bottom:0}
+  a{color:var(--accent)} a:hover{color:var(--accent-dark)}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#F7F5FF 0%,#FFFFFF 50%,#F0F4FF 100%);padding:100px 24px 80px;text-align:center;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-60px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(107,79,187,.08) 0%,transparent 70%);pointer-events:none}
+  .hero::after{content:'';position:absolute;bottom:-40px;left:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(107,79,187,.06) 0%,transparent 70%);pointer-events:none}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--accent-light);color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:24px}
+  .hero-eyebrow-dot{width:6px;height:6px;background:var(--accent);border-radius:50%}
+  .hero h1{margin-bottom:20px;position:relative}
+  .hero-subtitle{font-size:20px;color:var(--text-secondary);max-width:560px;margin:0 auto 16px;line-height:1.5}
+  .hero-desc{font-size:15px;color:var(--text-muted);max-width:520px;margin:0 auto;line-height:1.6}
+
+  /* HOW IT WORKS */
+  .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;margin-top:48px}
+  .how-step{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:32px 28px;text-align:center;position:relative;box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .2s}
+  .how-step:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+  .how-step-icon{width:64px;height:64px;background:var(--accent-light);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px}
+  .how-step-number{position:absolute;top:-12px;left:50%;transform:translateX(-50%);width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(107,79,187,.4)}
+  .how-step h3{margin-bottom:10px} .how-step p{font-size:14px;color:var(--text-secondary);margin:0;line-height:1.55}
+
+  /* ROLE CHOOSER */
+  .role-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+  .role-card{background:var(--bg);border:2px solid var(--border);border-radius:var(--radius);padding:24px 20px;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s;display:flex;flex-direction:column;gap:8px;position:relative;box-shadow:var(--shadow-sm);user-select:none}
+  .role-card:hover{border-color:rgba(107,79,187,.4);box-shadow:var(--shadow);transform:translateY(-1px)}
+  .role-card.selected{border-color:var(--accent);background:var(--accent-light);box-shadow:0 0 0 3px rgba(107,79,187,.15),var(--shadow)}
+  .role-card-check{position:absolute;top:16px;right:16px;width:22px;height:22px;background:var(--accent);border-radius:50%;display:none;align-items:center;justify-content:center}
+  .role-card.selected .role-card-check{display:flex}
+  .role-card-check svg{width:12px;height:12px;stroke:#fff;stroke-width:3;fill:none}
+  .role-emoji{font-size:28px;line-height:1;margin-bottom:4px}
+  .role-label{font-size:16px;font-weight:700;color:var(--text);letter-spacing:-.01em}
+  .role-tagline{font-size:13px;color:var(--text-muted);margin-bottom:6px}
+  .role-tracks{font-size:12.5px;color:var(--text-secondary);line-height:1.5}
+  .role-tracks strong{color:var(--text);font-weight:600}
+  .continue-row{display:flex;justify-content:flex-end;margin-top:24px}
+  .btn-continue{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:var(--radius-sm);font-size:15px;font-weight:600;letter-spacing:-.01em;background:var(--accent);color:#fff;border:none;cursor:pointer;transition:background .15s,box-shadow .15s,transform .15s;box-shadow:0 4px 14px rgba(107,79,187,.35)}
+  .btn-continue:hover{background:var(--accent-dark);box-shadow:0 6px 20px rgba(107,79,187,.45);transform:translateY(-1px)}
+  .btn-continue.disabled{background:#C5C5D5;box-shadow:none;cursor:not-allowed;transform:none;pointer-events:none}
+
+  /* TECH CHOOSER */
+  .path-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
+  .path-card{border-radius:var(--radius);padding:32px 28px;display:flex;flex-direction:column;gap:14px;cursor:pointer;transition:box-shadow .2s,transform .2s,border-color .15s;position:relative;user-select:none}
+  .path-card:hover{transform:translateY(-2px)}
+  .path-card-standard{background:var(--bg);border:2px solid var(--border);box-shadow:var(--shadow-sm)}
+  .path-card-standard:hover{box-shadow:var(--shadow);border-color:rgba(107,79,187,.3)}
+  .path-card-standard.selected{border-color:var(--accent);background:var(--accent-light);box-shadow:0 0 0 3px rgba(107,79,187,.15),var(--shadow)}
+  .path-card-full{background:var(--accent);border:2px solid var(--accent);box-shadow:0 8px 28px rgba(107,79,187,.35);color:#fff}
+  .path-card-full:hover{box-shadow:0 12px 36px rgba(107,79,187,.45)}
+  .path-card-full.selected{box-shadow:0 0 0 3px rgba(107,79,187,.4),0 12px 36px rgba(107,79,187,.45)}
+  .path-card-check{position:absolute;top:16px;right:16px;width:22px;height:22px;border-radius:50%;display:none;align-items:center;justify-content:center}
+  .path-card.selected .path-card-check{display:flex}
+  .path-card-standard.selected .path-card-check{background:var(--accent)}
+  .path-card-full.selected .path-card-check{background:rgba(255,255,255,.3)}
+  .path-card-check svg{width:12px;height:12px;stroke:#fff;stroke-width:3;fill:none}
+  .path-badge{display:inline-flex;align-items:center;width:fit-content;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:100px}
+  .path-card-standard .path-badge{background:var(--accent-light);color:var(--accent)}
+  .path-card-standard.selected .path-badge{background:rgba(107,79,187,.15);color:var(--accent)}
+  .path-card-full .path-badge{background:rgba(255,255,255,.2);color:#fff}
+  .path-card h3{font-size:22px;font-weight:750;letter-spacing:-.02em} .path-card-full h3{color:#fff}
+  .path-tagline{font-size:14px;font-weight:500;margin-bottom:4px}
+  .path-card-standard .path-tagline{color:var(--text-secondary)} .path-card-full .path-tagline{color:rgba(255,255,255,.85)}
+  .path-meta{display:flex;flex-direction:column;gap:10px;flex:1}
+  .path-meta-item{display:flex;gap:10px;font-size:14px;line-height:1.45}
+  .path-meta-label{font-weight:600;white-space:nowrap;min-width:72px;flex-shrink:0}
+  .path-card-standard .path-meta-label{color:var(--text)} .path-card-full .path-meta-label{color:rgba(255,255,255,.9)}
+  .path-card-standard .path-meta-item{color:var(--text-secondary)} .path-card-full .path-meta-item{color:rgba(255,255,255,.8)}
+  .path-time{font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;width:fit-content}
+  .path-card-standard .path-time{background:var(--bg-subtle);color:var(--text-secondary)}
+  .path-card-full .path-time{background:rgba(255,255,255,.15);color:rgba(255,255,255,.9)}
+
+  /* WIKI PREVIEW */
+  .wiki-preview-content{display:none;margin-top:32px}
+  .wiki-preview-content.visible{display:block}
+  .wiki-tree-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+  .wiki-tree-header{background:var(--bg-dark);padding:10px 16px;display:flex;align-items:center;gap:8px}
+  .wiki-tree-dot{width:10px;height:10px;border-radius:50%}
+  .wiki-tree-dot-r{background:#FF5F57} .wiki-tree-dot-y{background:#FFBD2E} .wiki-tree-dot-g{background:#28C840}
+  .wiki-tree-body{background:var(--code-bg);padding:20px 24px}
+  .wiki-tree-body pre{font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--code-text);white-space:pre;margin:0}
+  .wiki-desc-list{margin-top:20px;display:flex;flex-direction:column;gap:10px}
+  .wiki-desc-item{display:flex;gap:12px;font-size:14px}
+  .wiki-desc-folder{font-family:var(--mono);font-size:12px;background:var(--accent-light);color:var(--accent);padding:2px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;align-self:flex-start;margin-top:1px}
+  .wiki-desc-text{color:var(--text-secondary);line-height:1.5}
+
+  /* SETUP STEPS */
+  .setup-steps{display:flex;flex-direction:column;gap:0;margin-top:48px;position:relative}
+  .setup-steps::before{content:'';position:absolute;left:23px;top:28px;bottom:28px;width:2px;background:linear-gradient(to bottom,var(--accent),var(--border));border-radius:2px}
+  .setup-step{display:flex;gap:24px;padding:0 0 36px 0;position:relative}
+  .setup-step:last-child{padding-bottom:0}
+  .step-number{width:48px;height:48px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0;box-shadow:0 4px 12px rgba(107,79,187,.35);position:relative;z-index:1}
+  .step-content{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;box-shadow:var(--shadow-sm)}
+  .step-content h3{font-size:17px;font-weight:700;margin-bottom:10px;color:var(--text);letter-spacing:-.01em}
+  .step-content p{font-size:14px;color:var(--text-secondary);line-height:1.6;margin-bottom:12px}
+  .step-content p:last-child{margin-bottom:0}
+  .step-content ul{font-size:14px;color:var(--text-secondary);padding-left:20px;line-height:1.8;margin-bottom:12px}
+  [data-show-role]{display:none} [data-show-role].vis{display:block}
+
+  /* CALLOUTS */
+  .callout{background:var(--accent-light);border-left:3px solid var(--accent);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:14px 18px;margin-top:14px;font-size:13.5px;color:var(--accent-dark);line-height:1.55}
+  .callout strong{color:var(--accent)}
+  .callout-note{background:#FFF8ED;border-left-color:#F0A52A;color:#7A5A1A}
+  .callout-note strong{color:#7A5A1A}
+
+  /* CODE */
+  code{font-family:var(--mono);font-size:13px;background:rgba(107,79,187,.08);color:var(--accent-dark);padding:2px 6px;border-radius:4px}
+  .code-block{background:var(--code-bg);color:var(--code-text);border-radius:var(--radius-sm);padding:16px 20px;margin-top:12px;overflow-x:auto;position:relative}
+  .code-block pre{font-family:var(--mono);font-size:13px;line-height:1.6;white-space:pre;margin:0}
+  .code-block .code-label{position:absolute;top:10px;right:12px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(201,209,217,.4)}
+  .code-comment{color:#6A9955} .code-cmd{color:#9CDCFE}
+
+  /* SKILLS */
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-top:48px}
+  .skill-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow-sm);transition:box-shadow .15s,transform .15s;display:flex;flex-direction:column;gap:8px}
+  .skill-card:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+  .skill-card-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .skill-name{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent);background:var(--accent-light);padding:3px 10px;border-radius:6px}
+  .skill-badges{display:flex;gap:6px;flex-wrap:wrap}
+  .skill-badge{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:100px;white-space:nowrap}
+  .skill-badge-both{background:#EDEDF5;color:#6C6C8A}
+  .skill-badge-full{background:var(--accent-light);color:var(--accent)}
+  .skill-badge-recruiter{background:#FEF3C7;color:#92400E}
+  .skill-desc{font-size:13.5px;color:var(--text-secondary);line-height:1.5;margin:0}
+  .skill-trigger{display:flex;align-items:center;gap:8px;font-size:12px}
+  .skill-trigger-label{color:var(--text-muted);font-weight:500}
+  .skill-trigger code{font-size:11.5px;background:rgba(107,79,187,.07);color:var(--accent-dark)}
+
+  /* FAQ */
+  .faq-list{display:flex;flex-direction:column;gap:10px;margin-top:48px}
+  .faq-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+  .faq-question{width:100%;text-align:left;padding:20px 24px;font-family:var(--font);font-size:15px;font-weight:600;color:var(--text);background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;transition:background .1s;line-height:1.4}
+  .faq-question:hover{background:var(--bg-subtle)}
+  .faq-chevron{width:20px;height:20px;flex-shrink:0;color:var(--text-muted);transition:transform .2s}
+  .faq-item.open .faq-chevron{transform:rotate(180deg)}
+  .faq-answer{display:none;padding:0 24px 20px;font-size:14.5px;color:var(--text-secondary);line-height:1.65;border-top:1px solid var(--border)}
+  .faq-answer p{margin-top:14px;margin-bottom:0}
+  .faq-item.open .faq-answer{display:block}
+
+  /* FOOTER */
+  .site-footer{background:var(--bg-dark);color:rgba(255,255,255,.5);text-align:center;padding:32px 24px;font-size:13px}
+  .site-footer a{color:rgba(255,255,255,.7);text-decoration:none;transition:color .15s}
+  .site-footer a:hover{color:#fff}
+  .footer-sep{margin:0 10px;opacity:.3}
+
+  /* RESPONSIVE */
+  @media(max-width:768px){
+    .section{padding:60px 20px} .hero{padding:72px 20px 60px}
+    .nav-links a{font-size:12px;padding:5px 8px}
+    .setup-steps::before{left:19px} .step-number{width:40px;height:40px;font-size:16px}
+    .skills-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:640px){.role-grid,.path-grid{grid-template-columns:1fr}}
+  @media(max-width:480px){.nav-links{display:none}}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-logo">People Vault</a>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#choose-role">Choose Role</a></li>
+      <li><a href="#section-setup">Setup</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero" id="top">
+  <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Setup Guide</div>
+  <h1>People Team<br>Knowledge Vault</h1>
+  <p class="hero-subtitle">Your work context — always at hand, always current</p>
+  <p class="hero-desc">A local Obsidian wiki paired with Claude that organises your work, relationships, and decisions — and keeps itself up to date from your real signals. Your data stays on your machine.</p>
+</section>
+
+<div class="section-divider"></div>
+
+<section class="section section-alt anchor-target" id="how-it-works">
+  <div class="container">
+    <span class="section-label">How it works</span>
+    <h2>Three steps, then it runs itself</h2>
+    <p class="section-subtitle">Claude connects to your work tools, builds your wiki, and tells you what needs attention each morning.</p>
+    <div class="steps-grid">
+      <div class="how-step">
+        <div class="how-step-number">1</div>
+        <div class="how-step-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6B4FBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22V16"/><path d="M8 22V16"/><path d="M16 22V16"/>
+            <rect x="6" y="11" width="12" height="5" rx="2"/><path d="M9 11V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v6"/>
+          </svg>
+        </div>
+        <h3>Connect</h3>
+        <p>Claude reads your Slack, Gmail, and meeting notes — then pulls out what matters for your role on the People team.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-number">2</div>
+        <div class="how-step-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6B4FBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2z"/>
+            <line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/>
+          </svg>
+        </div>
+        <h3>Organise</h3>
+        <p>Builds and maintains structured wiki pages for your projects, relationships, and decisions — automatically.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-number">3</div>
+        <div class="how-step-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6B4FBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M19.07 4.93l-2.83 2.83M22 12h-4"/>
+            <path d="M5 17a7 7 0 0 1 14 0"/><line x1="3" y1="21" x2="21" y2="21"/>
+          </svg>
+        </div>
+        <h3>Brief</h3>
+        <p>Generates a daily snapshot of what needs your attention — pending decisions, upcoming milestones, active situations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ROLE CHOOSER -->
+<section class="section anchor-target" id="choose-role">
+  <div class="container">
+    <span class="section-label">Step 1 of 3</span>
+    <h2>Let’s personalise your setup</h2>
+    <p class="section-subtitle">Pick the role that best describes what you do. We’ll tailor everything from here.</p>
+    <div class="role-grid">
+      <div class="role-card" onclick="selectRole('recruiter',this)">
+        <div class="role-card-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
+        <div class="role-emoji">&#127919;</div>
+        <div class="role-label">Recruiter</div>
+        <div class="role-tagline">Finding and closing great candidates</div>
+        <div class="role-tracks"><strong>What you’ll track:</strong> Reqs, candidates, hiring managers, offer pipeline</div>
+      </div>
+      <div class="role-card" onclick="selectRole('hrbp',this)">
+        <div class="role-card-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
+        <div class="role-emoji">&#129309;</div>
+        <div class="role-label">HR Business Partner</div>
+        <div class="role-tagline">Partnering with business units on people strategy</div>
+        <div class="role-tracks"><strong>What you’ll track:</strong> Manager relationships, team health, ER cases, people initiatives</div>
+      </div>
+      <div class="role-card" onclick="selectRole('comp',this)">
+        <div class="role-card-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
+        <div class="role-emoji">&#128176;</div>
+        <div class="role-label">Comp &amp; Total Rewards</div>
+        <div class="role-tagline">Compensation, equity, and benefits programs</div>
+        <div class="role-tracks"><strong>What you’ll track:</strong> Offers, benchmarks, comp cycles, exception decisions</div>
+      </div>
+      <div class="role-card" onclick="selectRole('generic',this)">
+        <div class="role-card-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
+        <div class="role-emoji">&#127970;</div>
+        <div class="role-label">Facilities &amp; Workplace</div>
+        <div class="role-tagline">Office space, vendor relationships, workplace programs</div>
+        <div class="role-tracks"><strong>What you’ll track:</strong> Projects, vendors, space decisions, workplace initiatives</div>
+      </div>
+      <div class="role-card" onclick="selectRole('generic',this)">
+        <div class="role-card-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
+        <div class="role-emoji">&#128218;</div>
+        <div class="role-label">Learning &amp; Development</div>
+        <div class="role-tagline">Training programs, manager development, onboarding</div>
+        <div class="role-tracks"><strong>What you’ll track:</strong> Programs, learners, manager coaching, L&amp;D initiatives</div>
+      </div>
+      <div class="role-card" onclick="selectRole('generic',this)">
+        <div class="role-card-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
+        <div class="role-emoji">&#9881;&#65039;</div>
+        <div class="role-label">People Ops / Other</div>
+        <div class="role-tagline">Systems, processes, and everything else People</div>
+        <div class="role-tracks"><strong>What you’ll track:</strong> Projects, processes, stakeholders, decisions</div>
+      </div>
+    </div>
+    <div class="continue-row">
+      <button class="btn-continue disabled" id="btn-role-continue" onclick="continueToTech()">Continue &rarr;</button>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- TECH CHOOSER -->
+<section class="section section-alt anchor-target" id="section-tech" style="display:none">
+  <div class="container">
+    <span class="section-label">Step 2 of 3</span>
+    <h2>How do you work?</h2>
+    <p class="section-subtitle">Both paths give you a fully functional vault. The difference is how much runs automatically.</p>
+    <div class="path-grid">
+      <div class="path-card path-card-standard" onclick="selectTech('standard',this)">
+        <div class="path-card-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
+        <span class="path-badge">Standard</span>
+        <h3>Obsidian + Claude chat</h3>
+        <p class="path-tagline">No terminal required</p>
+        <div class="path-meta">
+          <div class="path-meta-item"><span class="path-meta-label">Best for</span><span>You’re new to AI tools, or just want the wiki without the automation.</span></div>
+          <div class="path-meta-item"><span class="path-meta-label">You get</span><span>Structured wiki, manual Claude chat help, skills as copy-paste prompts.</span></div>
+        </div>
+        <div class="path-time">&#9200; ~20 minutes to set up</div>
+      </div>
+      <div class="path-card path-card-full" onclick="selectTech('full',this)">
+        <div class="path-card-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
+        <span class="path-badge">Full Pipeline</span>
+        <h3>Claude Code + automated ingests</h3>
+        <p class="path-tagline">Daily brief + scheduled pipeline</p>
+        <div class="path-meta">
+          <div class="path-meta-item"><span class="path-meta-label">Best for</span><span>You already have Claude Code and MCP integrations set up, or are comfortable in the terminal.</span></div>
+          <div class="path-meta-item"><span class="path-meta-label">You get</span><span>Everything in Standard, plus auto-ingests from Slack, Gmail &amp; Granola — and a git snapshot on every run.</span></div>
+        </div>
+        <div class="path-time">&#9200; ~45 minutes to set up</div>
+      </div>
+    </div>
+    <div class="continue-row">
+      <button class="btn-continue disabled" id="btn-tech-continue" onclick="continueToSetup()">Continue &rarr;</button>
+    </div>
+  </div>
+</section>
+
+<!-- WIKI PREVIEW -->
+<div class="section-divider" id="div-before-wiki" style="display:none"></div>
+<section class="section anchor-target" id="section-wiki-preview" style="display:none">
+  <div class="container">
+    <span class="section-label">Your vault structure</span>
+    <h2>What your vault will look like</h2>
+    <p class="section-subtitle">Your wiki is organised around the pages that matter most to your role.</p>
+
+    <div class="wiki-preview-content" id="wiki-preview-recruiter">
+      <div class="wiki-tree-card">
+        <div class="wiki-tree-header"><div class="wiki-tree-dot wiki-tree-dot-r"></div><div class="wiki-tree-dot wiki-tree-dot-y"></div><div class="wiki-tree-dot wiki-tree-dot-g"></div></div>
+        <div class="wiki-tree-body"><pre>wiki/
+├── reqs/          job requisitions
+├── candidates/    active and archived candidates
+├── people/        hiring managers, stakeholders
+└── patterns/      cross-req recruiting intelligence</pre></div>
+      </div>
+      <div class="wiki-desc-list">
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">reqs/</span><span class="wiki-desc-text">One page per open requisition. Tracks pipeline, HM preferences, blockers, and referral bullets.</span></div>
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">candidates/</span><span class="wiki-desc-text">Two-tier: active candidates get full pages with screen notes and flags; archived candidates get lightweight stubs.</span></div>
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">people/</span><span class="wiki-desc-text">Hiring managers, stakeholders, and key relationships — interaction history and what they care about in hiring.</span></div>
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">patterns/</span><span class="wiki-desc-text">Cross-req intelligence — patterns Claude has learned about your candidates, market, and process.</span></div>
+      </div>
+    </div>
+
+    <div class="wiki-preview-content" id="wiki-preview-hrbp">
+      <div class="wiki-tree-card">
+        <div class="wiki-tree-header"><div class="wiki-tree-dot wiki-tree-dot-r"></div><div class="wiki-tree-dot wiki-tree-dot-y"></div><div class="wiki-tree-dot wiki-tree-dot-g"></div></div>
+        <div class="wiki-tree-body"><pre>wiki/
+├── people/        managers, employees, exec partners
+├── teams/         team health and org structure
+├── initiatives/   people programs you’re running
+└── decisions/     ER outcomes, coaching commitments</pre></div>
+      </div>
+      <div class="wiki-desc-list">
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">people/</span><span class="wiki-desc-text">Key managers, employees, and executives — relationship notes, interaction history, open issues.</span></div>
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">teams/</span><span class="wiki-desc-text">Team health notes, org structure, headcount, and recent changes for each BU you support.</span></div>
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">initiatives/</span><span class="wiki-desc-text">People programs and change management projects — goal, stakeholders, status, and next steps.</span></div>
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">decisions/</span><span class="wiki-desc-text">ER case outcomes, policy calls, and manager coaching commitments — context, decision, and precedent notes.</span></div>
+      </div>
+    </div>
+
+    <div class="wiki-preview-content" id="wiki-preview-comp">
+      <div class="wiki-tree-card">
+        <div class="wiki-tree-header"><div class="wiki-tree-dot wiki-tree-dot-r"></div><div class="wiki-tree-dot wiki-tree-dot-y"></div><div class="wiki-tree-dot wiki-tree-dot-g"></div></div>
+        <div class="wiki-tree-body"><pre>wiki/
+├── offers/        offer decisions and economics
+├── benchmarks/    job family comp ranges and market data
+├── cycles/        comp review and equity refresh timelines
+└── decisions/     exceptions, precedents, philosophy calls</pre></div>
+      </div>
+      <div class="wiki-desc-list">
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">offers/</span><span class="wiki-desc-text">Offer economics — proposed comp, market reference, decision, exception notes. Not candidate profiles.</span></div>
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">benchmarks/</span><span class="wiki-desc-text">Comp ranges by job family and level, data sources, internal equity notes, and refresh schedule.</span></div>
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">cycles/</span><span class="wiki-desc-text">Annual review, focal, and equity refresh cycles — timeline, scope, key decisions, and current status.</span></div>
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">decisions/</span><span class="wiki-desc-text">Exceptions approved, comp philosophy calls, and equity grants — with rationale and precedent implications.</span></div>
+      </div>
+    </div>
+
+    <div class="wiki-preview-content" id="wiki-preview-generic">
+      <div class="wiki-tree-card">
+        <div class="wiki-tree-header"><div class="wiki-tree-dot wiki-tree-dot-r"></div><div class="wiki-tree-dot wiki-tree-dot-y"></div><div class="wiki-tree-dot wiki-tree-dot-g"></div></div>
+        <div class="wiki-tree-body"><pre>wiki/
+├── projects/      initiatives and programs
+├── people/        key stakeholders and vendors
+├── decisions/     key decisions and rationale
+└── processes/     documented workflows and SOPs</pre></div>
+      </div>
+      <div class="wiki-desc-list">
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">projects/</span><span class="wiki-desc-text">Initiatives and programs you own or contribute to — overview, status, next steps, decisions log.</span></div>
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">people/</span><span class="wiki-desc-text">Key stakeholders, vendors, and partners — interaction history and what you need to remember about working with them.</span></div>
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">decisions/</span><span class="wiki-desc-text">Key decisions and their rationale — great for onboarding new teammates or revisiting why you did something.</span></div>
+        <div class="wiki-desc-item"><span class="wiki-desc-folder">processes/</span><span class="wiki-desc-text">Documented workflows, runbooks, and SOPs — living documents that Claude helps keep current.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SETUP STEPS -->
+<div class="section-divider" id="div-before-setup" style="display:none"></div>
+<section class="section section-alt anchor-target" id="section-setup" style="display:none">
+  <div class="container">
+    <span class="section-label">Step 3 of 3</span>
+    <h2 id="setup-heading">Setting up your vault</h2>
+    <p class="section-subtitle">Follow the steps below to get your vault up and running.</p>
+    <div class="setup-steps">
+
+      <div class="setup-step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Download the vault</h3>
+          <p>Download the ZIP from GitHub and unzip it somewhere permanent — not your Downloads folder. A good location is <code>~/Documents/PeopleVault</code>.</p>
+          <p><a href="[GITHUB_REPO_URL]" target="_blank">[GITHUB_REPO_URL]</a></p>
+          <div class="callout"><strong>What this looks like:</strong> You’ll have a folder with subfolders: <code>wiki/</code>, <code>skills/</code>, <code>sources/</code>, and config files including several <code>CLAUDE-*.md</code> files.</div>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Install Obsidian</h3>
+          <p>Download Obsidian for free from <a href="https://obsidian.md" target="_blank">obsidian.md</a>. Open it, choose <strong>Open folder as vault</strong>, and select the folder you just unzipped. You’ll see all the wiki pages in the left sidebar.</p>
+          <div class="callout"><strong>Tip:</strong> Use <kbd>Cmd+P</kbd> (Mac) or <kbd>Ctrl+P</kbd> (Windows) to search across all your vault pages instantly.</div>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Choose your CLAUDE.md</h3>
+          <p>The vault includes a <code>CLAUDE.md</code> variant for each role. This is what Claude reads to understand your role and how your vault is structured.</p>
+          <div data-show-role="recruiter">
+            <p>You’re a <strong>Recruiter</strong> — rename <code>CLAUDE-recruiter.md</code> to <code>CLAUDE.md</code>.</p>
+            <div id="s3-recruiter-full" style="display:none"><div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">mv CLAUDE-recruiter.md CLAUDE.md &amp;&amp; rm CLAUDE-*.md</span></pre></div></div>
+            <div id="s3-recruiter-std" style="display:none"><p>In Finder: rename <code>CLAUDE-recruiter.md</code> to <code>CLAUDE.md</code>, then delete the other <code>CLAUDE-*.md</code> files.</p></div>
+          </div>
+          <div data-show-role="hrbp">
+            <p>You’re an <strong>HR Business Partner</strong> — rename <code>CLAUDE-hrbp.md</code> to <code>CLAUDE.md</code>.</p>
+            <div id="s3-hrbp-full" style="display:none"><div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">mv CLAUDE-hrbp.md CLAUDE.md &amp;&amp; rm CLAUDE-*.md</span></pre></div></div>
+            <div id="s3-hrbp-std" style="display:none"><p>In Finder: rename <code>CLAUDE-hrbp.md</code> to <code>CLAUDE.md</code>, then delete the other <code>CLAUDE-*.md</code> files.</p></div>
+          </div>
+          <div data-show-role="comp">
+            <p>You’re in <strong>Comp &amp; Total Rewards</strong> — rename <code>CLAUDE-comp.md</code> to <code>CLAUDE.md</code>.</p>
+            <div id="s3-comp-full" style="display:none"><div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">mv CLAUDE-comp.md CLAUDE.md &amp;&amp; rm CLAUDE-*.md</span></pre></div></div>
+            <div id="s3-comp-std" style="display:none"><p>In Finder: rename <code>CLAUDE-comp.md</code> to <code>CLAUDE.md</code>, then delete the other <code>CLAUDE-*.md</code> files.</p></div>
+          </div>
+          <div data-show-role="generic">
+            <p>You’re in <strong>Facilities, L&amp;D, or People Ops</strong> — rename <code>CLAUDE-generic.md</code> to <code>CLAUDE.md</code>.</p>
+            <div id="s3-generic-full" style="display:none"><div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">mv CLAUDE-generic.md CLAUDE.md &amp;&amp; rm CLAUDE-*.md</span></pre></div></div>
+            <div id="s3-generic-std" style="display:none"><p>In Finder: rename <code>CLAUDE-generic.md</code> to <code>CLAUDE.md</code>, then delete the other <code>CLAUDE-*.md</code> files.</p></div>
+          </div>
+          <div class="callout callout-note"><strong>Why this matters:</strong> The CLAUDE.md file is what Claude reads to understand your role and how your vault is structured. Picking the right one means Claude already knows what matters to you — your wiki layout, session boot sequence, and which skills apply to your work.</div>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h3>Edit your config</h3>
+          <p>Open <code>CLAUDE.md</code> in Obsidian and replace all <code>[YOUR_NAME]</code>, <code>[YOUR_ROLE]</code>, <code>[YOUR_TIMEZONE]</code> placeholders with your actual details. Do the same in <code>vault.yaml</code>.</p>
+          <div id="s4-full-extra" style="display:none"><p>In <code>vault.yaml</code>, also fill in your Slack channels to monitor, DM contacts (name + Slack user ID), timezone, and whether you want your daily brief sent to Slack or saved locally.</p></div>
+          <div class="callout callout-note"><strong>Note:</strong> Take your time here. The more accurately you fill in <code>CLAUDE.md</code>, the more useful Claude’s responses will be.</div>
+        </div>
+      </div>
+
+      <div class="setup-step" id="s5-std" style="display:none">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <h3>Connect Claude</h3>
+          <p>Open <a href="https://claude.ai" target="_blank">Claude.ai</a> and start a new chat. In Obsidian, open <code>skills/vault-boot.md</code>, select all the text, and paste it as your first message to Claude.</p>
+          <p>This loads the vault context into the conversation — Claude now understands your setup, your role, and how the vault is structured.</p>
+        </div>
+      </div>
+
+      <div class="setup-step" id="s5-full" style="display:none">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <h3>Install Claude Code</h3>
+          <p>Open Terminal and run the following. You’ll need Node.js first — if you don’t have it, download it from <a href="https://nodejs.org" target="_blank">nodejs.org</a>.</p>
+          <div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-comment"># Install Claude Code globally</span>
+<span class="code-cmd">npm install -g @anthropic/claude-code</span>
+<span class="code-comment"># Verify the installation</span>
+<span class="code-cmd">claude --version</span></pre></div>
+        </div>
+      </div>
+
+      <div class="setup-step" id="s6-std" style="display:none">
+        <div class="step-number">6</div>
+        <div class="step-content">
+          <h3>Your first ask</h3>
+          <p>Try asking Claude something relevant to your role to get started:</p>
+          <div data-show-role="recruiter"><div class="callout"><strong>Good first ask:</strong> “Help me create a wiki page for [job title you’re hiring for]”</div></div>
+          <div data-show-role="hrbp"><div class="callout"><strong>Good first ask:</strong> “Help me capture notes from my last 1:1 with [manager name] as a wiki page”</div></div>
+          <div data-show-role="comp"><div class="callout"><strong>Good first ask:</strong> “Help me create a benchmark page for [job family you’re working on]”</div></div>
+          <div data-show-role="generic"><div class="callout"><strong>Good first ask:</strong> “Help me create a project page for [initiative you’re working on]”</div></div>
+        </div>
+      </div>
+
+      <div class="setup-step" id="s6-full" style="display:none">
+        <div class="step-number">6</div>
+        <div class="step-content">
+          <h3>Configure MCP integrations</h3>
+          <p>MCP connectors allow Claude Code to read from your work tools. You need these set up before running the pipeline.</p>
+          <p>If you already have MCP connectors configured, skip this step. Otherwise, follow the setup guide: <a href="[MCP_SETUP_DOCS_URL]" target="_blank">[MCP_SETUP_DOCS_URL]</a></p>
+          <div data-show-role="recruiter"><p><strong>Required:</strong> Slack, Gmail, Granola. <strong>Optional:</strong> Greenhouse (candidate pipeline automation), Glean (cross-app signal discovery).</p></div>
+          <div data-show-role="hrbp"><p><strong>Required:</strong> Slack, Gmail, Granola.</p></div>
+          <div data-show-role="comp"><p><strong>Required:</strong> Slack, Gmail, Granola.</p></div>
+          <div data-show-role="generic"><p><strong>Required:</strong> Slack, Gmail, Granola.</p></div>
+        </div>
+      </div>
+
+      <div class="setup-step" id="s7-full" style="display:none">
+        <div class="step-number">7</div>
+        <div class="step-content">
+          <h3>Update MCP permissions</h3>
+          <p>Open <code>claude-settings-template.json</code>. Replace the <code>[UUID]</code> placeholders with your actual MCP tool identifiers (find these via <code>/mcp</code> in Claude Code). Then copy the file into place:</p>
+          <div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">mkdir -p .claude &amp;&amp; cp claude-settings-template.json .claude/settings.json</span></pre></div>
+          <div class="callout"><strong>Why this matters:</strong> This tells Claude Code which tool calls to allow without prompting you each time — critical for a scheduled pipeline that runs while you sleep.</div>
+        </div>
+      </div>
+
+      <div class="setup-step" id="s8-full" style="display:none">
+        <div class="step-number">8</div>
+        <div class="step-content">
+          <h3>Run your first pipeline</h3>
+          <p>Navigate to your vault folder in Terminal and start Claude Code:</p>
+          <div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">cd ~/Documents/PeopleVault</span>
+<span class="code-cmd">claude</span></pre></div>
+          <p style="margin-top:12px">Once open, type the following and press Enter:</p>
+          <div class="code-block"><pre><span class="code-cmd">/vault-orchestrator</span></pre></div>
+          <p style="margin-top:12px">The pipeline will run for the first time — ingesting from Slack, Gmail, and Granola, then building your wiki pages. This first run may take several minutes.</p>
+          <div class="callout"><strong>Pro tip:</strong> Run with <code>claude --permission-mode acceptEdits</code> to skip approval prompts during active building sessions.</div>
+        </div>
+      </div>
+
+      <div class="setup-step" id="s9-full" style="display:none">
+        <div class="step-number">9</div>
+        <div class="step-content">
+          <h3>Set up git <span style="font-weight:400;font-size:13px;color:var(--text-muted);margin-left:6px">(optional but recommended)</span></h3>
+          <p>Initialise a git repo in your vault folder to get version history on your wiki.</p>
+          <div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">git init</span>
+<span class="code-cmd">git add .</span>
+<span class="code-cmd">git commit -m "vault: initial setup"</span></pre></div>
+          <p style="margin-top:12px">The <code>vault.yaml</code> <code>git.snapshot: true</code> setting will auto-commit after each pipeline run if git is initialised.</p>
+        </div>
+      </div>
+
+      <div class="setup-step" id="s10-full" style="display:none">
+        <div class="step-number">10</div>
+        <div class="step-content">
+          <h3>Schedule the pipeline</h3>
+          <p>Use the Claude Code scheduler to run the pipeline every morning automatically. The recommended schedule runs a full pipeline at 07:08 local time and a lighter delta-only run at 13:09.</p>
+          <p>See <code>SETUP-TECH.md</code> in your vault for the exact cron configuration and scheduler setup instructions.</p>
+        </div>
+      </div>
+
+      <div class="setup-step" id="s7-std" style="display:none">
+        <div class="step-number">7</div>
+        <div class="step-content">
+          <h3>Using skills</h3>
+          <p>The <code>skills/</code> folder contains instruction files for specific tasks. Any time you want Claude to do something specific — run a daily brief, process meeting notes — open the relevant skill file, copy the contents, and paste it into Claude chat.</p>
+          <p>See the <a href="#skills">Skills Reference</a> section below for the full list.</p>
+          <div class="callout"><strong>Workflow tip:</strong> Keep a Claude chat open in one window and Obsidian open in another. Drag skill files into Claude to load them quickly.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SKILLS -->
+<section class="section section-alt anchor-target" id="skills">
+  <div class="container-wide">
+    <div style="max-width:900px;margin:0 auto">
+      <span class="section-label">Skills Reference</span>
+      <h2>What you can ask Claude to do</h2>
+      <p class="section-subtitle">Each skill is an instruction file in the <code>skills/</code> folder. Paste it into Claude chat (Standard) or invoke it by name in Claude Code (Full Pipeline).</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-boot</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Load vault context at the start of a new Claude session — tells Claude about your setup, role, and current state.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>"boot the vault"</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-orchestrator</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Full Pipeline</span></div></div><p class="skill-desc">Run the full pipeline — all ingests, wiki update, and morning brief in sequence.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-orchestrator</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-daily-sync</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Update wiki pages from latest signals without running ingests. Good for a quick mid-day refresh.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-daily-sync</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-hot</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Regenerate <code>HOT.md</code> — the state snapshot that shows what needs your attention at a glance.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-hot</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-refresh</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Quick reload of context from <code>HOT.md</code> after another chat session did work. Keeps Claude in sync.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-refresh</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-lint</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Weekly health check — flags stale pages, missing next steps, and items with no recent activity.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-lint</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">daily-brief</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Generate a morning brief from current vault state — prioritised by urgency, with clear action items.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/daily-brief</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">process-meeting-note</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Process a meeting note file into wiki updates — extracts signals, decisions, and next steps.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>"process meeting note [file]"</code></div></div>
+      <div class="skill-card" id="skill-interview-prep"><div class="skill-card-top"><span class="skill-name">interview-prep</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span><span class="skill-badge skill-badge-recruiter">Recruiter</span></div></div><p class="skill-desc">Prepare for an upcoming screen or interview — compares resume against role intel, surfaces flags, suggests questions.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>"prep for [candidate] [req]"</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">ingest-slack</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Full Pipeline</span></div></div><p class="skill-desc">Pull the latest Slack signals into source files. Filters for People-relevant messages across your configured channels.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>Auto (pipeline)</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">ingest-gmail</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Full Pipeline</span></div></div><p class="skill-desc">Pull the latest Gmail signals into source files. Filters for relevant threads, stakeholder conversations, and decision emails.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>Auto (pipeline)</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">ingest-granola</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Full Pipeline</span></div></div><p class="skill-desc">Pull the latest Granola meeting notes into source files — interviews, stakeholder syncs, team calls.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>Auto (pipeline)</code></div></div>
+      <div class="skill-card" id="skill-ingest-glean"><div class="skill-card-top"><span class="skill-name">ingest-glean</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Full Pipeline</span><span class="skill-badge skill-badge-recruiter">Recruiter</span></div></div><p class="skill-desc">Pull latest Glean activity into source files — cross-app signals and document discovery stubs. Most useful for recruiters with ATS-connected Glean.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>Auto (pipeline)</code></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- FAQ -->
+<section class="section anchor-target" id="faq">
+  <div class="container">
+    <span class="section-label">FAQ</span>
+    <h2>Common questions</h2>
+    <p class="section-subtitle">Answers to the things people ask most often.</p>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">Do I need to pay for anything?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-answer"><p>Claude requires a subscription — Pro, Team, or Enterprise all work. Obsidian is completely free for personal use. Claude Code is included with Claude subscriptions at no extra cost. The Full Pipeline path requires MCP connectors, which are typically set up via your company’s tooling.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">Is my data safe?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-answer"><p>Your vault lives entirely on your local machine. Source files — the raw Slack messages, emails, and meeting notes that the pipeline ingests — never leave your computer. Only the wiki summaries that Claude writes are stored in the vault, also locally.</p><p>When you send messages to Claude, Anthropic’s standard data handling applies. If your company has a Claude Enterprise or Team plan, your organisation’s data governance terms apply.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">Can I change my role later?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-answer"><p>Yes. You can swap out your <code>CLAUDE.md</code> at any time — just rename the appropriate <code>CLAUDE-[role].md</code> file. Your existing wiki pages will still be there. The new <code>CLAUDE.md</code> will change how Claude understands your vault structure going forward.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">What if I already have my own Claude or AI setup?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-answer"><p>The vault’s skills and <code>CLAUDE.md</code> are designed to work alongside any existing Claude setup. You can drop the skills folder into an existing Claude Code project, or use just the pieces you want. Nothing here requires a fresh Claude installation.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">Can I use this without Greenhouse access?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-answer"><p>Yes. The vault works fully without Greenhouse. Greenhouse integration is optional and only relevant for Recruiters. All other roles don’t need it.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">How do I update when a new version is released?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-answer"><p>Pull the latest from GitHub. Your personal wiki pages (everything inside <code>wiki/</code>) are in <code>.gitignore</code> so they will not be overwritten by a pull. Check <code>changelog.md</code> to see what changed.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">Who do I contact if I need help?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-answer"><p>For questions about this vault package, reach out to <strong>[INTERNAL_CONTACT]</strong>. For Claude-specific issues, the <a href="https://docs.anthropic.com" target="_blank">Anthropic docs</a> are the best first stop. For Obsidian questions, the <a href="https://forum.obsidian.md" target="_blank">Obsidian community forum</a> is active and helpful.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>People Team Knowledge Vault <span class="footer-sep">&bull;</span> <a href="[GITHUB_REPO_URL]" target="_blank">GitHub</a> <span class="footer-sep">&bull;</span> [VERSION]</p>
+</footer>
+
+<script>
+  var selectedRole = null;
+  var selectedTech = null;
+  var roleLabels = {recruiter:'Recruiter',hrbp:'HRBP',comp:'Comp & Total Rewards',generic:'People Ops'};
+
+  function selectRole(role, card) {
+    document.querySelectorAll('.role-card').forEach(function(c){c.classList.remove('selected');});
+    card.classList.add('selected');
+    selectedRole = role;
+    document.getElementById('btn-role-continue').classList.remove('disabled');
+    showWikiPreview(role);
+  }
+
+  function continueToTech() {
+    if (!selectedRole) return;
+    var s = document.getElementById('section-tech');
+    s.style.display = 'block';
+    setTimeout(function(){s.scrollIntoView({behavior:'smooth',block:'start'});},50);
+  }
+
+  function selectTech(tech, card) {
+    document.querySelectorAll('.path-card').forEach(function(c){c.classList.remove('selected');});
+    card.classList.add('selected');
+    selectedTech = tech;
+    document.getElementById('btn-tech-continue').classList.remove('disabled');
+  }
+
+  function continueToSetup() {
+    if (!selectedTech || !selectedRole) return;
+    ['div-before-wiki','section-wiki-preview','div-before-setup','section-setup'].forEach(function(id){
+      document.getElementById(id).style.display = 'block';
+    });
+    document.getElementById('setup-heading').textContent = 'Setting up your ' + (roleLabels[selectedRole]||'People Ops') + ' vault';
+    applyRoleContent();
+    applyTechContent();
+    setTimeout(function(){document.getElementById('section-wiki-preview').scrollIntoView({behavior:'smooth',block:'start'});},50);
+  }
+
+  function showWikiPreview(role) {
+    document.querySelectorAll('.wiki-preview-content').forEach(function(el){el.classList.remove('visible');});
+    var p = document.getElementById('wiki-preview-' + role);
+    if (p) p.classList.add('visible');
+  }
+
+  function applyRoleContent() {
+    document.querySelectorAll('[data-show-role]').forEach(function(el){
+      var roles = el.getAttribute('data-show-role').split(',').map(function(r){return r.trim();});
+      el.style.display = (roles.indexOf(selectedRole) !== -1) ? '' : 'none';
+    });
+    var ip = document.getElementById('skill-interview-prep');
+    var ig = document.getElementById('skill-ingest-glean');
+    if (ip) ip.style.opacity = (selectedRole==='recruiter') ? '1' : '0.4';
+    if (ig) ig.style.opacity = (selectedRole==='recruiter') ? '1' : '0.4';
+  }
+
+  function applyTechContent() {
+    var isFull = (selectedTech === 'full');
+    var isStd = (selectedTech === 'standard');
+    var roles = ['recruiter','hrbp','comp','generic'];
+    roles.forEach(function(r){
+      var fe = document.getElementById('s3-'+r+'-full');
+      var se = document.getElementById('s3-'+r+'-std');
+      if(fe) fe.style.display = isFull ? '' : 'none';
+      if(se) se.style.display = isStd ? '' : 'none';
+    });
+    var s4ex = document.getElementById('s4-full-extra');
+    if(s4ex) s4ex.style.display = isFull ? '' : 'none';
+    var show = function(id,v){var e=document.getElementById(id);if(e)e.style.display=v?'':'none';};
+    show('s5-std', isStd); show('s5-full', isFull);
+    show('s6-std', isStd); show('s6-full', isFull);
+    show('s7-full', isFull); show('s8-full', isFull);
+    show('s9-full', isFull); show('s10-full', isFull);
+    show('s7-std', isStd);
+  }
+
+  document.querySelectorAll('.faq-question').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var item = this.closest('.faq-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(i){
+        i.classList.remove('open');
+        i.querySelector('.faq-question').setAttribute('aria-expanded','false');
+      });
+      if(!isOpen){item.classList.add('open');this.setAttribute('aria-expanded','true');}
+    });
+  });
+
+  (function(){
+    var sections = ['how-it-works','choose-role','section-setup','skills','faq'];
+    var navLinks = document.querySelectorAll('.nav-links a');
+    function updateNav(){
+      var scrollY = window.scrollY + 80;
+      var active = null;
+      sections.forEach(function(id){
+        var el = document.getElementById(id);
+        if(el && el.offsetTop <= scrollY) active = id;
+      });
+      navLinks.forEach(function(a){
+        var href = a.getAttribute('href').replace('#','');
+        if(active && href===active){a.classList.add('active');}else{a.classList.remove('active');}
+      });
+    }
+    window.addEventListener('scroll', updateNav, {passive:true});
+    updateNav();
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.vscode/
+*.swp
+*.swo
+
+# Claude Code local settings (machine-specific paths)
+.claude/settings.local.json
+
+# Vault runtime files — generated locally, not committed
+outputs/*.md
+queries/*.md
+sources/slack/*.md
+sources/gmail/*.md
+sources/glean/*.md
+sources/meetings/*.md
+sources/documents/*.md
+sources/articles/*.md
+
+# Keep source subdirectory structure but not content
+!sources/slack/.gitkeep
+!sources/gmail/.gitkeep
+!sources/glean/.gitkeep
+!sources/meetings/.gitkeep
+!sources/documents/.gitkeep
+!sources/articles/.gitkeep
+
+# Wiki pages are user-generated — only EXAMPLE-*.md files are tracked
+wiki/**/*.md
+!wiki/**/EXAMPLE-*.md
+!wiki/signal-inbox.md
+
+# Personal vault state files — generated at runtime, not template content
+HOT.md
+pending-signals.md
+scan-intelligence.md
+index.md
+log.md
+changelog.md

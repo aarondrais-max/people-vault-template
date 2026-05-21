@@ -1,0 +1,119 @@
+---
+# People Team Knowledge Vault — Configuration
+# Generated from template. Replace all [PLACEHOLDER] values before first run.
+# Storage: local markdown vault
+
+# ── Identity ───────────────────────────────────────────────────
+user:
+  name: "[YOUR_NAME]"             # Your full name — e.g., "Alex Rivera"
+  role: "[YOUR_ROLE]"             # Your job title — e.g., "Senior Recruiter, EMEA"
+  org: "[YOUR_ORG]"               # Your team — e.g., "Talent Acquisition, Acme Corp"
+  timezone: "[YOUR_TIMEZONE]"     # Timezone string — e.g., America/New_York, Europe/London, Asia/Tokyo
+  work_days: [Mon, Tue, Wed, Thu, Fri]
+  slack_user_id: "[YOUR_SLACK_ID]"  # Your Slack member ID — e.g., UXXXXXXXXXX
+                                    # Find it: Slack → Profile → More → Copy member ID
+
+# Full path to this vault directory
+vault_path: "[VAULT_PATH]"         # e.g., ~/Documents/my-recruiting-vault
+
+# ── Ingest Sources ─────────────────────────────────────────────
+ingests:
+
+  slack:
+    enabled: true
+    lookback_hours: 48             # How far back each ingest reaches
+    channels:
+      # Add your team channels here. Remove the # and replace channel-name.
+      # - name: recruiting-team
+      # - name: hiring-managers
+      # - name: headcount-planning
+      # - name: onboarding-team
+    dm_contacts:
+      # Add key contacts whose DMs you want monitored.
+      # Find Slack user IDs: click their profile → More → Copy member ID.
+      # - name: "[Manager Name]"
+      #   user_id: UXXXXXXXXXX
+      #   why: direct manager
+      # - name: "[Hiring Manager Name]"
+      #   user_id: UXXXXXXXXXX
+      #   why: primary hiring manager
+
+  gmail:
+    enabled: true
+    lookback_hours: 48
+    ingest_sent: true              # Include sent emails (recommended — captures your outreach)
+    ingest_received: true          # Include received emails
+
+  glean:
+    enabled: true
+    lookback_hours: 48
+    # Glean captures: Google Drive, Confluence, Slack long-tail (channels not in list above),
+    # and other cross-app activity. Gmail excluded — covered by direct ingest.
+    projects:
+      # Add Glean project names you want monitored.
+      # These are Glean search project identifiers, not Greenhouse req IDs.
+      # - project-name-here
+
+  granola:
+    enabled: true                  # Set false if you don't use Granola for meeting notes
+    lookback_hours: 72
+
+  gdrive:
+    enabled: false                 # Enable if you want direct Google Drive ingest via Glean MCP
+
+  confluence:
+    enabled: false                 # Enable if your company uses Confluence
+
+  linear:
+    enabled: false                 # Enable if your team tracks work in Linear
+
+  jira:
+    enabled: false                 # Enable if your team tracks work in Jira
+
+  notion:
+    enabled: false                 # Enable if you track tasks in Notion
+
+  claude_conversations:
+    enabled: false                 # Enable to ingest context from recent Claude chats
+
+# ── Outputs ────────────────────────────────────────────────────
+outputs:
+  daily_brief:
+    enabled: true
+    destination: local             # options: local | slack
+    # slack_channel: "[YOUR_SLACK_ID]"  # Uncomment and set to your Slack ID for DM delivery
+
+  interview_prep:
+    enabled: true
+    include_tomorrow: false        # Set true to prep for next-day screens as well
+
+# ── Mode ───────────────────────────────────────────────────────
+mode:
+  light: false   # Set true to skip ingests and only re-sync wiki from existing sources
+
+# ── Validation ─────────────────────────────────────────────────
+validation:
+  glean_sweep: true
+  sweep_days: [Mon, Wed, Fri]      # Run Glean benchmark sweep 3x/week to control token cost
+
+# ── Git Snapshot ───────────────────────────────────────────────
+git:
+  snapshot: true                   # Commit vault state after each pipeline run (local only, no push)
+  # After each pipeline run, commits:
+  # HOT.md, scan-intelligence.md, pending-signals.md, wiki/, log.md
+
+# ── Commitments ────────────────────────────────────────────────
+commitments:
+  enabled: false                   # Future feature — enable once workflow is established
+
+# ── Wiki Schema ────────────────────────────────────────────────
+wiki:
+  page_types:
+    - reqs
+    - candidates
+    - people
+    - patterns
+    - decisions
+    - concepts
+    - projects
+    - threads

@@ -1,0 +1,50 @@
+{
+  "_readme": "This file is a TEMPLATE for .claude/settings.json. After setup: (1) Create a .claude/ directory inside your vault folder, (2) Copy this file to .claude/settings.json, (3) Replace each [UUID] placeholder with the actual UUID from your Claude installation. Find UUIDs by running 'claude' and checking available tools, or by looking in ~/.claude/mcp.json. The pattern is: mcp__[UUID]__[tool_name]. You can also build this allowlist organically: run the pipeline and choose 'Always allow' at each prompt — it will be added to .claude/settings.local.json automatically.",
+
+  "_instructions": "To create .claude/settings.json: mkdir -p .claude && cp claude-settings-template.json .claude/settings.json — then edit .claude/settings.json to replace placeholders.",
+
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Glob",
+      "Grep",
+      "LS",
+
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+
+      "mcp__[SLACK-UUID]__slack_search_public_and_private",
+      "mcp__[SLACK-UUID]__slack_read_channel",
+      "mcp__[SLACK-UUID]__slack_read_thread",
+      "mcp__[SLACK-UUID]__slack_search_users",
+      "mcp__[SLACK-UUID]__slack_read_user_profile",
+      "mcp__[SLACK-UUID]__slack_send_message",
+
+      "mcp__[GMAIL-UUID]__search_threads",
+      "mcp__[GMAIL-UUID]__get_thread",
+      "mcp__[GMAIL-UUID]__list_labels",
+
+      "mcp__[GLEAN-UUID]__search",
+      "mcp__[GLEAN-UUID]__read_document",
+      "mcp__[GLEAN-UUID]__user_activity",
+      "mcp__[GLEAN-UUID]__read_memory",
+      "mcp__[GLEAN-UUID]__employee_search",
+      "mcp__[GLEAN-UUID]__meeting_lookup",
+
+      "mcp__[GRANOLA-UUID]__list_meetings",
+      "mcp__[GRANOLA-UUID]__get_meetings",
+      "mcp__[GRANOLA-UUID]__get_meeting_transcript",
+      "mcp__[GRANOLA-UUID]__search_meetings",
+
+      "mcp__[GREENHOUSE-UUID]__Greenhouse_API",
+
+      "mcp__[CALENDAR-UUID]__list_events",
+      "mcp__[CALENDAR-UUID]__get_event",
+      "mcp__[CALENDAR-UUID]__list_calendars"
+    ]
+  }
+}
