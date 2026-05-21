@@ -160,7 +160,7 @@
   .skill-name{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent);background:var(--accent-light);padding:3px 10px;border-radius:6px}
   .skill-badges{display:flex;gap:6px;flex-wrap:wrap}
   .skill-badge{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:100px;white-space:nowrap}
-  .skill-badge-both{background:#EDEDF5;color:#6C6C8A}
+  .skill-badge-manual{background:#EDEDF5;color:#6C6C8A}
   .skill-badge-full{background:var(--accent-light);color:var(--accent)}
   .skill-badge-recruiter{background:#FEF3C7;color:#92400E}
   .skill-desc{font-size:13.5px;color:var(--text-secondary);line-height:1.5;margin:0}
@@ -214,8 +214,8 @@
 <section class="hero" id="top">
   <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Setup Guide</div>
   <h1>People Team<br>Knowledge Vault</h1>
-  <p class="hero-subtitle">Your work context — always at hand, always current</p>
-  <p class="hero-desc">A local Obsidian wiki paired with Claude that organises your work, relationships, and decisions — and keeps itself up to date from your real signals. Your data stays on your machine.</p>
+  <p class="hero-subtitle">Remember everything. Know what matters.</p>
+  <p class="hero-desc">A local wiki that builds itself from your Slack messages, emails, and meeting notes — keeping context on the relationships, decisions, and commitments that matter most. Surfaces what needs your attention each morning. Your data stays on your machine.</p>
 </section>
 
 <div class="section-divider"></div>
@@ -224,7 +224,7 @@
   <div class="container">
     <span class="section-label">How it works</span>
     <h2>Three steps, then it runs itself</h2>
-    <p class="section-subtitle">Claude connects to your work tools, builds your wiki, and tells you what needs attention each morning.</p>
+    <p class="section-subtitle">Claude connects to your work tools, builds your wiki, and surfaces what needs your attention each morning — without you having to prompt it.</p>
     <div class="steps-grid">
       <div class="how-step">
         <div class="how-step-number">1</div>
@@ -235,7 +235,7 @@
           </svg>
         </div>
         <h3>Connect</h3>
-        <p>Claude reads your Slack, Gmail, and meeting notes — then pulls out what matters for your role on the People team.</p>
+        <p>Claude reads your Slack, Gmail, and meeting notes — pulling out signals relevant to your work: commitments made, decisions pending, relationships to maintain.</p>
       </div>
       <div class="how-step">
         <div class="how-step-number">2</div>
@@ -257,7 +257,7 @@
           </svg>
         </div>
         <h3>Brief</h3>
-        <p>Generates a daily snapshot of what needs your attention — pending decisions, upcoming milestones, active situations.</p>
+        <p>Generates a daily snapshot of what needs your attention — follow-ups you committed to, pending decisions, active situations that moved since yesterday.</p>
       </div>
     </div>
   </div>
@@ -268,9 +268,9 @@
 <!-- ROLE CHOOSER -->
 <section class="section anchor-target" id="choose-role">
   <div class="container">
-    <span class="section-label">Step 1 of 3</span>
+    <span class="section-label">Step 1 of 2</span>
     <h2>Let’s personalise your setup</h2>
-    <p class="section-subtitle">Pick the role that best describes what you do. We’ll tailor everything from here.</p>
+    <p class="section-subtitle">Pick the role that best describes what you do. We’ll tailor your wiki structure and daily brief from here.</p>
     <div class="role-grid">
       <div class="role-card" onclick="selectRole('recruiter',this)">
         <div class="role-card-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
@@ -316,48 +316,11 @@
       </div>
     </div>
     <div class="continue-row">
-      <button class="btn-continue disabled" id="btn-role-continue" onclick="continueToTech()">Continue &rarr;</button>
+      <button class="btn-continue disabled" id="btn-role-continue" onclick="continueToSetup()">Continue &rarr;</button>
     </div>
   </div>
 </section>
 
-<div class="section-divider"></div>
-
-<!-- TECH CHOOSER -->
-<section class="section section-alt anchor-target" id="section-tech" style="display:none">
-  <div class="container">
-    <span class="section-label">Step 2 of 3</span>
-    <h2>How do you work?</h2>
-    <p class="section-subtitle">Both paths give you a fully functional vault. The difference is how much runs automatically.</p>
-    <div class="path-grid">
-      <div class="path-card path-card-standard" onclick="selectTech(‘standard’,this)">
-        <div class="path-card-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
-        <span class="path-badge">Standard</span>
-        <h3>Obsidian + Claude chat</h3>
-        <p class="path-tagline">Wiki only — no scheduled pipeline</p>
-        <div class="path-meta">
-          <div class="path-meta-item"><span class="path-meta-label">Best for</span><span>You want a structured wiki and Claude help, but don’t need ingests running automatically.</span></div>
-          <div class="path-meta-item"><span class="path-meta-label">You get</span><span>Structured wiki, manual Claude chat help, skills as copy-paste prompts.</span></div>
-        </div>
-        <div class="path-time">&#9200; ~20 minutes to set up</div>
-      </div>
-      <div class="path-card path-card-full" onclick="selectTech('full',this)">
-        <div class="path-card-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
-        <span class="path-badge">Full Pipeline</span>
-        <h3>Claude Code + automated ingests</h3>
-        <p class="path-tagline">Daily brief + scheduled pipeline</p>
-        <div class="path-meta">
-          <div class="path-meta-item"><span class="path-meta-label">Best for</span><span>You already have Claude Code and MCP integrations set up, or are comfortable in the terminal.</span></div>
-          <div class="path-meta-item"><span class="path-meta-label">You get</span><span>Everything in Standard, plus auto-ingests from Slack, Gmail &amp; Granola — and a git snapshot on every run.</span></div>
-        </div>
-        <div class="path-time">&#9200; ~45 minutes to set up</div>
-      </div>
-    </div>
-    <div class="continue-row">
-      <button class="btn-continue disabled" id="btn-tech-continue" onclick="continueToSetup()">Continue &rarr;</button>
-    </div>
-  </div>
-</section>
 
 <!-- WIKI PREVIEW -->
 <div class="section-divider" id="div-before-wiki" style="display:none"></div>
@@ -441,9 +404,9 @@
 <div class="section-divider" id="div-before-setup" style="display:none"></div>
 <section class="section section-alt anchor-target" id="section-setup" style="display:none">
   <div class="container">
-    <span class="section-label">Step 3 of 3</span>
+    <span class="section-label">Step 2 of 2</span>
     <h2 id="setup-heading">Setting up your vault</h2>
-    <p class="section-subtitle">Follow the steps below to get your vault up and running.</p>
+    <p class="section-subtitle">Takes about 30 minutes. The only technical moment is Step 3 — one command in Terminal, and you'll never need to do it again.</p>
     <div class="setup-steps">
 
       <div class="setup-step">
@@ -468,10 +431,10 @@
         <div class="step-number">3</div>
         <div class="step-content">
           <h3>Open Claude Code in your vault folder</h3>
-          <p>You already have Claude Code — it comes with Claude Desktop. Open <strong>Terminal</strong> (Spotlight → type “Terminal” → Enter) and run:</p>
-          <div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">cd ~/Documents/PeopleVault && claude</span></pre></div>
-          <p style="margin-top:12px">Claude Code will open inside your vault folder and is ready for the next step.</p>
-          <div class="callout"><strong>Note:</strong> If you unzipped the vault to a different folder name, adjust the path above to match — e.g. <code>cd ~/Documents/people-vault-template && claude</code>. If you get a "no such file or directory" error, open Finder, right-click your vault folder, hold Option, and choose <strong>Copy as Pathname</strong> — then replace the path above with what you copied.</div>
+          <p>This is the one slightly technical step. You have Claude Code already — it comes with Claude Desktop. Open <strong>Terminal</strong> (Spotlight → type “Terminal” → Enter) and run:</p>
+          <div class=”code-block”><span class=”code-label”>Terminal</span><pre><span class=”code-cmd”>cd ~/Documents/PeopleVault && claude</span></pre></div>
+          <p style=”margin-top:12px”>Claude Code will open inside your vault folder. You won't need to do this again — once the vault is scheduled, everything runs automatically.</p>
+          <div class=”callout-note callout”><strong>First time with Terminal?</strong> That's fine — you're just telling it where the vault is and opening Claude there. If you get a “no such file or directory” error: open Finder, right-click your vault folder, hold <kbd>Option</kbd>, choose <strong>Copy as Pathname</strong>, and replace the path above with what you copied.</div>
         </div>
       </div>
 
@@ -487,59 +450,28 @@
         </div>
       </div>
 
-      <!-- Standard path: step 5 — first session -->
-      <div class="setup-step" id="s5-std" style="display:none">
-        <div class="step-number">5</div>
-        <div class="step-content">
-          <h3>Start your first session</h3>
-          <p>You’re set up. Open a new Claude chat at <a href="https://claude.ai" target="_blank">claude.ai</a> and paste this to load your vault context:</p>
-          <div class="code-block"><pre><span class="code-cmd">Boot the vault</span></pre></div>
-          <p style="margin-top:12px">Claude will read your <code>CLAUDE.md</code>, understand your role and current work, and be ready to help. Try a first ask relevant to what you’re working on:</p>
-          <div data-show-role="recruiter"><div class="callout"><strong>Good first ask:</strong> “Help me create a wiki page for the [job title] role I’m hiring for”</div></div>
-          <div data-show-role="hrbp"><div class="callout"><strong>Good first ask:</strong> “Help me capture key notes from my last 1:1 with [manager name] as a wiki page”</div></div>
-          <div data-show-role="comp"><div class="callout"><strong>Good first ask:</strong> “Help me create a benchmark page for [job family] with our current range”</div></div>
-          <div data-show-role="generic"><div class="callout"><strong>Good first ask:</strong> “Help me create a project page for [initiative you’re running]”</div></div>
-        </div>
-      </div>
-
-      <!-- Full Pipeline path: step 5 — run first pipeline -->
-      <div class="setup-step" id="s5-full" style="display:none">
-        <div class="step-number">5</div>
-        <div class="step-content">
+      <div class=”setup-step”>
+        <div class=”step-number”>5</div>
+        <div class=”step-content”>
           <h3>Run your first pipeline</h3>
           <p>Still in Claude Code, type the following and press Enter:</p>
-          <div class="code-block"><pre><span class="code-cmd">/vault-orchestrator</span></pre></div>
-          <p style="margin-top:12px">This ingests from your connected tools (Slack, Gmail, Granola), builds your wiki pages, and generates your first morning brief. The first run takes a few minutes — subsequent runs are faster.</p>
-          <div class="callout"><strong>After the run:</strong> Open <code>HOT.md</code> in Obsidian — it’ll show your current pipeline state, what needs attention, and what Claude surfaced from your tools.</div>
+          <div class=”code-block”><pre><span class=”code-cmd”>/vault-orchestrator</span></pre></div>
+          <p style=”margin-top:12px”>Claude will pull from your connected tools (Slack, Gmail, Granola), build your wiki pages, and generate your first morning brief. The first run takes a few minutes — after that, it runs automatically on a schedule.</p>
+          <div data-show-role=”recruiter”><div class=”callout”><strong>After the run:</strong> Open <code>HOT.md</code> in Obsidian — it shows your active pipeline, what needs attention today, and what Claude surfaced across your reqs.</div></div>
+          <div data-show-role=”hrbp”><div class=”callout”><strong>After the run:</strong> Open your morning brief in the <code>briefs/</code> folder — it’ll show pending decisions, manager follow-ups, and anything from your connected tools that needs a response.</div></div>
+          <div data-show-role=”comp”><div class=”callout”><strong>After the run:</strong> Open your morning brief in the <code>briefs/</code> folder — it’ll surface active offers, upcoming cycle milestones, and any compensation conversations that moved.</div></div>
+          <div data-show-role=”generic”><div class=”callout”><strong>After the run:</strong> Open your morning brief in the <code>briefs/</code> folder — it’ll surface active projects, pending decisions, and commitments from your recent meetings.</div></div>
         </div>
       </div>
 
-      <!-- Standard path: step 6 — using skills -->
-      <div class="setup-step" id="s6-std" style="display:none">
-        <div class="step-number">6</div>
-        <div class="step-content">
-          <h3>Using skills day-to-day</h3>
-          <p>The <code>skills/</code> folder has instruction files for specific tasks. In Claude Code, trigger them by name — e.g. <code>/vault-boot</code> to load context, <code>/daily-brief</code> for your morning snapshot. In Claude chat, paste the skill file contents to run the same tasks manually.</p>
-          <p>See the <a href="#skills">Skills Reference</a> below for the full list.</p>
+      <div class=”setup-step”>
+        <div class=”step-number”>6</div>
+        <div class=”step-content”>
+          <h3>Schedule the pipeline <span style=”font-weight:400;font-size:13px;color:var(--text-muted);margin-left:6px”>(optional but recommended)</span></h3>
+          <p>The vault is most useful when it runs before you start work each morning — so you open Obsidian and the brief is already there. The pipeline can be scheduled to run automatically at a time that suits you.</p>
+          <p>Ask Claude Code: <code>Help me schedule the vault pipeline to run each morning</code> and it’ll walk you through the setup for your machine. Or run <code>/vault-orchestrator</code> manually whenever you want a refresh.</p>
         </div>
       </div>
-
-      <!-- Full Pipeline path: step 6 — schedule it -->
-      <div class="setup-step" id="s6-full" style="display:none">
-        <div class="step-number">6</div>
-        <div class="step-content">
-          <h3>Schedule the pipeline <span style="font-weight:400;font-size:13px;color:var(--text-muted);margin-left:6px">(optional)</span></h3>
-          <p>The pipeline can run automatically every morning so your vault is always fresh when you start work. Recommended schedule: full pipeline at 07:08, lighter update at 13:09.</p>
-          <p>See <code>SETUP-TECH.md</code> in your vault folder for the exact scheduler configuration. Or just run <code>/vault-orchestrator</code> manually in Claude Code whenever you want a refresh.</p>
-        </div>
-      </div>
-
-      <!-- Hidden steps — kept for JS compatibility, content removed -->
-      <div class="setup-step" id="s7-full" style="display:none"></div>
-      <div class="setup-step" id="s8-full" style="display:none"></div>
-      <div class="setup-step" id="s9-full" style="display:none"></div>
-      <div class="setup-step" id="s10-full" style="display:none"></div>
-      <div class="setup-step" id="s7-std" style="display:none"></div>
 
     </div>
   </div>
@@ -553,22 +485,22 @@
     <div style="max-width:900px;margin:0 auto">
       <span class="section-label">Skills Reference</span>
       <h2>What you can ask Claude to do</h2>
-      <p class="section-subtitle">Each skill is an instruction file in the <code>skills/</code> folder. Paste it into Claude chat (Standard) or invoke it by name in Claude Code (Full Pipeline).</p>
+      <p class="section-subtitle">Each skill is an instruction file in the <code>skills/</code> folder. Invoke them by name in Claude Code — e.g. <code>/vault-boot</code> — or paste the file contents into any Claude chat session.</p>
     </div>
     <div class="skills-grid">
-      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-boot</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Load vault context at the start of a new Claude session — tells Claude about your setup, role, and current state.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>"boot the vault"</code></div></div>
-      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-orchestrator</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Full Pipeline</span></div></div><p class="skill-desc">Run the full pipeline — all ingests, wiki update, and morning brief in sequence.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-orchestrator</code></div></div>
-      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-daily-sync</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Update wiki pages from latest signals without running ingests. Good for a quick mid-day refresh.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-daily-sync</code></div></div>
-      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-hot</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Regenerate <code>HOT.md</code> — the state snapshot that shows what needs your attention at a glance.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-hot</code></div></div>
-      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-refresh</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Quick reload of context from <code>HOT.md</code> after another chat session did work. Keeps Claude in sync.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-refresh</code></div></div>
-      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-lint</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Weekly health check — flags stale pages, missing next steps, and items with no recent activity.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-lint</code></div></div>
-      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">daily-brief</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Generate a morning brief from current vault state — prioritised by urgency, with clear action items.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/daily-brief</code></div></div>
-      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">process-meeting-note</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span></div></div><p class="skill-desc">Process a meeting note file into wiki updates — extracts signals, decisions, and next steps.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>"process meeting note [file]"</code></div></div>
-      <div class="skill-card" id="skill-interview-prep"><div class="skill-card-top"><span class="skill-name">interview-prep</span><div class="skill-badges"><span class="skill-badge skill-badge-both">Both</span><span class="skill-badge skill-badge-recruiter">Recruiter</span></div></div><p class="skill-desc">Prepare for an upcoming screen or interview — compares resume against role intel, surfaces flags, suggests questions.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>"prep for [candidate] [req]"</code></div></div>
-      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">ingest-slack</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Full Pipeline</span></div></div><p class="skill-desc">Pull the latest Slack signals into source files. Filters for People-relevant messages across your configured channels.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>Auto (pipeline)</code></div></div>
-      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">ingest-gmail</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Full Pipeline</span></div></div><p class="skill-desc">Pull the latest Gmail signals into source files. Filters for relevant threads, stakeholder conversations, and decision emails.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>Auto (pipeline)</code></div></div>
-      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">ingest-granola</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Full Pipeline</span></div></div><p class="skill-desc">Pull the latest Granola meeting notes into source files — interviews, stakeholder syncs, team calls.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>Auto (pipeline)</code></div></div>
-      <div class="skill-card" id="skill-ingest-glean"><div class="skill-card-top"><span class="skill-name">ingest-glean</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Full Pipeline</span><span class="skill-badge skill-badge-recruiter">Recruiter</span></div></div><p class="skill-desc">Pull latest Glean activity into source files — cross-app signals and document discovery stubs. Most useful for recruiters with ATS-connected Glean.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>Auto (pipeline)</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-boot</span><div class="skill-badges"><span class="skill-badge skill-badge-manual">Manual</span></div></div><p class="skill-desc">Load vault context at the start of a new Claude session — tells Claude about your setup, role, and current state.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>"boot the vault"</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-orchestrator</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Auto</span></div></div><p class="skill-desc">Run the full pipeline — all ingests, wiki update, and morning brief in sequence.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-orchestrator</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-daily-sync</span><div class="skill-badges"><span class="skill-badge skill-badge-manual">Manual</span></div></div><p class="skill-desc">Update wiki pages from latest signals without running ingests. Good for a quick mid-day refresh.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-daily-sync</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-hot</span><div class="skill-badges"><span class="skill-badge skill-badge-manual">Manual</span></div></div><p class="skill-desc">Regenerate <code>HOT.md</code> — the state snapshot that shows what needs your attention at a glance.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-hot</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-refresh</span><div class="skill-badges"><span class="skill-badge skill-badge-manual">Manual</span></div></div><p class="skill-desc">Quick reload of context from <code>HOT.md</code> after another chat session did work. Keeps Claude in sync.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-refresh</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-lint</span><div class="skill-badges"><span class="skill-badge skill-badge-manual">Manual</span></div></div><p class="skill-desc">Weekly health check — flags stale pages, missing next steps, and items with no recent activity.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/vault-lint</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">daily-brief</span><div class="skill-badges"><span class="skill-badge skill-badge-manual">Manual</span></div></div><p class="skill-desc">Generate a morning brief from current vault state — prioritised by urgency, with clear action items.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>/daily-brief</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">process-meeting-note</span><div class="skill-badges"><span class="skill-badge skill-badge-manual">Manual</span></div></div><p class="skill-desc">Process a meeting note file into wiki updates — extracts signals, decisions, and next steps.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>"process meeting note [file]"</code></div></div>
+      <div class="skill-card" id="skill-interview-prep"><div class="skill-card-top"><span class="skill-name">interview-prep</span><div class="skill-badges"><span class="skill-badge skill-badge-manual">Manual</span><span class="skill-badge skill-badge-recruiter">Recruiter</span></div></div><p class="skill-desc">Prepare for an upcoming screen or interview — compares resume against role intel, surfaces flags, suggests questions.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>"prep for [candidate] [req]"</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">ingest-slack</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Auto</span></div></div><p class="skill-desc">Pull the latest Slack signals into source files. Filters for People-relevant messages across your configured channels.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>Auto (pipeline)</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">ingest-gmail</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Auto</span></div></div><p class="skill-desc">Pull the latest Gmail signals into source files. Filters for relevant threads, stakeholder conversations, and decision emails.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>Auto (pipeline)</code></div></div>
+      <div class="skill-card"><div class="skill-card-top"><span class="skill-name">ingest-granola</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Auto</span></div></div><p class="skill-desc">Pull the latest Granola meeting notes into source files — interviews, stakeholder syncs, team calls.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>Auto (pipeline)</code></div></div>
+      <div class="skill-card" id="skill-ingest-glean"><div class="skill-card-top"><span class="skill-name">ingest-glean</span><div class="skill-badges"><span class="skill-badge skill-badge-full">Auto</span><span class="skill-badge skill-badge-recruiter">Recruiter</span></div></div><p class="skill-desc">Pull latest Glean activity into source files — cross-app signals and document discovery stubs. Most useful for recruiters with ATS-connected Glean.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>Auto (pipeline)</code></div></div>
     </div>
   </div>
 </section>
@@ -612,7 +544,6 @@
 
 <script>
   var selectedRole = null;
-  var selectedTech = null;
   var roleLabels = {recruiter:'Recruiter',hrbp:'HRBP',comp:'Comp & Total Rewards',generic:'People Ops'};
 
   function selectRole(role, card) {
@@ -623,28 +554,13 @@
     showWikiPreview(role);
   }
 
-  function continueToTech() {
-    if (!selectedRole) return;
-    var s = document.getElementById('section-tech');
-    s.style.display = 'block';
-    setTimeout(function(){s.scrollIntoView({behavior:'smooth',block:'start'});},50);
-  }
-
-  function selectTech(tech, card) {
-    document.querySelectorAll('.path-card').forEach(function(c){c.classList.remove('selected');});
-    card.classList.add('selected');
-    selectedTech = tech;
-    document.getElementById('btn-tech-continue').classList.remove('disabled');
-  }
-
   function continueToSetup() {
-    if (!selectedTech || !selectedRole) return;
+    if (!selectedRole) return;
     ['div-before-wiki','section-wiki-preview','div-before-setup','section-setup'].forEach(function(id){
       document.getElementById(id).style.display = 'block';
     });
     document.getElementById('setup-heading').textContent = 'Setting up your ' + (roleLabels[selectedRole]||'People Ops') + ' vault';
     applyRoleContent();
-    applyTechContent();
     setTimeout(function(){document.getElementById('section-wiki-preview').scrollIntoView({behavior:'smooth',block:'start'});},50);
   }
 
@@ -663,26 +579,6 @@
     var ig = document.getElementById('skill-ingest-glean');
     if (ip) ip.style.opacity = (selectedRole==='recruiter') ? '1' : '0.4';
     if (ig) ig.style.opacity = (selectedRole==='recruiter') ? '1' : '0.4';
-  }
-
-  function applyTechContent() {
-    var isFull = (selectedTech === 'full');
-    var isStd = (selectedTech === 'standard');
-    var roles = ['recruiter','hrbp','comp','generic'];
-    roles.forEach(function(r){
-      var fe = document.getElementById('s3-'+r+'-full');
-      var se = document.getElementById('s3-'+r+'-std');
-      if(fe) fe.style.display = isFull ? '' : 'none';
-      if(se) se.style.display = isStd ? '' : 'none';
-    });
-    var s4ex = document.getElementById('s4-full-extra');
-    if(s4ex) s4ex.style.display = isFull ? '' : 'none';
-    var show = function(id,v){var e=document.getElementById(id);if(e)e.style.display=v?'':'none';};
-    show('s5-std', isStd); show('s5-full', isFull);
-    show('s6-std', isStd); show('s6-full', isFull);
-    show('s7-full', isFull); show('s8-full', isFull);
-    show('s9-full', isFull); show('s10-full', isFull);
-    show('s7-std', isStd);
   }
 
   document.querySelectorAll('.faq-question').forEach(function(btn){

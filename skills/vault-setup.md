@@ -110,7 +110,25 @@ If Slack is not enabled, skip this step.
 
 ---
 
-## Step 7 — Daily brief delivery
+## Step 7 — Existing daily workflow
+
+Ask:
+
+> "Do you already have a system for reviewing priorities each morning — a task manager, a Slack channel you check, a Notion board, anything like that? Or do you not have a set routine?"
+
+Based on their answer:
+
+- **They have an existing system** → ask: "Should the vault brief slot in alongside that — just new signals and urgent flags — or would you prefer it to be a full daily summary you can work from directly?"
+  - Alongside → `brief_mode: supplement`
+  - Full summary → `brief_mode: primary`
+- **No existing system** → set `brief_mode: primary`
+- **Not sure** → default to `brief_mode: primary` and note they can change it in vault.yaml later
+
+Store as `BRIEF_MODE`.
+
+---
+
+## Step 8 — Daily brief delivery
 
 Ask:
 
@@ -121,11 +139,11 @@ Ask:
 
 ---
 
-## Step 8 — Write the files
+## Step 9 — Write the files
 
 Now generate both files.
 
-### 8a — Select the right CLAUDE.md template
+### 9a — Select the right CLAUDE.md template
 
 Based on their role key, use the matching template file:
 - `recruiter` → `CLAUDE-recruiter.md`
@@ -145,7 +163,7 @@ Write the result to `CLAUDE.md` in the vault root.
 
 If the user's role key is `recruiter`, also delete `CLAUDE-hrbp.md`, `CLAUDE-comp.md`, and `CLAUDE-generic.md` from the vault. If `hrbp`, delete the others. And so on — keep only the one that was used, plus `CLAUDE-generic.md` as a fallback. Actually: just delete all `CLAUDE-[role].md` variant files after writing `CLAUDE.md`. The user doesn't need them.
 
-### 8b — Write vault.yaml
+### 9b — Write vault.yaml
 
 Write a complete `vault.yaml` with all their answers substituted in. Use the structure below:
 
@@ -209,6 +227,7 @@ ingests:
 outputs:
   daily_brief:
     enabled: true
+    mode: [primary|supplement]   # primary = full daily summary | supplement = new signals + urgent only
     destination: [local|slack]
     [slack_channel line if slack]
 
@@ -240,7 +259,7 @@ wiki:
 
 ---
 
-## Step 9 — Confirm
+## Step 10 — Confirm
 
 After writing both files, confirm with a summary like:
 
