@@ -543,7 +543,7 @@
           <h3>Configure MCP integrations</h3>
           <p>MCP connectors allow Claude Code to read from your work tools. You need these set up before running the pipeline.</p>
           <p>If you already have MCP connectors configured, skip this step. Otherwise, follow the setup guide: <a href="[MCP_SETUP_DOCS_URL]" target="_blank">[MCP_SETUP_DOCS_URL]</a></p>
-          <div data-show-role="recruiter"><p><strong>Required:</strong> Slack, Gmail, Granola. <strong>Optional:</strong> Greenhouse (candidate pipeline automation), Glean (cross-app signal discovery).</p></div>
+          <div data-show-role="recruiter"><p><strong>Required:</strong> Slack, Gmail, Granola. <strong>Optional:</strong> Glean (cross-app signal discovery).</p></div>
           <div data-show-role="hrbp"><p><strong>Required:</strong> Slack, Gmail, Granola.</p></div>
           <div data-show-role="comp"><p><strong>Required:</strong> Slack, Gmail, Granola.</p></div>
           <div data-show-role="generic"><p><strong>Required:</strong> Slack, Gmail, Granola.</p></div>
@@ -648,11 +648,11 @@
     <div class="faq-list">
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">Do I need to pay for anything?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-        <div class="faq-answer"><p>Claude requires a subscription — Pro, Team, or Enterprise all work. Obsidian is completely free for personal use. Claude Code is included with Claude subscriptions at no extra cost. The Full Pipeline path requires MCP connectors, which are typically set up via your company’s tooling.</p></div>
+        <div class="faq-answer"><p>Nothing extra. We already have Claude Enterprise, which covers everything here — including Claude Code. Obsidian is completely free. The Full Pipeline path requires MCP connectors, which are already configured in our environment.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">Is my data safe?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-        <div class="faq-answer"><p>Your vault lives entirely on your local machine. Source files — the raw Slack messages, emails, and meeting notes that the pipeline ingests — never leave your computer. Only the wiki summaries that Claude writes are stored in the vault, also locally.</p><p>When you send messages to Claude, Anthropic’s standard data handling applies. If your company has a Claude Enterprise or Team plan, your organisation’s data governance terms apply.</p></div>
+        <div class="faq-answer"><p>Your vault lives entirely on your local machine. Source files — the raw Slack messages, emails, and meeting notes that the pipeline ingests — never leave your computer. Only the wiki summaries that Claude writes are stored in the vault, also locally.</p><p>When you send messages to Claude, our enterprise data governance terms apply. Nothing is used to train models under our Enterprise agreement.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">Can I change my role later?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -663,16 +663,8 @@
         <div class="faq-answer"><p>The vault’s skills and <code>CLAUDE.md</code> are designed to work alongside any existing Claude setup. You can drop the skills folder into an existing Claude Code project, or use just the pieces you want. Nothing here requires a fresh Claude installation.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">Can I use this without Greenhouse access?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-        <div class="faq-answer"><p>Yes. The vault works fully without Greenhouse. Greenhouse integration is optional and only relevant for Recruiters. All other roles don’t need it.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">How do I update when a new version is released?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-        <div class="faq-answer"><p>Pull the latest from GitHub. Your personal wiki pages (everything inside <code>wiki/</code>) are in <code>.gitignore</code> so they will not be overwritten by a pull. Check <code>changelog.md</code> to see what changed.</p></div>
-      </div>
-      <div class="faq-item">
         <button class="faq-question" aria-expanded="false">Who do I contact if I need help?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-        <div class="faq-answer"><p>For questions about this vault package, reach out to <strong>[INTERNAL_CONTACT]</strong>. For Claude-specific issues, the <a href="https://docs.anthropic.com" target="_blank">Anthropic docs</a> are the best first stop. For Obsidian questions, the <a href="https://forum.obsidian.md" target="_blank">Obsidian community forum</a> is active and helpful.</p></div>
+        <div class="faq-answer"><p>Reach out to <strong>Aaron Drais</strong> on Slack — happy to help with setup, troubleshoot any issues, or talk through how to adapt the vault for your role. For Obsidian questions, the <a href="https://forum.obsidian.md" target="_blank">Obsidian community forum</a> is also active and helpful.</p></div>
       </div>
     </div>
   </div>
