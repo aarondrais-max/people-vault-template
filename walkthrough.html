@@ -432,9 +432,9 @@
         <div class="step-content">
           <h3>Open Claude Code in your vault folder</h3>
           <p>This is the one slightly technical step. You have Claude Code already — it comes with Claude Desktop. Open <strong>Terminal</strong> (Spotlight → type “Terminal” → Enter) and run:</p>
-          <div class=”code-block”><span class=”code-label”>Terminal</span><pre><span class=”code-cmd”>cd ~/Documents/PeopleVault && claude</span></pre></div>
-          <p style=”margin-top:12px”>Claude Code will open inside your vault folder. You won't need to do this again — once the vault is scheduled, everything runs automatically.</p>
-          <div class=”callout-note callout”><strong>First time with Terminal?</strong> That's fine — you're just telling it where the vault is and opening Claude there. If you get a “no such file or directory” error: open Finder, right-click your vault folder, hold <kbd>Option</kbd>, choose <strong>Copy as Pathname</strong>, and replace the path above with what you copied.</div>
+          <div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">cd ~/Documents/PeopleVault && claude</span></pre></div>
+          <p style="margin-top:12px">Claude Code will open inside your vault folder. You won't need to do this again — once the vault is scheduled, everything runs automatically.</p>
+          <div class="callout-note callout"><strong>First time with Terminal?</strong> That's fine — you're just telling it where the vault is and opening Claude there. If you get a “no such file or directory” error: open Finder, right-click your vault folder, hold <kbd>Option</kbd>, choose <strong>Copy as Pathname</strong>, and replace the path above with what you copied.</div>
         </div>
       </div>
 
@@ -450,24 +450,24 @@
         </div>
       </div>
 
-      <div class=”setup-step”>
-        <div class=”step-number”>5</div>
-        <div class=”step-content”>
+      <div class="setup-step">
+        <div class="step-number">5</div>
+        <div class="step-content">
           <h3>Run your first pipeline</h3>
           <p>Still in Claude Code, type the following and press Enter:</p>
-          <div class=”code-block”><pre><span class=”code-cmd”>/vault-orchestrator</span></pre></div>
-          <p style=”margin-top:12px”>Claude will pull from your connected tools (Slack, Gmail, Granola), build your wiki pages, and generate your first morning brief. The first run takes a few minutes — after that, it runs automatically on a schedule.</p>
-          <div data-show-role=”recruiter”><div class=”callout”><strong>After the run:</strong> Open <code>HOT.md</code> in Obsidian — it shows your active pipeline, what needs attention today, and what Claude surfaced across your reqs.</div></div>
-          <div data-show-role=”hrbp”><div class=”callout”><strong>After the run:</strong> Open your morning brief in the <code>briefs/</code> folder — it’ll show pending decisions, manager follow-ups, and anything from your connected tools that needs a response.</div></div>
-          <div data-show-role=”comp”><div class=”callout”><strong>After the run:</strong> Open your morning brief in the <code>briefs/</code> folder — it’ll surface active offers, upcoming cycle milestones, and any compensation conversations that moved.</div></div>
-          <div data-show-role=”generic”><div class=”callout”><strong>After the run:</strong> Open your morning brief in the <code>briefs/</code> folder — it’ll surface active projects, pending decisions, and commitments from your recent meetings.</div></div>
+          <div class="code-block"><pre><span class="code-cmd">/vault-orchestrator</span></pre></div>
+          <p style="margin-top:12px">Claude will pull from your connected tools (Slack, Gmail, Granola), build your wiki pages, and generate your first morning brief. The first run takes a few minutes — after that, it runs automatically on a schedule.</p>
+          <div data-show-role="recruiter"><div class="callout"><strong>After the run:</strong> Open <code>HOT.md</code> in Obsidian — it shows your active pipeline, what needs attention today, and what Claude surfaced across your reqs.</div></div>
+          <div data-show-role="hrbp"><div class="callout"><strong>After the run:</strong> Open your morning brief in the <code>briefs/</code> folder — it’ll show pending decisions, manager follow-ups, and anything from your connected tools that needs a response.</div></div>
+          <div data-show-role="comp"><div class="callout"><strong>After the run:</strong> Open your morning brief in the <code>briefs/</code> folder — it’ll surface active offers, upcoming cycle milestones, and any compensation conversations that moved.</div></div>
+          <div data-show-role="generic"><div class="callout"><strong>After the run:</strong> Open your morning brief in the <code>briefs/</code> folder — it’ll surface active projects, pending decisions, and commitments from your recent meetings.</div></div>
         </div>
       </div>
 
-      <div class=”setup-step”>
-        <div class=”step-number”>6</div>
-        <div class=”step-content”>
-          <h3>Schedule the pipeline <span style=”font-weight:400;font-size:13px;color:var(--text-muted);margin-left:6px”>(optional but recommended)</span></h3>
+      <div class="setup-step">
+        <div class="step-number">6</div>
+        <div class="step-content">
+          <h3>Schedule the pipeline <span style="font-weight:400;font-size:13px;color:var(--text-muted);margin-left:6px">(optional but recommended)</span></h3>
           <p>The vault is most useful when it runs before you start work each morning — so you open Obsidian and the brief is already there. The pipeline can be scheduled to run automatically at a time that suits you.</p>
           <p>Ask Claude Code: <code>Help me schedule the vault pipeline to run each morning</code> and it’ll walk you through the setup for your machine. Or run <code>/vault-orchestrator</code> manually whenever you want a refresh.</p>
         </div>
