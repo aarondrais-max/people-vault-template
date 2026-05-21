@@ -330,13 +330,13 @@
     <h2>How do you work?</h2>
     <p class="section-subtitle">Both paths give you a fully functional vault. The difference is how much runs automatically.</p>
     <div class="path-grid">
-      <div class="path-card path-card-standard" onclick="selectTech('standard',this)">
+      <div class="path-card path-card-standard" onclick="selectTech(‘standard’,this)">
         <div class="path-card-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
         <span class="path-badge">Standard</span>
         <h3>Obsidian + Claude chat</h3>
-        <p class="path-tagline">No terminal required</p>
+        <p class="path-tagline">Wiki only — no scheduled pipeline</p>
         <div class="path-meta">
-          <div class="path-meta-item"><span class="path-meta-label">Best for</span><span>You’re new to AI tools, or just want the wiki without the automation.</span></div>
+          <div class="path-meta-item"><span class="path-meta-label">Best for</span><span>You want a structured wiki and Claude help, but don’t need ingests running automatically.</span></div>
           <div class="path-meta-item"><span class="path-meta-label">You get</span><span>Structured wiki, manual Claude chat help, skills as copy-paste prompts.</span></div>
         </div>
         <div class="path-time">&#9200; ~20 minutes to set up</div>
@@ -471,7 +471,7 @@
           <p>You already have Claude Code — it comes with Claude Desktop. Open <strong>Terminal</strong> (Spotlight → type “Terminal” → Enter) and run:</p>
           <div class="code-block"><span class="code-label">Terminal</span><pre><span class="code-cmd">cd ~/Documents/PeopleVault && claude</span></pre></div>
           <p style="margin-top:12px">Claude Code will open inside your vault folder and is ready for the next step.</p>
-          <div class="callout"><strong>Note:</strong> If you unzipped the vault to a different folder name, adjust the path above to match — e.g. <code>cd ~/Documents/people-vault-template && claude</code></div>
+          <div class="callout"><strong>Note:</strong> If you unzipped the vault to a different folder name, adjust the path above to match — e.g. <code>cd ~/Documents/people-vault-template && claude</code>. If you get a "no such file or directory" error, open Finder, right-click your vault folder, hold Option, and choose <strong>Copy as Pathname</strong> — then replace the path above with what you copied.</div>
         </div>
       </div>
 
@@ -492,7 +492,7 @@
         <div class="step-number">5</div>
         <div class="step-content">
           <h3>Start your first session</h3>
-          <p>You’re set up. Open a new Claude chat (claude.ai or Cowork) and paste this to load your vault context:</p>
+          <p>You’re set up. Open a new Claude chat at <a href="https://claude.ai" target="_blank">claude.ai</a> and paste this to load your vault context:</p>
           <div class="code-block"><pre><span class="code-cmd">Boot the vault</span></pre></div>
           <p style="margin-top:12px">Claude will read your <code>CLAUDE.md</code>, understand your role and current work, and be ready to help. Try a first ask relevant to what you’re working on:</p>
           <div data-show-role="recruiter"><div class="callout"><strong>Good first ask:</strong> “Help me create a wiki page for the [job title] role I’m hiring for”</div></div>
@@ -592,7 +592,7 @@
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">Can I change my role later?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-        <div class="faq-answer"><p>Yes. You can swap out your <code>CLAUDE.md</code> at any time — just rename the appropriate <code>CLAUDE-[role].md</code> file. Your existing wiki pages will still be there. The new <code>CLAUDE.md</code> will change how Claude understands your vault structure going forward.</p></div>
+        <div class="faq-answer"><p>Yes. Run the setup wizard again — open Claude Code in your vault folder and paste: <code>Please read skills/vault-setup.md and run the setup wizard for me.</code> It'll ask for your new role and regenerate your <code>CLAUDE.md</code> in a few minutes. Your existing wiki pages won't be touched.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">What if I already have my own Claude or AI setup?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -607,7 +607,7 @@
 </section>
 
 <footer class="site-footer">
-  <p>People Team Knowledge Vault <span class="footer-sep">&bull;</span> <a href="[GITHUB_REPO_URL]" target="_blank">GitHub</a> <span class="footer-sep">&bull;</span> [VERSION]</p>
+  <p>People Team Knowledge Vault <span class="footer-sep">&bull;</span> <a href="https://github.com/aarondrais-max/people-vault-template" target="_blank">GitHub</a></p>
 </footer>
 
 <script>
