@@ -80,6 +80,7 @@ ingests:
 outputs:
   daily_brief:
     enabled: true
+    mode: primary                  # primary = full daily summary | supplement = new signals + urgent only (set during setup)
     destination: local             # options: local | slack
     # slack_channel: "[YOUR_SLACK_ID]"  # Uncomment and set to your Slack ID for DM delivery
 
