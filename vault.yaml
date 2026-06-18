@@ -76,6 +76,16 @@ ingests:
   claude_conversations:
     enabled: false                 # Enable to ingest context from recent Claude chats
 
+  # ── Recruiter only ──
+  pipeline_sheet:
+    enabled: false                 # Source-of-truth pipeline feed. Recruiter role only — leave false otherwise.
+    sheet_url: ""                  # Full URL of your Greenhouse-fed pipeline Google Sheet
+    # How it works: a Greenhouse custom report (all candidate fields, filtered to YOUR reqs) feeds this
+    # sheet via Greenhouse's built-in report connector — the same flow behind the ELT sheet. The vault
+    # reads it each run and writes AUTHORITATIVE stage into your req Pipeline tables; comms (Slack/Gmail/
+    # meetings) then layer context on top. Requires read access via the Google Drive/Sheets connector.
+    # Setup steps are in the walkthrough. The vault works without this — it just falls back to comms-derived.
+
 # ── Outputs ────────────────────────────────────────────────────
 outputs:
   daily_brief:
@@ -118,3 +128,23 @@ wiki:
     - concepts
     - projects
     - threads
+
+# ── Recruiter Options (recruiter role only) ────────────────────
+# Left empty for non-recruiter People team roles. The setup wizard fills these
+# in when you choose the Recruiter role; they tailor ingests, tiering, and how
+# the Amplitude TA Toolkit skills draw on the vault.
+recruiter:
+  ats: ""                          # greenhouse | ashby | other — tells toolkit skills which ATS is authoritative
+  sourcing_tool: ""                # juicebox | findem | linkedin-recruiter | other — your primary sourcing tool
+
+  candidate_tiering:
+    tier1_stage: rps               # Create a full candidate page at this stage or beyond (rps = recruiter phone screen)
+    track_silver_medalists: true   # Tag strong non-hires as silver medalists for future re-engagement
+
+  # Reqs to track. "from_sheet" derives the list from your pipeline sheet; otherwise list req IDs.
+  tracked_reqs: from_sheet         # from_sheet | [R-XXXXX, R-XXXXX]
+
+  # The Amplitude TA Toolkit (~/.amplitude-ta-toolkit.yaml) reads the vault when uses_vault: true +
+  # vault_path are set. The setup wizard offers to configure that link so the toolkit's vault-aware
+  # skills (hm-update, candidate-summary, intake-brief, candidate-profile-scoring, ...) light up.
+  toolkit_linked: false            # Set true once the toolkit profile points at this vault

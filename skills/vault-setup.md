@@ -84,13 +84,14 @@ Ask:
 > - Gmail
 > - Glean
 > - Granola
-> - Greenhouse
 > - Google Drive
 > - Confluence
 > - Linear / Jira
 > - Notion"
 
-Map their answer to `enabled: true` or `enabled: false` in vault.yaml for each source. Granola and Greenhouse are recruiter-specific — if role is not `recruiter`, default them to `false` unless the user explicitly includes them.
+Map their answer to `enabled: true` or `enabled: false` in vault.yaml for each source. Granola is recruiter-leaning — if role is not `recruiter`, default it to `false` unless the user explicitly includes it.
+
+If the role is `recruiter`, do NOT ask about the ATS or pipeline sheet here — that's handled in the recruiter step below. There is no direct ATS ingest; Greenhouse data flows in via the pipeline sheet.
 
 If they say "I'm not sure" or "none", enable Slack and Gmail only — they're the lowest-friction pair.
 
@@ -107,6 +108,54 @@ If they don't know Slack user IDs, note: "You can find them by clicking someone'
 Store channel list and DM contacts.
 
 If Slack is not enabled, skip this step.
+
+---
+
+## Step 6b — Recruiter deep config (recruiter role only)
+
+**Only run this step if the role key is `recruiter`. For every other role, skip it entirely and go to Step 7.**
+
+Tell the user: "A few recruiter-specific questions so the vault and the TA Toolkit work the way you do. All optional — press enter to take the default."
+
+Ask these conversationally, a couple at a time. Store each answer for Step 9.
+
+**a. Stack**
+> "Which ATS does your team use — Greenhouse, Ashby, or other? And your main sourcing tool — Juicebox, Findem, LinkedIn Recruiter, or other?"
+- Store `ats` and `sourcing_tool`.
+
+**b. Pipeline sheet (source of truth)**
+> "Do you have a Greenhouse report feeding a Google Sheet with your pipeline — the same report-connector setup as the ELT sheet? If so, paste the sheet URL and I'll read it as your authoritative pipeline (stage straight from the ATS). If not, the walkthrough has the setup steps — you can add it later."
+- If they paste a URL: set `pipeline_sheet.enabled: true` and `pipeline_sheet.sheet_url`. Confirm they've granted the Google Drive/Sheets connector access to that sheet.
+- If not: leave `pipeline_sheet.enabled: false`. Note that pipeline will be comms-derived until they add it.
+
+**c. Candidate tiering**
+> "When should I create a full candidate page — at recruiter screen (the default), or a different stage? And should I track strong non-hires as silver medalists for future re-engagement? (default: yes)"
+- Store `candidate_tiering.tier1_stage` (default `rps`) and `track_silver_medalists` (default `true`).
+
+**d. Tracked reqs**
+> "Should I track every req in your pipeline sheet (default), or a specific list of req IDs?"
+- Store `tracked_reqs` — `from_sheet` or the list.
+
+**e. Hiring managers & stakeholders**
+> "Who are your key hiring managers and stakeholders? For each: name, role, and Slack ID if you have it. I'll pre-load them so people pages and HM-aware skills work from day one."
+- Store the list for the `## Key Relationships Reference` table in CLAUDE.md.
+
+---
+
+## Step 6c — Link the TA Toolkit (recruiter role only, optional)
+
+**Only run if role is `recruiter`.** This is the step that lights up the toolkit's vault-aware skills.
+
+Explain: "If you use the Amplitude TA Toolkit, I can connect it to this vault so skills like hm-update, candidate-summary, intake-brief, and candidate-profile-scoring read your reqs, candidates, and pipeline automatically — instead of you pasting context every time."
+
+Check whether `~/.amplitude-ta-toolkit.yaml` exists:
+
+- **If it exists:** "I found your toolkit profile. Want me to set `uses_vault: true`, `vault_path: [VAULT_PATH]`, and `level: advanced` so the vault-aware skills turn on? (recommended)"
+  - **Ask before writing.** If yes: update only those three keys in `~/.amplitude-ta-toolkit.yaml`, preserving everything else. Also mirror `ats` and `sourcing_tool` from Step 6b into the profile if those keys are present. Set `recruiter.toolkit_linked: true` in vault.yaml.
+  - If no: leave it; note they can flip `uses_vault: true` themselves later.
+- **If it does NOT exist:** "I don't see the TA Toolkit installed yet. Once you've run `/setup-ta-toolkit`, re-run me — or edit `~/.amplitude-ta-toolkit.yaml` and set `uses_vault: true` + `vault_path: [VAULT_PATH]`. Leaving it unlinked for now." Leave `toolkit_linked: false`.
+
+Never write the toolkit profile without explicit confirmation.
 
 ---
 
@@ -165,7 +214,7 @@ If the user's role key is `recruiter`, also delete `CLAUDE-hrbp.md`, `CLAUDE-com
 
 ### 9b — Write vault.yaml
 
-Write a complete `vault.yaml` with all their answers substituted in. Use the structure below:
+**Edit the `vault.yaml` that ships with the vault in place** — replace placeholder values and flip `enabled` flags from their answers. Do NOT regenerate the file from scratch: the shipped file carries the full comments, the recruiter block, and the `pipeline_sheet` source, all of which must be preserved. The structure below is for reference only:
 
 ```yaml
 ---
@@ -259,6 +308,17 @@ wiki:
 
 ---
 
+### 9c — Recruiter writes (recruiter role only)
+
+If the role is `recruiter`, also:
+
+1. **vault.yaml `recruiter:` block** — fill `ats`, `sourcing_tool`, `candidate_tiering.tier1_stage`, `candidate_tiering.track_silver_medalists`, `tracked_reqs`, and `toolkit_linked` from Steps 6b/6c.
+2. **vault.yaml `ingests.pipeline_sheet`** — if they gave a sheet URL, set `enabled: true` and `sheet_url`. Otherwise leave `enabled: false`.
+3. **CLAUDE.md `## Key Relationships Reference` table** — replace the placeholder rows with the hiring managers and stakeholders from Step 6b(e). Keep the table format (Name | Role | Signal Priority); mark managers/headcount authorities HIGH, HMs MEDIUM.
+4. **TA Toolkit profile** — only if they confirmed in Step 6c: edit `~/.amplitude-ta-toolkit.yaml`, setting `uses_vault: true`, `vault_path: [VAULT_PATH]`, `level: advanced`, preserving all other keys. If the file doesn't exist, skip and remind them to run `/setup-ta-toolkit` then re-link.
+
+---
+
 ## Step 10 — Confirm
 
 After writing both files, confirm with a summary like:
@@ -272,6 +332,13 @@ After writing both files, confirm with a summary like:
 > To start using the vault, open Claude and say 'boot the vault' — or if you're in Claude Code, type `/vault-boot`.
 >
 > To run the full pipeline for the first time: `/vault-orchestrator`"
+
+**Recruiter role — add to the summary:**
+> - **Pipeline source:** [sheet connected — authoritative stage from Greenhouse / comms-derived (no sheet yet)]
+> - **TA Toolkit:** [linked — vault-aware skills are on / not linked — run /setup-ta-toolkit then re-run me]
+> - **Hiring managers loaded:** [count]
+>
+> Try it: run `/hm-update` for one of your reqs — it'll pull straight from your pipeline, no pasting."
 
 ---
 

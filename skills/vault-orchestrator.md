@@ -59,6 +59,9 @@ For every ingest where `enabled: true`, spawn agents in ONE message (parallel). 
 | ingest-gmail | skills/ingest-gmail.md | `ingests.gmail.enabled` |
 | ingest-glean | skills/ingest-glean.md | `ingests.glean.enabled` |
 | ingest-granola | skills/ingest-granola.md | `ingests.granola.enabled` |
+| ingest-pipeline-sheet | skills/ingest-pipeline-sheet.md | `ingests.pipeline_sheet.enabled` |
+
+`ingest-pipeline-sheet` is the recruiter source-of-truth feed — it reads the Greenhouse-fed pipeline sheet and emits `[PIPELINE]` signals carrying **authoritative** stage. It runs in parallel with the others; `vault-daily-sync` (Phase 2) reconciles its signals so sheet stage wins over comms-derived stage. Skip if `ingests.pipeline_sheet.enabled` is false (the default for non-recruiter roles).
 
 Additional ingests (if enabled in vault.yaml):
 - `ingests.gdrive.enabled` → skills/ingest-gdrive.md
