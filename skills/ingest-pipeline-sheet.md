@@ -55,9 +55,10 @@ If `First Name`, `Requisition ID`, or `Stage` can't be found, note it in `pendin
 
 **Dedupe:** a candidate can appear on more than one req (e.g. the same person under two openings). Key rows by **candidate + req_id**, never name alone.
 
-**Scope.** The report is filtered server-side, so every row is already in the user's scope. But `Primary Recruiter` may name someone else on a req where the user is secondary (e.g. a shared DACH req). Handle by `recruiter.tracked_reqs`:
-- `from_sheet` (default): ingest all rows. When `Primary Recruiter` ≠ the vault owner, tag that req `(secondary)` in the snapshot so HOT.md can de-emphasise it rather than drown in another recruiter's pipeline.
-- explicit list: keep only those req IDs.
+**Scope.** The report is filtered server-side, but `Primary Recruiter` may name someone else on a req the user no longer owns (a shared req that's been handed off). Handle by `recruiter.tracked_reqs`:
+- `from_sheet` (default): ingest only reqs where `Primary Recruiter` matches the vault owner (`user.name` in vault.yaml, case-insensitive, trimmed). **Skip any req whose Primary Recruiter is a different, non-empty name** — it's effectively been handed off. Include rows where Primary Recruiter is blank.
+- explicit list: keep only those req IDs (skip the Primary Recruiter check).
+- **Safety net:** if the owner-match would drop *every* row (e.g. the report's recruiter name doesn't match `user.name`), do NOT silently produce an empty pipeline. Ingest all rows and note in `pending-signals.md`: `- [YYYY-MM-DD] ⚠️ Primary Recruiter never matched user.name "[name]" — ingested all rows. Check the name spelling in vault.yaml.`
 
 ## Step 3: Write the Immutable Snapshot
 
@@ -84,13 +85,13 @@ report_last_updated: [Last Updated At from preamble]
 |---|---|---|---|---|
 | [First Last] | [Stage] | [Status] | [date or —] | [YYYY-MM-DD] |
 
-## R-YYYYY — [Req Title] · HM [Hiring Manager] · Primary [Primary Recruiter] (secondary)
+## R-YYYYY — [Req Title] · HM [Hiring Manager] · Primary [Primary Recruiter]
 | Candidate | Stage | Status | Next Interview | Last Activity |
 |---|---|---|---|---|
 | ... | ... | ... | ... | ... |
 ```
 
-Group rows by req — one table per req, with HM and primary recruiter in the heading. Tag reqs the user doesn't primary with `(secondary)`. Order active candidates (Status = Active) above rejected ones within each req. Carry `Hiring Manager Name` into the `[PIPELINE]` reconciliation so `wiki/people/` HM pages and HM-aware skills stay current.
+Group rows by req — one table per req, with HM and primary recruiter in the heading. (Only the owner's own reqs reach this point; handed-off reqs were skipped in Step 2.) Order active candidates (Status = Active) above rejected ones within each req. Carry `Hiring Manager Name` into the `[PIPELINE]` reconciliation so `wiki/people/` HM pages and HM-aware skills stay current.
 
 ## Step 4: Emit [PIPELINE] Signals
 

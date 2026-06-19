@@ -141,7 +141,8 @@ recruiter:
     tier1_stage: rps               # Create a full candidate page at this stage or beyond (rps = recruiter phone screen)
     track_silver_medalists: true   # Tag strong non-hires as silver medalists for future re-engagement
 
-  # Reqs to track. "from_sheet" derives the list from your pipeline sheet; otherwise list req IDs.
+  # Reqs to track. "from_sheet" = reqs in your pipeline sheet where YOU are the Primary Recruiter
+  # (reqs handed off to another primary recruiter are skipped). Or list specific req IDs.
   tracked_reqs: from_sheet         # from_sheet | [R-XXXXX, R-XXXXX]
 
   # The Amplitude TA Toolkit (~/.amplitude-ta-toolkit.yaml) reads the vault when uses_vault: true +
