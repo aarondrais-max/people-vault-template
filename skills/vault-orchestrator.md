@@ -47,6 +47,21 @@ Check today's day of week against `validation.sweep_days`.
 
 ---
 
+## PHASE 0.5: GREENHOUSE PIPELINE REPORT (recruiter — before other ingests)
+
+**Skip if `mode.light: true`, or if `ingests.gh_pipeline_report.enabled` is false (the default for non-recruiter roles).**
+
+The GH Pipeline Report is the authoritative pipeline data source. It runs BEFORE the other ingests so that vault-daily-sync has the complete candidate stage/status picture before processing Slack/Gmail/Glean signals.
+
+Spawn one agent:
+- Read `[VAULT_PATH]/skills/ingest-gh-pipeline-report.md` and execute all steps.
+- On morning runs: include Step 0b (Chrome refresh of the sheet). On midday runs: skip Step 0b (the connector already refreshed it in the morning; just re-read for GH-side updates).
+- Wait for completion. Record the change count — it tells Phase 2 how much pipeline movement happened.
+
+**If the sheet read fails**, log and continue — the rest of the pipeline still functions. The GH report is an optimization, not a hard dependency.
+
+---
+
 ## PHASE 1: INGEST (parallel)
 
 **Skip entirely if `mode.light: true` in vault.yaml.**
@@ -59,9 +74,8 @@ For every ingest where `enabled: true`, spawn agents in ONE message (parallel). 
 | ingest-gmail | skills/ingest-gmail.md | `ingests.gmail.enabled` |
 | ingest-glean | skills/ingest-glean.md | `ingests.glean.enabled` |
 | ingest-granola | skills/ingest-granola.md | `ingests.granola.enabled` |
-| ingest-pipeline-sheet | skills/ingest-pipeline-sheet.md | `ingests.pipeline_sheet.enabled` |
 
-`ingest-pipeline-sheet` is the recruiter source-of-truth feed — it reads the Greenhouse-fed pipeline sheet and emits `[PIPELINE]` signals carrying **authoritative** stage. It runs in parallel with the others; `vault-daily-sync` (Phase 2) reconciles its signals so sheet stage wins over comms-derived stage. Skip if `ingests.pipeline_sheet.enabled` is false (the default for non-recruiter roles).
+(The Greenhouse pipeline report is the recruiter source-of-truth feed — it runs earlier, in Phase 0.5, not here.)
 
 Additional ingests (if enabled in vault.yaml):
 - `ingests.gdrive.enabled` → skills/ingest-gdrive.md

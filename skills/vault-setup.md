@@ -123,10 +123,10 @@ Ask these conversationally, a couple at a time. Store each answer for Step 9.
 > "Which ATS does your team use — Greenhouse, Ashby, or other? And your main sourcing tool — Juicebox, Findem, LinkedIn Recruiter, or other?"
 - Store `ats` and `sourcing_tool`.
 
-**b. Pipeline sheet (source of truth)**
-> "Do you have a Greenhouse report feeding a Google Sheet with your pipeline — the same report-connector setup as the ELT sheet? If so, paste the sheet URL and I'll read it as your authoritative pipeline (stage straight from the ATS). If not, the walkthrough has the setup steps — you can add it later."
-- If they paste a URL: set `pipeline_sheet.enabled: true` and `pipeline_sheet.sheet_url`. Confirm they've granted the Google Drive/Sheets connector access to that sheet.
-- If not: leave `pipeline_sheet.enabled: false`. Note that pipeline will be comms-derived until they add it.
+**b. Pipeline report (source of truth)**
+> "Do you have a Greenhouse report feeding a Google Sheet with your pipeline — the same report-connector setup as the ELT sheet? If so, paste the sheet URL and I'll wire it up as your authoritative pipeline (stage straight from the ATS). If not, the walkthrough has the setup steps — you can add it later."
+- If they paste a URL: extract `sheet_id` (from `.../d/<ID>/edit`) and `sheet_gid` (from `#gid=<GID>`), set `gh_pipeline_report.enabled: true`, `sheet_id`, `sheet_gid`. Confirm they have **Claude in Chrome** set up — it's needed to refresh and full-read the sheet (the Google Drive connector truncates large reports at ~130 rows). If they don't have Chrome yet, note it still works on smaller pipelines via the Drive fallback and they can add Chrome later.
+- If not: leave `gh_pipeline_report.enabled: false`. Pipeline will be comms-derived until they add it.
 
 **c. Candidate tiering**
 > "When should I create a full candidate page — at recruiter screen (the default), or a different stage? And should I track strong non-hires as silver medalists for future re-engagement? (default: yes)"
@@ -313,7 +313,7 @@ wiki:
 If the role is `recruiter`, also:
 
 1. **vault.yaml `recruiter:` block** — fill `ats`, `sourcing_tool`, `candidate_tiering.tier1_stage`, `candidate_tiering.track_silver_medalists`, `tracked_reqs`, and `toolkit_linked` from Steps 6b/6c.
-2. **vault.yaml `ingests.pipeline_sheet`** — if they gave a sheet URL, set `enabled: true` and `sheet_url`. Otherwise leave `enabled: false`.
+2. **vault.yaml `ingests.gh_pipeline_report`** — if they gave a sheet URL, set `enabled: true`, `sheet_id`, and `sheet_gid` (extracted from the URL). Otherwise leave `enabled: false`.
 3. **CLAUDE.md `## Key Relationships Reference` table** — replace the placeholder rows with the hiring managers and stakeholders from Step 6b(e). Keep the table format (Name | Role | Signal Priority); mark managers/headcount authorities HIGH, HMs MEDIUM.
 4. **TA Toolkit profile** — only if they confirmed in Step 6c: edit `~/.amplitude-ta-toolkit.yaml`, setting `uses_vault: true`, `vault_path: [VAULT_PATH]`, `level: advanced`, preserving all other keys. If the file doesn't exist, skip and remind them to run `/setup-ta-toolkit` then re-link.
 

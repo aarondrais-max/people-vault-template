@@ -524,7 +524,8 @@
         <div class="step-number">3</div>
         <div class="step-content">
           <h3>Give the wizard the URL</h3>
-          <p>Copy the sheet's URL. When the setup wizard asks for your pipeline sheet, paste it in. Each run, the vault reads it and writes authoritative stage into your req pages — then layers your Slack/email/meeting context on top.</p>
+          <p>Copy the sheet's URL. When the setup wizard asks for your pipeline report, paste it in. Each run, the vault refreshes the sheet, reads the full pipeline, diffs it against yesterday, and writes authoritative stage into your req pages — then layers your Slack/email/meeting context on top.</p>
+          <div class="callout"><strong>One prerequisite:</strong> the vault uses <strong>Claude in Chrome</strong> to refresh and fully read the sheet — a large pipeline (hundreds of rows) exceeds what the Google Drive connector returns on its own. The wizard checks you have it; if not, it still works on smaller pipelines.</div>
           <div class="callout-note callout"><strong>Before you rely on this:</strong> it routes candidate data into a Google Sheet via the Greenhouse report connector. It mirrors the ELT-sheet method your team already uses, but confirm it's the sanctioned approach for your team before standardising on it.</div>
         </div>
       </div>
