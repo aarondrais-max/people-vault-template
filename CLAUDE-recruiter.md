@@ -278,6 +278,14 @@ last_updated: YYYY-MM-DD
 - **Never edit source files** — they are immutable records
 - Each source file has frontmatter: `source`, `date`, `type`, `processed: true/false`
 
+### Pipeline Source of Truth
+- If `ingests.gh_pipeline_report.enabled: true`, the Greenhouse-fed Google Sheet is **authoritative for candidate stage and active/rejected status**. `ingest-gh-pipeline-report` refreshes + reads it (full-read via Claude in Chrome; Drive connector truncates large sheets), diffs against the previous run, snapshots to `sources/greenhouse/`, and emits `[gh-report]` signals; `vault-daily-sync` reconciles req Pipeline tables from it. It runs as **Phase 0.5**, before the other ingests.
+- **Stage precedence:** report > comms. When a Slack/email/meeting signal implies a different stage than the report, the report wins and the conflict is flagged in `pending-signals.md` — never silently overwritten.
+- **Comms still own the soft layer:** competing offers, comp asks, sentiment, momentum, "what moved" — none of that is in the ATS, so it stays comms-derived and is never overwritten by a report sync.
+- **Scope:** reqs handed off to another Primary Recruiter are auto-skipped; permanently dead reqs go in `exclusions.reqs`.
+- If no report is configured, pipeline state is fully comms-derived (as current as the last run, as complete as what surfaced in your comms).
+- The Amplitude TA Toolkit reads these same req/candidate pages when its profile has `uses_vault: true` — so authoritative stage + soft context flow into hm-update, candidate-summary, and the other vault-aware skills automatically.
+
 ### Wiki Updates
 - The pipeline reads sources, synthesizes, and updates wiki pages
 - Changes are appended to `changelog.md` with date + skill that made the change

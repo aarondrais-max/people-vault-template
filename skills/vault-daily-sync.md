@@ -137,6 +137,24 @@ Same structure as `[DEBRIEF]` above but label the section `## HM Interview Notes
 
 ---
 
+#### `[gh-report]` — Authoritative pipeline from the Greenhouse report (recruiter)
+
+Emitted by `ingest-gh-pipeline-report` from the recruiter's Greenhouse-fed sheet, with the full snapshot at `sources/greenhouse/gh-pipeline-latest.md` and the day's diff in the dated file. This is the **source of truth for stage and active/rejected status** — it overrides comms-derived stage.
+
+Process each `[gh-report]` signal, reading the latest snapshot in `sources/greenhouse/` for the full picture. For each affected req, reconcile its `## Pipeline` table:
+
+1. **Stage/status are authoritative.** Set each candidate's Stage and active/rejected status from the snapshot. If a comms signal this run implied a *different* stage, the report wins — add a one-line note to `[VAULT_PATH]/pending-signals.md`: `- [YYYY-MM-DD] ⚠️ STAGE CONFLICT: [candidate] R-XXXXX — report says [stage], comms suggested [stage]. Using report; verify if comms is newer.`
+2. **Candidate in report, not in table** → add the row (real, from the ATS).
+3. **Candidate in table, not in report** → do not delete. Note "not in latest report — verify" so a dropped candidate is flagged, not silently lost.
+4. **Status = Rejected / Hired / Declined** → process via standard archiving rules in Step 2 (only for candidates who had a page — see tiering).
+5. **Preserve all soft intel.** Only Stage and status come from the report. Screen Notes, Flags, comp asks, competing offers, sentiment — all stay comms-derived. Never overwrite them.
+6. **Tiering.** Only candidates **at or beyond `recruiter.candidate_tiering.tier1_stage`** (default `rps`) get pages at all. If such a candidate has no Tier 1 page, create one (frontmatter + status); don't fabricate Screen Notes. **Candidates who never reached that stage — e.g. rejected at New Applicant — stay in the snapshot only: no Tier 1 page and no Tier 2 stub.** A high-volume req can carry hundreds of such rows; the Pipeline table tracks active/screened candidates, not the raw applicant firehose.
+7. **HM page.** Use `Hiring Manager Name` from the snapshot to create/update the req's HM in `wiki/people/` and link it on the req page.
+
+Update the req's `last_updated` frontmatter and add to History: `YYYY-MM-DD: Pipeline synced from GH report`.
+
+---
+
 #### Ad-hoc signals (manually written)
 
 Users can write signals directly to `signal-inbox.md` in the same format without waiting for ingest. Vault-daily-sync processes them identically — source file path in the signal tells it where to look. If no source file path is provided, process the signal text itself as the content.
@@ -146,7 +164,7 @@ Users can write signals directly to `signal-inbox.md` in the same format without
 ## Step 2: Update Wiki Pages
 
 ### Req Pages (wiki/reqs/R-XXXXX.md)
-- Update Pipeline table with candidate stage changes
+- Update Pipeline table with candidate stage changes. **Precedence:** if a `[gh-report]` snapshot exists this run, its stage is authoritative; comms-derived stage only fills candidates/reqs the report doesn't cover. Flag conflicts (see `[gh-report]` handler) rather than silently overwriting.
 - Add to Active Blockers if new blocker identified
 - Add to Decisions Log if a decision was made
 - Update `last_updated` and `age_days` frontmatter

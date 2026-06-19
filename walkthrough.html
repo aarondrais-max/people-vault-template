@@ -179,6 +179,35 @@
   .faq-answer p{margin-top:14px;margin-bottom:0}
   .faq-item.open .faq-answer{display:block}
 
+  /* WHY / COMPARE */
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:44px}
+  .compare-col{border-radius:var(--radius);padding:26px 28px;border:1px solid var(--border)}
+  .compare-without{background:var(--bg-subtle)}
+  .compare-with{background:var(--accent-light);border-color:rgba(107,79,187,.3)}
+  .compare-head{font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:16px}
+  .compare-without .compare-head{color:var(--text-muted)}
+  .compare-with .compare-head{color:var(--accent)}
+  .compare-col ul{list-style:none;display:flex;flex-direction:column;gap:13px}
+  .compare-col li{font-size:14px;line-height:1.5;color:var(--text-secondary);padding-left:26px;position:relative}
+  .compare-without li::before{content:'\2715';position:absolute;left:0;color:#C25B5B;font-weight:700}
+  .compare-with li::before{content:'\2713';position:absolute;left:0;color:var(--accent);font-weight:700}
+  .compare-with li{color:var(--text)}
+
+  /* RECRUITER SKILL COMPARE */
+  .recruiter-reveal{display:none}
+  .recruiter-reveal.vis{display:block}
+  .skill-compare{display:flex;flex-direction:column;gap:12px;margin-top:32px}
+  .sc-row{display:grid;grid-template-columns:150px 1fr 1fr;gap:14px;align-items:stretch;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 18px;box-shadow:var(--shadow-sm)}
+  .sc-skill{display:flex;align-items:center}
+  .sc-skill code{font-size:13px;font-weight:600;background:var(--accent-light);color:var(--accent-dark);padding:4px 10px;border-radius:6px;white-space:nowrap}
+  .sc-cell{font-size:13.5px;line-height:1.5}
+  .sc-without{color:var(--text-muted)}
+  .sc-with{color:var(--text)}
+  .sc-tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:5px;margin-right:7px;vertical-align:middle}
+  .sc-tag-x{background:#F4E3E3;color:#A84444}
+  .sc-tag-v{background:var(--accent-light);color:var(--accent)}
+  .recruiter-badge{display:inline-flex;align-items:center;gap:7px;background:#FEF3C7;color:#92400E;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:14px}
+
   /* FOOTER */
   .site-footer{background:var(--bg-dark);color:rgba(255,255,255,.5);text-align:center;padding:32px 24px;font-size:13px}
   .site-footer a{color:rgba(255,255,255,.7);text-decoration:none;transition:color .15s}
@@ -192,7 +221,12 @@
     .setup-steps::before{left:19px} .step-number{width:40px;height:40px;font-size:16px}
     .skills-grid{grid-template-columns:1fr}
   }
-  @media(max-width:640px){.role-grid,.path-grid{grid-template-columns:1fr}}
+  @media(max-width:640px){
+    .role-grid,.path-grid{grid-template-columns:1fr}
+    .compare-grid{grid-template-columns:1fr}
+    .sc-row{grid-template-columns:1fr;gap:8px}
+    .sc-skill{margin-bottom:2px}
+  }
   @media(max-width:480px){.nav-links{display:none}}
 </style>
 </head>
@@ -202,6 +236,7 @@
   <div class="nav-inner">
     <a href="#top" class="nav-logo">People Vault</a>
     <ul class="nav-links">
+      <li><a href="#why">Why</a></li>
       <li><a href="#how-it-works">How It Works</a></li>
       <li><a href="#choose-role">Choose Role</a></li>
       <li><a href="#section-setup">Setup</a></li>
@@ -216,6 +251,36 @@
   <h1>People Team<br>Knowledge Vault</h1>
   <p class="hero-subtitle">Remember everything. Know what matters.</p>
   <p class="hero-desc">A local wiki that builds itself from your Slack messages, emails, and meeting notes — keeping context on the relationships, decisions, and commitments that matter most. Surfaces what needs your attention each morning. Your data stays on your machine.</p>
+</section>
+
+<div class="section-divider"></div>
+
+<section class="section anchor-target" id="why">
+  <div class="container">
+    <span class="section-label">Why this matters</span>
+    <h2>What changes when this is on</h2>
+    <p class="section-subtitle">The People team runs on context — who said what, what was decided, what you promised to follow up on. Without a system, that lives in your head and your inbox. Here's the difference.</p>
+    <div class="compare-grid">
+      <div class="compare-col compare-without">
+        <div class="compare-head">Without the vault</div>
+        <ul>
+          <li>Context resets every Monday — you re-read threads to remember where things stand</li>
+          <li>Commitments and decisions scatter across Slack, email, and meeting notes</li>
+          <li>Prep means digging: "what did we agree with this manager last month?"</li>
+          <li>Claude starts cold every chat — you paste the background in every time</li>
+        </ul>
+      </div>
+      <div class="compare-col compare-with">
+        <div class="compare-head">With the vault</div>
+        <ul>
+          <li>A living wiki of your people, decisions, and commitments — always current</li>
+          <li>Each morning, a brief surfaces what needs you before you go looking</li>
+          <li>Prep is already done — the context is on the page when you open it</li>
+          <li>Claude knows your world the moment you start — no re-pasting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </section>
 
 <div class="section-divider"></div>
@@ -400,6 +465,74 @@
   </div>
 </section>
 
+<!-- RECRUITER: TOOLKIT SYNERGY (revealed only when role = recruiter) -->
+<div class="section-divider" id="div-before-toolkit" style="display:none"></div>
+<section class="section section-alt anchor-target" id="section-toolkit-synergy" style="display:none">
+  <div class="container">
+    <span class="recruiter-badge">For recruiters</span>
+    <h2>Your TA Toolkit, with memory behind it</h2>
+    <p class="section-subtitle">You've got the TA Toolkit. Those skills already work standalone — but several of them read the vault automatically once it's linked, so you stop pasting context and start getting answers from your live pipeline.</p>
+    <div class="skill-compare">
+      <div class="sc-row">
+        <div class="sc-skill"><code>/hm-update</code></div>
+        <div class="sc-cell sc-without"><span class="sc-tag sc-tag-x">Without</span>Open the sheet, read each candidate's stage, hand-write what moved</div>
+        <div class="sc-cell sc-with"><span class="sc-tag sc-tag-v">With</span>Vault already merged authoritative stage + what moved — it writes the update</div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-skill"><code>/candidate-summary</code></div>
+        <div class="sc-cell sc-without"><span class="sc-tag sc-tag-x">Without</span>Paste screen notes + the role's must-haves every time</div>
+        <div class="sc-cell sc-with"><span class="sc-tag sc-tag-v">With</span>"Screened Jane — write the HM summary." It reads her notes + the req</div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-skill"><code>/intake-brief</code></div>
+        <div class="sc-cell sc-without"><span class="sc-tag sc-tag-x">Without</span>Answer 10–15 clarifying questions to build the brief</div>
+        <div class="sc-cell sc-with"><span class="sc-tag sc-tag-v">With</span>2–3 — it pre-fills req, HM, and comp band from the req page</div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-skill"><code>/candidate-profile-scoring</code></div>
+        <div class="sc-cell sc-without"><span class="sc-tag sc-tag-x">Without</span>Scores a CV against a generic bar</div>
+        <div class="sc-cell sc-with"><span class="sc-tag sc-tag-v">With</span>Scores against <em>this HM's</em> actual preferences + prior-candidate calibration</div>
+      </div>
+    </div>
+    <div class="callout"><strong>How the link works:</strong> the toolkit reads your vault when its profile has <code>uses_vault: true</code>. The setup wizard offers to flip that for you — no manual editing. Skills that aren't vault-aware keep working exactly as they do today.</div>
+  </div>
+</section>
+
+<!-- RECRUITER: PIPELINE SOURCE-OF-TRUTH HOW-TO (revealed only when role = recruiter) -->
+<div class="section-divider" id="div-before-ghhowto" style="display:none"></div>
+<section class="section anchor-target" id="section-gh-howto" style="display:none">
+  <div class="container">
+    <span class="recruiter-badge">Recruiter · confirm with your team first</span>
+    <h2>Connect your pipeline as source of truth</h2>
+    <p class="section-subtitle">The vault tracks your pipeline from Slack, email, and meeting notes out of the box. To make it authoritative on <em>stage</em>, point it at a Greenhouse-fed pipeline sheet — the same report-connector flow behind the ELT sheet.</p>
+    <div class="setup-steps">
+      <div class="setup-step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Build the report in Greenhouse</h3>
+          <p>Create a custom report with every candidate-related field enabled, filtered to <strong>your own reqs</strong>. This is the same kind of report behind the ELT sheet.</p>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Sync it to a Google Sheet</h3>
+          <p>Spin up a Google Sheet and connect the report using Greenhouse's built-in report connector — the same connector you already use for the ELT sheet. Set it to refresh on a schedule.</p>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Give the wizard the URL</h3>
+          <p>Copy the sheet's URL. When the setup wizard asks for your pipeline report, paste it in. Each run, the vault refreshes the sheet, reads the full pipeline, diffs it against yesterday, and writes authoritative stage into your req pages — then layers your Slack/email/meeting context on top.</p>
+          <div class="callout"><strong>One prerequisite:</strong> the vault uses <strong>Claude in Chrome</strong> to refresh and fully read the sheet — a large pipeline (hundreds of rows) exceeds what the Google Drive connector returns on its own. The wizard checks you have it; if not, it still works on smaller pipelines.</div>
+          <div class="callout-note callout"><strong>Before you rely on this:</strong> it routes candidate data into a Google Sheet via the Greenhouse report connector. It mirrors the ELT-sheet method your team already uses, but confirm it's the sanctioned approach for your team before standardising on it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SETUP STEPS -->
 <div class="section-divider" id="div-before-setup" style="display:none"></div>
 <section class="section section-alt anchor-target" id="section-setup" style="display:none">
@@ -412,63 +545,43 @@
       <div class="setup-step">
         <div class="step-number">1</div>
         <div class="step-content">
-          <h3>Download the vault</h3>
+          <h3>Get the vault</h3>
           <p>Go to <a href="https://github.com/aarondrais-max/people-vault-template" target="_blank">github.com/aarondrais-max/people-vault-template</a>, click the green <strong>Code</strong> button, then <strong>Download ZIP</strong>. Unzip it somewhere permanent — a good spot is <code>~/Documents/PeopleVault</code>.</p>
-          <div class="callout"><strong>Tip:</strong> Don’t leave it in Downloads. The vault grows over time and you want it somewhere you’ll remember.</div>
+          <div class="callout"><strong>Tip:</strong> Don't leave it in Downloads — the vault grows over time, so keep it somewhere you'll remember.</div>
         </div>
       </div>
 
       <div class="setup-step">
         <div class="step-number">2</div>
         <div class="step-content">
-          <h3>Install Obsidian</h3>
-          <p>Download Obsidian for free from <a href="https://obsidian.md" target="_blank">obsidian.md</a>. Open it, choose <strong>Open folder as vault</strong>, and select the folder you just unzipped. You’ll see all the wiki pages in the left sidebar — this is where your structured notes will live.</p>
-          <div class="callout"><strong>Tip:</strong> Use <kbd>Cmd+P</kbd> to search across all your vault pages instantly.</div>
+          <h3>Open it in Obsidian and Claude</h3>
+          <p><strong>Obsidian</strong> (free, from <a href="https://obsidian.md" target="_blank">obsidian.md</a>) is where you read your wiki — open it, choose <strong>Open folder as vault</strong>, and pick the folder you just unzipped.</p>
+          <p style="margin-top:12px"><strong>Claude</strong> is where the work happens — open <strong>Claude Desktop</strong>, click the <strong>Code</strong> tab, start a new session, and select that same folder.</p>
+          <div class="callout"><strong>Tip:</strong> Not sure which folder? It's wherever you unzipped the vault — e.g. Documents → PeopleVault. You can drag the folder straight into the session picker.</div>
         </div>
       </div>
 
       <div class="setup-step">
         <div class="step-number">3</div>
         <div class="step-content">
-          <h3>Open Claude Code in your vault folder</h3>
-          <p>Open <strong>Claude Desktop</strong> and click the <strong>Code</strong> tab. Start a new session — you'll see an option to select a folder. Choose the vault folder you unzipped in Step 1.</p>
-          <p style="margin-top:12px">Claude Code will open with your vault as the working directory, ready for the next step.</p>
-          <div class="callout"><strong>Tip:</strong> Not sure which folder to pick? It's wherever you unzipped the vault — e.g. Documents → PeopleVault. You can also drag the folder into the session picker directly.</div>
+          <h3>Run the setup wizard</h3>
+          <p>In the Claude Code session, paste this and press Enter:</p>
+          <div class="code-block"><pre><span class="code-cmd">Please read skills/vault-setup.md and run the setup wizard for me.</span></pre></div>
+          <p style="margin-top:12px">Claude asks a few quick questions — your role, name, timezone, connected tools, and how you want your brief delivered — then writes your <code>CLAUDE.md</code> and <code>vault.yaml</code> for you. No manual editing.</p>
+          <div data-show-role="recruiter"><div class="callout"><strong>Recruiter:</strong> you'll get a few extra questions — your ATS, pipeline sheet, and hiring managers — plus an offer to link the TA Toolkit so its skills read your vault.</div></div>
         </div>
       </div>
 
       <div class="setup-step">
         <div class="step-number">4</div>
         <div class="step-content">
-          <h3>Run the setup wizard</h3>
-          <p>In Claude Code, paste the following and press Enter:</p>
-          <div class="code-block"><pre><span class="code-cmd">Please read skills/vault-setup.md and run the setup wizard for me.</span></pre></div>
-          <p style="margin-top:12px">Claude will ask you a short series of questions — your role, name, timezone, which tools you have connected (Slack, Gmail, Granola), and how you want your daily brief delivered. Takes about 5 minutes.</p>
-          <p>When it’s done, Claude will have written your personalised <code>CLAUDE.md</code> and <code>vault.yaml</code> — no manual editing needed.</p>
-          <div class="callout"><strong>What Claude asks:</strong> role → name &amp; timezone → vault location → connected tools → Slack channels to monitor → brief delivery (Slack DM or local file)</div>
-        </div>
-      </div>
-
-      <div class="setup-step">
-        <div class="step-number">5</div>
-        <div class="step-content">
-          <h3>Run your first pipeline</h3>
-          <p>Still in Claude Code, type the following and press Enter:</p>
-          <div class="code-block"><pre><span class="code-cmd">/vault-orchestrator</span></pre></div>
-          <p style="margin-top:12px">Claude will pull from your connected tools (Slack, Gmail, Granola), build your wiki pages, and generate your first morning brief. The first run takes a few minutes — after that, it runs automatically on a schedule.</p>
-          <div data-show-role="recruiter"><div class="callout"><strong>After the run:</strong> Open <code>HOT.md</code> in Obsidian — it shows your active pipeline, what needs attention today, and what Claude surfaced across your reqs.</div></div>
-          <div data-show-role="hrbp"><div class="callout"><strong>After the run:</strong> Open your morning brief in the <code>briefs/</code> folder — it’ll show pending decisions, manager follow-ups, and anything from your connected tools that needs a response.</div></div>
-          <div data-show-role="comp"><div class="callout"><strong>After the run:</strong> Open your morning brief in the <code>briefs/</code> folder — it’ll surface active offers, upcoming cycle milestones, and any compensation conversations that moved.</div></div>
-          <div data-show-role="generic"><div class="callout"><strong>After the run:</strong> Open your morning brief in the <code>briefs/</code> folder — it’ll surface active projects, pending decisions, and commitments from your recent meetings.</div></div>
-        </div>
-      </div>
-
-      <div class="setup-step">
-        <div class="step-number">6</div>
-        <div class="step-content">
-          <h3>Schedule the pipeline <span style="font-weight:400;font-size:13px;color:var(--text-muted);margin-left:6px">(optional but recommended)</span></h3>
-          <p>The vault is most useful when it runs before you start work each morning — so you open Obsidian and the brief is already there. The pipeline can be scheduled to run automatically at a time that suits you.</p>
-          <p>Ask Claude Code: <code>Help me schedule the vault pipeline to run each morning</code> and it’ll walk you through the setup for your machine. Or run <code>/vault-orchestrator</code> manually whenever you want a refresh.</p>
+          <h3>Run it — and see it work</h3>
+          <p>Still in Claude Code, type <code>/vault-orchestrator</code> and press Enter. Claude pulls from your connected tools, builds your wiki, and writes your first brief. The first run takes a few minutes.</p>
+          <div data-show-role="recruiter"><div class="callout"><strong>Proof it works:</strong> run <code>/hm-update</code> for one of your reqs — it pulls straight from your pipeline (authoritative stage from your sheet + what moved from your comms), no pasting. That's the vault and toolkit working together.</div></div>
+          <div data-show-role="hrbp"><div class="callout"><strong>Proof it works:</strong> open <code>HOT.md</code> in Obsidian — your live state is there: pending decisions, manager follow-ups, anything awaiting a response.</div></div>
+          <div data-show-role="comp"><div class="callout"><strong>Proof it works:</strong> open <code>HOT.md</code> in Obsidian — active offers, upcoming cycle milestones, and any comp conversations that moved are already laid out.</div></div>
+          <div data-show-role="generic"><div class="callout"><strong>Proof it works:</strong> open <code>HOT.md</code> in Obsidian — active projects, pending decisions, and commitments from recent meetings are already there.</div></div>
+          <p style="margin-top:14px"><strong>Make it automatic (optional):</strong> ask Claude Code <code>Help me schedule the vault pipeline to run each morning</code> so your brief is ready before you start work.</p>
         </div>
       </div>
 
@@ -533,6 +646,14 @@
         <button class="faq-question" aria-expanded="false">Who do I contact if I need help?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="faq-answer"><p>Reach out to <strong>Aaron Drais</strong> on Slack — happy to help with setup, troubleshoot any issues, or talk through how to adapt the vault for your role. For Obsidian questions, the <a href="https://forum.obsidian.md" target="_blank">Obsidian community forum</a> is also active and helpful.</p></div>
       </div>
+      <div class="faq-item" data-show-role="recruiter">
+        <button class="faq-question" aria-expanded="false">I have the TA Toolkit — how does this connect?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-answer"><p>Several toolkit skills — hm-update, candidate-summary, intake-brief, candidate-profile-scoring and more — read your vault automatically once the toolkit profile points at it (<code>uses_vault: true</code>). The setup wizard offers to set that for you, so those skills draw on your reqs, candidates, pipeline, and HM notes instead of asking you to paste context. Skills that aren't vault-aware keep working exactly as they do today.</p></div>
+      </div>
+      <div class="faq-item" data-show-role="recruiter">
+        <button class="faq-question" aria-expanded="false">Where does my pipeline data come from — is it live from Greenhouse?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-answer"><p>Two layers. Authoritative <em>stage</em> comes from your Greenhouse-fed pipeline sheet — the same report-connector setup as the ELT sheet — read each run. Everything the ATS doesn't hold (momentum, competing offers, HM sentiment, what moved this week) is built from your Slack, email, and meeting notes.</p><p>It's not a live ATS query: it's as current as your last pipeline run, and stage reflects the sheet's last refresh. Without a sheet connected, pipeline is fully comms-derived — so vault stage can lag Greenhouse, which is why the snapshot records the sheet's refresh time.</p></div>
+      </div>
     </div>
   </div>
 </section>
@@ -556,7 +677,12 @@
   function continueToSetup() {
     if (!selectedRole) return;
     ['div-before-wiki','section-wiki-preview','div-before-setup','section-setup'].forEach(function(id){
-      document.getElementById(id).style.display = 'block';
+      var el = document.getElementById(id); if (el) el.style.display = 'block';
+    });
+    // Recruiter-only sections: toolkit before/after + pipeline how-to
+    var isRecruiter = (selectedRole === 'recruiter');
+    ['div-before-toolkit','section-toolkit-synergy','div-before-ghhowto','section-gh-howto'].forEach(function(id){
+      var el = document.getElementById(id); if (el) el.style.display = isRecruiter ? 'block' : 'none';
     });
     document.getElementById('setup-heading').textContent = 'Setting up your ' + (roleLabels[selectedRole]||'People Ops') + ' vault';
     applyRoleContent();
@@ -572,7 +698,8 @@
   function applyRoleContent() {
     document.querySelectorAll('[data-show-role]').forEach(function(el){
       var roles = el.getAttribute('data-show-role').split(',').map(function(r){return r.trim();});
-      el.style.display = (roles.indexOf(selectedRole) !== -1) ? '' : 'none';
+      if (roles.indexOf(selectedRole) !== -1) { el.classList.add('vis'); }
+      else { el.classList.remove('vis'); }
     });
     var ip = document.getElementById('skill-interview-prep');
     var ig = document.getElementById('skill-ingest-glean');
