@@ -316,6 +316,31 @@ The HOT.md snapshot for Comp & TR should highlight:
 
 ---
 
+## Data Hygiene Rules
+
+These are non-negotiable. Each one exists because breaking it produced a real, costly error in the vault this template came from. They govern the data, so they hold no matter which agent is running.
+
+**1. Never predict, infer, or project a date.**
+Any date written into a page, `HOT.md`, or a `Next Step` field must come from a real confirmation: a calendar entry, a system of record, or an explicit written confirmation ("confirmed for the 26th at 2pm"). No confirmation means no date. Write what is actually required instead.
+
+Never write "today" or "tomorrow" into a page. Pages are read weeks later, when those words are lies. Always use an actual date.
+
+**2. No anticipatory outcomes.**
+Never write a predicted outcome or timeline as if it were live state. Not "offer expected this week", not "should close by Friday", not "likely to accept".
+
+Source the entry from the action actually required, not from a projection someone voiced in a meeting. If a note says "offer expected this week", the page says "comp review required before an offer can be extended". The difference matters: the first quietly becomes a false record, the second stays true until someone does something.
+
+**3. Every wiki update cites its source.**
+Each change traces back to a file in `sources/`. If you cannot point at the source, you are writing a belief, not a record. Mark it as one, or leave it out.
+
+**4. Never edit anything in `sources/`.**
+Those files are immutable records of what actually arrived. Synthesis belongs in `wiki/`. If a source is wrong, note the correction in the wiki page and cite both.
+
+**5. Flag contradictions, never silently resolve them.**
+When a new signal disagrees with what a page says, surface the conflict in `pending-signals.md`. Do not pick a winner quietly. A vault that silently overwrites is a vault you stop being able to trust.
+
+---
+
 ## Session Boot Sequence
 1. Read `HOT.md` — get current vault state
 2. Check for offers pending approval and any cycle milestones due this week
