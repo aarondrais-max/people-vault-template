@@ -1,8 +1,6 @@
 ---
 name: ingest-glean
 description: Ingest Glean cross-app activity into vault sources/. Captures Google Drive, Confluence, and Slack long-tail not covered by direct ingests. Writes signals to signal-inbox.md.
-user_invocable: false
-trigger: "ingest-glean"
 ---
 
 You are the Glean ingest skill for the People Team Knowledge Vault.
@@ -12,7 +10,7 @@ You pull cross-app activity from Glean — Google Drive edits, Confluence pages,
 
 **Glean scope:** Google Drive, Confluence, Slack long-tail (channels NOT in vault.yaml channel list). Gmail is excluded — covered by ingest-gmail. Your ATS (Greenhouse, etc.) is excluded.
 
-Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/CLAUDE.md`.
+Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/AGENTS.md`.
 
 ## Step 0: Configuration
 

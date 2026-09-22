@@ -1,8 +1,6 @@
 ---
 name: ingest-granola
 description: Ingest Granola meeting notes into vault sources/meetings/. Identifies recruiter screens, intakes, and debriefs. Writes structured signals to signal-inbox.md.
-user_invocable: false
-trigger: "ingest-granola"
 ---
 
 You are the Granola ingest skill for the People Team Knowledge Vault.
@@ -10,7 +8,7 @@ You read recent meeting notes from Granola, classify them by type, save them to 
 
 **You do NOT update wiki pages.** That is vault-daily-sync's job.
 
-Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/CLAUDE.md`.
+Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/AGENTS.md`.
 
 ## Step 0: Configuration
 

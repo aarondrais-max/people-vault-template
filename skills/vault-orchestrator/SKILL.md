@@ -1,8 +1,6 @@
 ---
 name: vault-orchestrator
 description: Single orchestrator that runs the full vault pipeline -- ingest all enabled sources, update wiki, validate, then produce morning brief. Uses subagents to keep context lean.
-user_invocable: true
-trigger: "vault-orchestrator, run pipeline, run vault, update vault, vault sync"
 ---
 
 You are the orchestrator for the People Team Knowledge Vault.
@@ -22,7 +20,7 @@ Read `[VAULT_PATH]/vault.yaml` to determine:
 - `outputs.daily_brief.enabled` and `destination`
 - `git.snapshot`
 
-Read `[VAULT_PATH]/CLAUDE.md` for vault conventions.
+Read `[VAULT_PATH]/AGENTS.md` for vault conventions.
 
 ---
 
@@ -42,7 +40,7 @@ NEVER use Bash for data processing. Use Read/Write/Grep/Glob tools for ALL file 
 ## PHASE 0: GLEAN SWEEP (sweep days only)
 
 Check today's day of week against `validation.sweep_days`.
-- If today IS a sweep day AND today's sweep file does not already exist in `[VAULT_PATH]/sources/glean/`: spawn glean-sweep agent using skill file `[VAULT_PATH]/skills/glean-sweep.md`
+- If today IS a sweep day AND today's sweep file does not already exist in `[VAULT_PATH]/sources/glean/`: spawn glean-sweep agent using skill file `[VAULT_PATH]/skills/glean-sweep/SKILL.md`
 - If today is NOT a sweep day OR sweep file already exists: skip entirely
 
 ---
@@ -54,7 +52,7 @@ Check today's day of week against `validation.sweep_days`.
 The GH Pipeline Report is the authoritative pipeline data source. It runs BEFORE the other ingests so that vault-daily-sync has the complete candidate stage/status picture before processing Slack/Gmail/Glean signals.
 
 Spawn one agent:
-- Read `[VAULT_PATH]/skills/ingest-gh-pipeline-report.md` and execute all steps.
+- Read `[VAULT_PATH]/skills/ingest-gh-pipeline-report/SKILL.md` and execute all steps.
 - On morning runs: include Step 0b (Chrome refresh of the sheet). On midday runs: skip Step 0b (the connector already refreshed it in the morning; just re-read for GH-side updates).
 - Wait for completion. Record the change count — it tells Phase 2 how much pipeline movement happened.
 
@@ -70,19 +68,14 @@ For every ingest where `enabled: true`, spawn agents in ONE message (parallel). 
 
 | Ingest | Skill file | Config key |
 |--------|-----------|-----------|
-| ingest-slack | skills/ingest-slack.md | `ingests.slack.enabled` |
-| ingest-gmail | skills/ingest-gmail.md | `ingests.gmail.enabled` |
-| ingest-glean | skills/ingest-glean.md | `ingests.glean.enabled` |
-| ingest-granola | skills/ingest-granola.md | `ingests.granola.enabled` |
+| ingest-slack | skills/ingest-slack/SKILL.md | `ingests.slack.enabled` |
+| ingest-gmail | skills/ingest-gmail/SKILL.md | `ingests.gmail.enabled` |
+| ingest-glean | skills/ingest-glean/SKILL.md | `ingests.glean.enabled` |
+| ingest-granola | skills/ingest-granola/SKILL.md | `ingests.granola.enabled` |
 
 (The Greenhouse pipeline report is the recruiter source-of-truth feed — it runs earlier, in Phase 0.5, not here.)
 
-Additional ingests (if enabled in vault.yaml):
-- `ingests.gdrive.enabled` → skills/ingest-gdrive.md
-- `ingests.confluence.enabled` → skills/ingest-confluence.md
-- `ingests.linear.enabled` → skills/ingest-linear.md
-- `ingests.jira.enabled` → skills/ingest-jira.md
-- `ingests.notion.enabled` → skills/ingest-notion.md
+Additional ingests (`ingests.gdrive`, `ingests.confluence`, `ingests.linear`, `ingests.jira`, `ingests.notion`) are declared in vault.yaml but **ship disabled and have no skill file in this template**. If you enable one, write `skills/ingest-[source]/SKILL.md` first, using an existing ingest skill as the pattern. If the config key is `true` and the skill file is missing, log it in `log.md` and carry on — do not invent the ingest.
 
 On sweep days, add to the ingest-glean agent prompt: "Today's glean sweep file already exists at [VAULT_PATH]/sources/glean/glean-sweep-[today].md — read it instead of making fresh Glean API calls."
 
@@ -93,7 +86,7 @@ Wait for ALL to complete. Record each summary.
 ## PHASE 2: WIKI UPDATE
 
 Spawn one agent:
-- Read `[VAULT_PATH]/skills/vault-daily-sync.md` and execute all steps
+- Read `[VAULT_PATH]/skills/vault-daily-sync/SKILL.md` and execute all steps
 - Reads signal-inbox.md populated by Phase 1, updates wiki pages, regenerates HOT.md
 
 Wait for completion. Record summary.
@@ -108,7 +101,7 @@ Wait for completion. Record summary.
 
 **Skip on clean runs** — validation on a clean day costs significant tokens and finds 0 gaps.
 
-If running: spawn vault-validate agent — read `[VAULT_PATH]/skills/vault-validate.md` and execute all steps.
+If running: spawn vault-validate agent — read `[VAULT_PATH]/skills/vault-validate/SKILL.md` and execute all steps.
 
 ---
 
@@ -117,7 +110,7 @@ If running: spawn vault-validate agent — read `[VAULT_PATH]/skills/vault-valid
 **Only run if `outputs.daily_brief.enabled: true` AND this is the morning run.**
 Skip on midday runs unless an urgent signal (offer expiry, blocking decision) was found in Phase 1.
 
-Spawn daily-brief agent — read `[VAULT_PATH]/skills/daily-brief.md` and execute all steps.
+Spawn daily-brief agent — read `[VAULT_PATH]/skills/daily-brief/SKILL.md` and execute all steps.
 Output goes to `[VAULT_PATH]/outputs/YYYY-MM-DD.md`.
 
 ---

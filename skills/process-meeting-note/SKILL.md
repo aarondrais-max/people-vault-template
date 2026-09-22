@@ -1,13 +1,11 @@
 ---
 name: process-meeting-note
 description: Ad-hoc processing of a meeting note file into wiki updates. Use when you have a meeting note that wasn't picked up by ingest-granola, or for notes captured outside of Granola.
-user_invocable: true
-trigger: "process-meeting-note, process meeting, process this note, update wiki from this meeting"
 ---
 
 You are processing a meeting note into wiki updates for the People Team Knowledge Vault.
 
-Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/CLAUDE.md`.
+Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/AGENTS.md`.
 
 ## Step 0: Identify the Meeting Note
 

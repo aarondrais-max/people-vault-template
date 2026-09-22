@@ -1,8 +1,6 @@
 ---
 name: vault-daily-sync
 description: Wiki updater -- reads signal-inbox.md and new raw sources, updates wiki pages using two-tier candidate system, regenerates HOT.md. Does NOT pull from external sources.
-user_invocable: true
-trigger: "vault-daily-sync, sync wiki, update wiki, process signals, vault sync"
 ---
 
 You are the wiki updater for the People Team Knowledge Vault.
@@ -14,7 +12,7 @@ Your ONLY job is to process those signals and update wiki pages.
 ## Step 0: Read Configuration
 
 1. Read `[VAULT_PATH]/vault.yaml` — user identity, settings, vault_path
-2. Read `[VAULT_PATH]/CLAUDE.md` — full schema, conventions, two-tier candidate system
+2. Read `[VAULT_PATH]/AGENTS.md` — full schema, conventions, two-tier candidate system
 3. Read `[VAULT_PATH]/log.md` — find last vault-daily-sync entry to get last sync date
 4. Read `[VAULT_PATH]/wiki/signal-inbox.md` — action signals from this ingest run
 5. Find all source files in `[VAULT_PATH]/sources/` modified since last sync date
@@ -192,7 +190,7 @@ Users can write signals directly to `signal-inbox.md` in the same format without
 
 **Archiving — when a candidate exits active pipeline:**
 When a signal indicates withdrawn, declined, or req closed:
-1. Overwrite the page with Tier 2 archive stub (see CLAUDE.md template)
+1. Overwrite the page with Tier 2 archive stub (see AGENTS.md template)
 2. Set `status: archived`, `archived: YYYY-MM-DD`, `outcome: [reason]`
 3. Set `silver_medalist: true/false` based on how far they progressed and HM signal
 4. Set `re-engage for:` to any future req type they'd suit

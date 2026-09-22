@@ -1,13 +1,11 @@
 ---
 name: vault-setup
-description: Interactive setup wizard — asks role, name, timezone, integrations, and vault path, then generates personalized CLAUDE.md and vault.yaml
-user_invocable: true
-trigger: "set up the vault, vault setup, configure my vault, initialize vault"
+description: Interactive setup wizard — asks role, name, timezone, integrations, and vault path, then generates personalized AGENTS.md and vault.yaml
 ---
 
 # vault-setup — Interactive Setup Wizard
 
-You are running the People Team Knowledge Vault setup wizard. Your job is to ask the user a short series of questions and then generate their personalized `CLAUDE.md` and `vault.yaml` files.
+You are running the People Team Knowledge Vault setup wizard. Your job is to ask the user a short series of questions and then generate their personalized `AGENTS.md` and `vault.yaml` files.
 
 Work through the questions conversationally — ask one or two at a time, not all at once. Confirm answers before moving on. At the end, write both files and confirm what was created.
 
@@ -43,7 +41,7 @@ Map their answer to one of these role keys:
 - 6 → `facilities`
 - 7 → `generic`
 
-Store the role key — you will use it to select the right CLAUDE.md template below.
+Store the role key — you will use it to select the right AGENTS.md template below.
 
 ---
 
@@ -138,7 +136,7 @@ Ask these conversationally, a couple at a time. Store each answer for Step 9.
 
 **e. Hiring managers & stakeholders**
 > "Who are your key hiring managers and stakeholders? For each: name, role, and Slack ID if you have it. I'll pre-load them so people pages and HM-aware skills work from day one."
-- Store the list for the `## Key Relationships Reference` table in CLAUDE.md.
+- Store the list for the `## Key Relationships Reference` table in AGENTS.md.
 
 ---
 
@@ -192,13 +190,13 @@ Ask:
 
 Now generate both files.
 
-### 9a — Select the right CLAUDE.md template
+### 9a — Select the right AGENTS.md template
 
 Based on their role key, use the matching template file:
-- `recruiter` → `CLAUDE-recruiter.md`
-- `hrbp` → `CLAUDE-hrbp.md`
-- `comp` → `CLAUDE-comp.md`
-- `ld`, `people-ops`, `facilities`, `generic` → `CLAUDE-generic.md`
+- `recruiter` → `roles/recruiter.md`
+- `hrbp` → `roles/hrbp.md`
+- `comp` → `roles/comp.md`
+- `ld`, `people-ops`, `facilities`, `generic` → `roles/generic.md`
 
 Read the selected template file. Make the following substitutions throughout:
 - `[YOUR_NAME]` → their name
@@ -208,9 +206,11 @@ Read the selected template file. Make the following substitutions throughout:
 - `[YOUR_SLACK_ID]` → their Slack ID (if provided, otherwise leave placeholder)
 - `[VAULT_PATH]` → their vault path
 
-Write the result to `CLAUDE.md` in the vault root.
+Write the result to `AGENTS.md` in the vault root, overwriting the shipped default.
 
-If the user's role key is `recruiter`, also delete `CLAUDE-hrbp.md`, `CLAUDE-comp.md`, and `CLAUDE-generic.md` from the vault. If `hrbp`, delete the others. And so on — keep only the one that was used, plus `CLAUDE-generic.md` as a fallback. Actually: just delete all `CLAUDE-[role].md` variant files after writing `CLAUDE.md`. The user doesn't need them.
+Then delete the whole `roles/` directory — the user only needs the one variant, now living in `AGENTS.md`.
+
+Leave `CLAUDE.md` alone. It is a three-line pointer to `AGENTS.md`, not a copy, so it cannot drift. It exists so Claude Code finds the instructions by its own convention; a user on a different agent can delete it.
 
 ### 9b — Write vault.yaml
 
@@ -314,7 +314,7 @@ If the role is `recruiter`, also:
 
 1. **vault.yaml `recruiter:` block** — fill `ats`, `sourcing_tool`, `candidate_tiering.tier1_stage`, `candidate_tiering.track_silver_medalists`, `tracked_reqs`, and `toolkit_linked` from Steps 6b/6c.
 2. **vault.yaml `ingests.gh_pipeline_report`** — if they gave a sheet URL, set `enabled: true`, `sheet_id`, and `sheet_gid` (extracted from the URL). Otherwise leave `enabled: false`.
-3. **CLAUDE.md `## Key Relationships Reference` table** — replace the placeholder rows with the hiring managers and stakeholders from Step 6b(e). Keep the table format (Name | Role | Signal Priority); mark managers/headcount authorities HIGH, HMs MEDIUM.
+3. **AGENTS.md `## Key Relationships Reference` table** — replace the placeholder rows with the hiring managers and stakeholders from Step 6b(e). Keep the table format (Name | Role | Signal Priority); mark managers/headcount authorities HIGH, HMs MEDIUM.
 4. **TA Toolkit profile** — only if they confirmed in Step 6c: edit `~/.amplitude-ta-toolkit.yaml`, setting `uses_vault: true`, `vault_path: [VAULT_PATH]`, `level: advanced`, preserving all other keys. If the file doesn't exist, skip and remind them to run `/setup-ta-toolkit` then re-link.
 
 ---
@@ -325,7 +325,7 @@ After writing both files, confirm with a summary like:
 
 > "Your vault is ready. Here's what I set up:
 >
-> - **CLAUDE.md** — [Role] config for [Name], timezone [Timezone]
+> - **AGENTS.md** — [Role] config for [Name], timezone [Timezone]
 > - **vault.yaml** — ingests enabled: [list], brief goes to [local/Slack]
 > - **Vault path:** [path]
 >
@@ -346,5 +346,5 @@ After writing both files, confirm with a summary like:
 
 - If the user doesn't know their Slack ID, leave the placeholder and note they can add it to `vault.yaml` later.
 - If the user skips a question, use sensible defaults (local brief, no DM contacts, standard channels empty).
-- If a template file doesn't exist for their role, fall back to `CLAUDE-generic.md`.
+- If a template file doesn't exist for their role, fall back to `roles/generic.md`.
 - If the user is running this in Claude chat (not Claude Code), you cannot write files directly. In that case: display the final content of both files in code blocks and ask the user to save them manually to the vault folder.

@@ -1,15 +1,13 @@
 ---
 name: vault-boot
-description: Load vault context at the start of a new chat -- reads CLAUDE.md, HOT.md, and pending-signals.md, reports what's urgent and whether the pipeline has run today.
-user_invocable: true
-trigger: "vault-boot, boot vault, load vault, start vault, vault context"
+description: Load vault context at the start of a new chat -- reads AGENTS.md, HOT.md, and pending-signals.md, reports what's urgent and whether the pipeline has run today.
 ---
 
 *Run this at the start of any new chat to load vault context.*
 
 Read vault.yaml first to get `vault_path`. Then read these files in order:
 
-1. `[VAULT_PATH]/CLAUDE.md` — schema, conventions, key relationships, file paths
+1. `[VAULT_PATH]/AGENTS.md` — schema, conventions, key relationships, file paths
 2. `[VAULT_PATH]/HOT.md` — current pipeline state, active reqs, urgent items
 3. `[VAULT_PATH]/pending-signals.md` — unresolved signals needing triage
 4. `[VAULT_PATH]/log.md` — last entry only, to check when the pipeline last ran

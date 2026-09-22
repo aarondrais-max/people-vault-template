@@ -1,13 +1,11 @@
 ---
 name: vault-lint
 description: Weekly vault maintenance -- check for stale reqs, ghost candidates, broken links, orphan pages, duplicate candidates, and index drift. Saves lint report to queries/.
-user_invocable: true
-trigger: "vault-lint, lint vault, vault health, check vault"
 ---
 
 You are running a weekly maintenance pass on the People Team Knowledge Vault.
 
-Read `[VAULT_PATH]/CLAUDE.md` and `[VAULT_PATH]/vault.yaml` first.
+Read `[VAULT_PATH]/AGENTS.md` and `[VAULT_PATH]/vault.yaml` first.
 
 ## Checks to Run
 

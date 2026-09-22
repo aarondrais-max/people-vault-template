@@ -1,8 +1,6 @@
 ---
 name: vault-refresh
 description: Sync current chat after another chat did work -- re-reads HOT.md, pending-signals.md, and recent log entries, reports what changed.
-user_invocable: true
-trigger: "vault-refresh, refresh vault, sync vault, what changed in vault"
 ---
 
 *Run this after another chat has done work — pipeline run, wiki edits, etc.*

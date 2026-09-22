@@ -1,6 +1,27 @@
-# People Team Knowledge Vault — Claude Schema (Recruiter)
+# People Team Knowledge Vault — Agent Instructions (Recruiter)
 
-This is a local recruiting knowledge vault maintained by Claude. When operating in this project, follow all conventions below exactly.
+This is a local recruiting knowledge vault maintained by an AI agent. When operating in this project, follow all conventions below exactly.
+
+This file is the **single source of truth for agent instructions**. It follows the [AGENTS.md](https://agents.md) convention, an open format stewarded by the Agentic AI Foundation and read by 30+ coding agents. Tool-specific files (`CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`) should be one-line pointers to this file, never forks of it.
+
+---
+
+## Portability contract
+
+This vault is deliberately runtime-neutral. Nothing here depends on a specific AI vendor, and the whole thing survives a move to a different agent. Preserve these properties when you change anything:
+
+| Layer | Rule |
+|---|---|
+| **Data** | Plain markdown with YAML frontmatter and `[[wikilinks]]`. No proprietary formats, no database, no vendor export needed. Readable in Obsidian, any text editor, or `grep`. |
+| **Config** | One `vault.yaml`. Plain YAML, no vendor keys. |
+| **Instructions** | This file plus `skills/<name>/SKILL.md`, all plain markdown prose. Any agent that can read files and follow instructions can run them. |
+| **Invocation** | Skills are addressed by **file path**, not by slash command. `/vault-boot` is a Claude Code convenience; the portable instruction is always "read and follow `skills/vault-boot/SKILL.md`". |
+| **Tools** | Reference external systems by **capability** ("read Slack", "search email"), not by vendor tool name. MCP is itself cross-vendor, so MCP servers are fine; hardcoded tool IDs are not. |
+| **Determinism** | Anything mechanical (counting, dating, parsing, moving lines) belongs in a script, not a prompt. Scripts are portable; prompt behaviour is not. |
+
+**Moving to a different agent** means: point the new agent at this file, re-register the MCP servers it supports, and re-check the skills that call tools. The vault content itself needs no migration.
+
+---
 
 ## Vault Owner Context
 - **Name:** [YOUR_NAME]
@@ -19,7 +40,8 @@ This is a local recruiting knowledge vault maintained by Claude. When operating 
 
 ```
 vault/
-├── CLAUDE.md             ← this file
+├── AGENTS.md             ← this file: agent instructions, source of truth
+├── CLAUDE.md             ← one-line pointer to AGENTS.md (delete if not using Claude)
 ├── vault.yaml            ← config + pipeline settings
 ├── HOT.md                ← auto-regenerated state snapshot (read this first each session)
 ├── scan-intelligence.md  ← learned recruiting patterns, updated by pipeline
@@ -47,7 +69,7 @@ vault/
 │
 ├── queries/              ← on-demand query results
 ├── outputs/              ← daily briefs archive
-└── skills/               ← pipeline skill definitions
+└── skills/               ← one directory per skill, each holding a SKILL.md
 ```
 
 ---
@@ -279,7 +301,7 @@ last_updated: YYYY-MM-DD
 - Each source file has frontmatter: `source`, `date`, `type`, `processed: true/false`
 
 ### Pipeline Source of Truth
-- If `ingests.gh_pipeline_report.enabled: true`, the Greenhouse-fed Google Sheet is **authoritative for candidate stage and active/rejected status**. `ingest-gh-pipeline-report` refreshes + reads it (full-read via Claude in Chrome; Drive connector truncates large sheets), diffs against the previous run, snapshots to `sources/greenhouse/`, and emits `[gh-report]` signals; `vault-daily-sync` reconciles req Pipeline tables from it. It runs as **Phase 0.5**, before the other ingests.
+- If `ingests.gh_pipeline_report.enabled: true`, the Greenhouse-fed Google Sheet is **authoritative for candidate stage and active/rejected status**. `ingest-gh-pipeline-report` refreshes + reads it (full-read via a browser-driving agent; the Drive connector truncates large sheets), diffs against the previous run, snapshots to `sources/greenhouse/`, and emits `[gh-report]` signals; `vault-daily-sync` reconciles req Pipeline tables from it. It runs as **Phase 0.5**, before the other ingests.
 - **Stage precedence:** report > comms. When a Slack/email/meeting signal implies a different stage than the report, the report wins and the conflict is flagged in `pending-signals.md` — never silently overwritten.
 - **Comms still own the soft layer:** competing offers, comp asks, sentiment, momentum, "what moved" — none of that is in the ATS, so it stays comms-derived and is never overwritten by a report sync.
 - **Scope:** reqs handed off to another Primary Recruiter are auto-skipped; permanently dead reqs go in `exclusions.reqs`.
@@ -324,7 +346,7 @@ last_updated: YYYY-MM-DD
 ## Session Boot Sequence
 1. Read `HOT.md` — get current vault state
 2. Read `pending-signals.md` — anything urgent needing triage?
-3. If today is a pipeline day and no run yet — offer to run `/vault-orchestrator`
+3. If today is a pipeline day and no run yet — offer to run the pipeline (`skills/vault-orchestrator/SKILL.md`; in Claude Code, `/vault-orchestrator`)
 4. Answer user questions using wiki pages as context
 
 Do NOT re-read all wiki pages on boot — HOT.md is the summary. Only pull individual wiki pages when asked about a specific req, candidate, or person.

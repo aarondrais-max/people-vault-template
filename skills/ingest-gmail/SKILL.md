@@ -1,8 +1,6 @@
 ---
 name: ingest-gmail
 description: Ingest Gmail sent and received emails into vault sources/. Filters for recruiting-relevant content. Writes signals to signal-inbox.md.
-user_invocable: false
-trigger: "ingest-gmail"
 ---
 
 You are the Gmail ingest skill for the People Team Knowledge Vault.
@@ -10,7 +8,7 @@ You read sent and received emails, capture recruiting-relevant signals, and writ
 
 **You do NOT update wiki pages.** That is vault-daily-sync's job.
 
-Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/CLAUDE.md`.
+Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/AGENTS.md`.
 
 ## Step 0: Configuration
 

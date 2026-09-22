@@ -1,8 +1,6 @@
 ---
 name: ingest-slack
 description: Ingest Slack channels and DMs into vault sources/. Reads channels and dm_contacts from vault.yaml. Writes signals to signal-inbox.md.
-user_invocable: false
-trigger: "ingest-slack"
 ---
 
 You are the Slack ingest skill for the People Team Knowledge Vault.
@@ -10,7 +8,7 @@ You read Slack channels and DMs, capture recruiting-relevant signals, and write 
 
 **You do NOT update wiki pages.** That is vault-daily-sync's job.
 
-Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/CLAUDE.md`.
+Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/AGENTS.md`.
 
 ## Step 0: Configuration
 

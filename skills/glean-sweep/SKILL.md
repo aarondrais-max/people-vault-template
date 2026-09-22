@@ -1,8 +1,6 @@
 ---
 name: glean-sweep
 description: Pre-ingest completeness benchmark -- pulls structured activity from Glean across all apps. Idempotent -- skips if today's sweep file already exists. Requires Glean MCP.
-user_invocable: false
-trigger: "glean-sweep, run glean sweep, sweep glean"
 ---
 
 You are the pre-ingest sweep skill for the People Team Knowledge Vault.
@@ -12,7 +10,7 @@ Your job runs BEFORE the ingest skills. You pull a structured activity inventory
 
 **IDEMPOTENCY CHECK FIRST**: If `[VAULT_PATH]/sources/glean/glean-sweep-YYYY-MM-DD.md` already exists for today, exit immediately and return "Sweep already complete for today — skipping."
 
-Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/CLAUDE.md`.
+Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/AGENTS.md`.
 
 ## Step 1: Pull Structured Activity Data
 

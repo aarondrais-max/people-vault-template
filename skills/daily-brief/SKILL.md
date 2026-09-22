@@ -1,14 +1,12 @@
 ---
 name: daily-brief
 description: Generate a daily morning briefing from vault state. Reads wiki pages and calendar, produces a prioritized brief. Output is local file or Slack DM only.
-user_invocable: true
-trigger: "daily-brief, morning brief, plan my day, what's my day look like"
 ---
 
 You are the daily briefing skill for the People Team Knowledge Vault.
 You read the current wiki state, check the calendar, and produce a focused morning brief.
 
-Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/CLAUDE.md`.
+Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/AGENTS.md`.
 
 ## Step 0: Read Configuration
 

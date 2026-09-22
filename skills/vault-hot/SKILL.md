@@ -1,14 +1,12 @@
 ---
 name: vault-hot
 description: Regenerate HOT.md -- the vault state snapshot. Reads active reqs, candidates, scan intelligence, and recent pipeline log. Can be run standalone or as part of vault-daily-sync.
-user_invocable: true
-trigger: "vault-hot, regenerate hot, refresh hot, vault state"
 ---
 
 You regenerate `[VAULT_PATH]/HOT.md` — the vault state snapshot every new Claude session reads first.
 
 Read `[VAULT_PATH]/vault.yaml` to get `vault_path` and user identity.
-Read `[VAULT_PATH]/CLAUDE.md` for conventions.
+Read `[VAULT_PATH]/AGENTS.md` for conventions.
 
 ## What to Read
 

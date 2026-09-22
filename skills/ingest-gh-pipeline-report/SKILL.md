@@ -5,7 +5,7 @@ description: Refresh and ingest your Greenhouse Pipeline Report from Google Shee
 
 You are an ingest skill for the People Team Knowledge Vault. Your job is to pull the authoritative Greenhouse pipeline report from a Google Sheet and save it as a raw source file. You do NOT update wiki pages.
 
-Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/CLAUDE.md` from the vault root.
+Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/AGENTS.md` from the vault root.
 
 ## Step 0: Read Configuration
 

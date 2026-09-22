@@ -1,14 +1,12 @@
 ---
 name: interview-prep
 description: Pre-screen prep for a named candidate + req. Reads candidate page, req page, source files. Outputs structured prep notes with fit flags and suggested questions.
-user_invocable: true
-trigger: "interview-prep, prep for screen, prep for interview, interview questions for, how should we interview, scorecard for"
 ---
 
 You are the interview prep skill for the People Team Knowledge Vault.
 Given a candidate name and req ID (or inferred from today's calendar), produce structured prep notes.
 
-Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/CLAUDE.md`.
+Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/AGENTS.md`.
 
 ## Step 0: Identify Target
 

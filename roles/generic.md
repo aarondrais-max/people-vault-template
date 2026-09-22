@@ -1,6 +1,27 @@
-# People Team Knowledge Vault — Claude Schema (People Ops / General)
+# People Team Knowledge Vault — Agent Instructions (People Ops / General)
 
-This is a local People team knowledge vault maintained by Claude. When operating in this project, follow all conventions below exactly.
+This is a local People team knowledge vault maintained by an AI agent. When operating in this project, follow all conventions below exactly.
+
+This file is the **single source of truth for agent instructions**. It follows the [AGENTS.md](https://agents.md) convention, an open format stewarded by the Agentic AI Foundation and read by 30+ coding agents. Tool-specific files (`CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`) should be one-line pointers to this file, never forks of it.
+
+---
+
+## Portability contract
+
+This vault is deliberately runtime-neutral. Nothing here depends on a specific AI vendor, and the whole thing survives a move to a different agent. Preserve these properties when you change anything:
+
+| Layer | Rule |
+|---|---|
+| **Data** | Plain markdown with YAML frontmatter and `[[wikilinks]]`. No proprietary formats, no database, no vendor export needed. Readable in Obsidian, any text editor, or `grep`. |
+| **Config** | One `vault.yaml`. Plain YAML, no vendor keys. |
+| **Instructions** | This file plus `skills/<name>/SKILL.md`, all plain markdown prose. Any agent that can read files and follow instructions can run them. |
+| **Invocation** | Skills are addressed by **file path**, not by slash command. `/vault-boot` is a Claude Code convenience; the portable instruction is always "read and follow `skills/vault-boot/SKILL.md`". |
+| **Tools** | Reference external systems by **capability** ("read Slack", "search email"), not by vendor tool name. MCP is itself cross-vendor, so MCP servers are fine; hardcoded tool IDs are not. |
+| **Determinism** | Anything mechanical (counting, dating, parsing, moving lines) belongs in a script, not a prompt. Scripts are portable; prompt behaviour is not. |
+
+**Moving to a different agent** means: point the new agent at this file, re-register the MCP servers it supports, and re-check the skills that call tools. The vault content itself needs no migration.
+
+---
 
 ## Vault Owner Context
 - **Name:** [YOUR_NAME]
@@ -24,7 +45,7 @@ This vault is a flexible knowledge base for People team members whose work is pr
 - Documented processes, workflows, and runbooks
 - Active conversations and issues to track over time
 
-The vault is primarily a **meeting note processor and decision log**. You put context in, Claude helps you keep it organised and surfaced.
+The vault is primarily a **meeting note processor and decision log**. You put context in, the agent helps you keep it organised and surfaced.
 
 ---
 
@@ -32,7 +53,8 @@ The vault is primarily a **meeting note processor and decision log**. You put co
 
 ```
 vault/
-├── CLAUDE.md             ← this file
+├── AGENTS.md             ← this file: agent instructions, source of truth
+├── CLAUDE.md             ← one-line pointer to AGENTS.md (delete if not using Claude)
 ├── vault.yaml            ← config + pipeline settings
 ├── HOT.md                ← auto-regenerated state snapshot (read this first each session)
 ├── pending-signals.md    ← raw signals awaiting triage
@@ -55,7 +77,7 @@ vault/
 │
 ├── queries/              ← on-demand query results
 ├── outputs/              ← daily briefs archive
-└── skills/               ← pipeline skill definitions
+└── skills/               ← one directory per skill, each holding a SKILL.md
 ```
 
 ---
@@ -299,7 +321,7 @@ The HOT.md snapshot should highlight:
 1. Read `HOT.md` — get current vault state
 2. Check for active project milestones or threads that need attention today
 3. Check `pending-signals.md` for any urgent follow-ups
-4. If today is a pipeline day and no run yet — offer to run `/vault-orchestrator`
+4. If today is a pipeline day and no run yet — offer to run the pipeline (`skills/vault-orchestrator/SKILL.md`; in Claude Code, `/vault-orchestrator`)
 5. Report what needs action today
 
 Do NOT re-read all wiki pages on boot — HOT.md is the summary. Only pull individual wiki pages when asked about a specific project, person, decision, or process.

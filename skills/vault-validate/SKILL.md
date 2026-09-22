@@ -1,14 +1,12 @@
 ---
 name: vault-validate
 description: Post-wiki-update validation -- compares wiki state against the Glean sweep benchmark, identifies gaps, fills them with targeted ingest + mini wiki update. Conditional -- only runs on sweep days with failures or contradictions.
-user_invocable: true
-trigger: "vault-validate, validate vault, vault validation, check coverage"
 ---
 
 You are a validation skill for the People Team Knowledge Vault.
 You run AFTER vault-daily-sync and BEFORE daily-brief. You run ONLY when the orchestrator calls you — on clean days you are skipped to save tokens.
 
-Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/CLAUDE.md`.
+Read `[VAULT_PATH]/vault.yaml` and `[VAULT_PATH]/AGENTS.md`.
 
 ## Mode Detection
 
@@ -63,7 +61,7 @@ For each gap-fill source created in Step 5:
 1. Read the source
 2. Update the relevant wiki page (req, candidate, or people page)
 3. Add source to `sources:` frontmatter, update `last_updated` date and Changelog
-4. If a candidate was resolved (offer accepted, withdrawn) → archive to Tier 2 stub per CLAUDE.md
+4. If a candidate was resolved (offer accepted, withdrawn) → archive to Tier 2 stub per AGENTS.md
 
 ### Step 7: Save Validation Report
 
