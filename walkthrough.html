@@ -566,8 +566,8 @@
         <div class="step-content">
           <h3>Run the setup wizard</h3>
           <p>In the Claude Code session, paste this and press Enter:</p>
-          <div class="code-block"><pre><span class="code-cmd">Please read skills/vault-setup.md and run the setup wizard for me.</span></pre></div>
-          <p style="margin-top:12px">Claude asks a few quick questions — your role, name, timezone, connected tools, and how you want your brief delivered — then writes your <code>CLAUDE.md</code> and <code>vault.yaml</code> for you. No manual editing.</p>
+          <div class="code-block"><pre><span class="code-cmd">Please read skills/vault-setup/SKILL.md and run the setup wizard for me.</span></pre></div>
+          <p style="margin-top:12px">Claude asks a few quick questions — your role, name, timezone, connected tools, and how you want your brief delivered — then writes your <code>AGENTS.md</code> and <code>vault.yaml</code> for you. No manual editing.</p>
           <div data-show-role="recruiter"><div class="callout"><strong>Recruiter:</strong> you'll get a few extra questions — your ATS, pipeline sheet, and hiring managers — plus an offer to link the TA Toolkit so its skills read your vault.</div></div>
         </div>
       </div>
@@ -597,7 +597,7 @@
     <div style="max-width:900px;margin:0 auto">
       <span class="section-label">Skills Reference</span>
       <h2>What you can ask Claude to do</h2>
-      <p class="section-subtitle">Each skill is an instruction file in the <code>skills/</code> folder. Invoke them by name in Claude Code — e.g. <code>/vault-boot</code> — or paste the file contents into any Claude chat session.</p>
+      <p class="section-subtitle">Each skill is an instruction file at <code>skills/&lt;name&gt;/SKILL.md</code>. Run one by telling your agent to read and follow it — in Claude Code, <code>/vault-boot</code> is a shortcut for the same thing. In a plain chat window, paste the file contents instead.</p>
     </div>
     <div class="skills-grid">
       <div class="skill-card"><div class="skill-card-top"><span class="skill-name">vault-boot</span><div class="skill-badges"><span class="skill-badge skill-badge-manual">Manual</span></div></div><p class="skill-desc">Load vault context at the start of a new Claude session — tells Claude about your setup, role, and current state.</p><div class="skill-trigger"><span class="skill-trigger-label">Trigger:</span><code>"boot the vault"</code></div></div>
@@ -636,11 +636,15 @@
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">Can I change my role later?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-        <div class="faq-answer"><p>Yes. Run the setup wizard again — open Claude Code in your vault folder and paste: <code>Please read skills/vault-setup.md and run the setup wizard for me.</code> It'll ask for your new role and regenerate your <code>CLAUDE.md</code> in a few minutes. Your existing wiki pages won't be touched.</p></div>
+        <div class="faq-answer"><p>Yes. Run the setup wizard again — open Claude Code in your vault folder and paste: <code>Please read skills/vault-setup/SKILL.md and run the setup wizard for me.</code> It'll ask for your new role and regenerate your <code>AGENTS.md</code> in a few minutes. Your existing wiki pages won't be touched.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">What if I already have my own Claude or AI setup?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-        <div class="faq-answer"><p>The vault’s skills and <code>CLAUDE.md</code> are designed to work alongside any existing Claude setup. You can drop the skills folder into an existing Claude Code project, or use just the pieces you want. Nothing here requires a fresh Claude installation.</p></div>
+        <div class="faq-answer"><p>The vault’s skills and <code>AGENTS.md</code> are designed to work alongside any existing setup. You can drop the skills folder into an existing Claude Code project, or use just the pieces you want. Nothing here requires a fresh Claude installation.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">What happens to my vault if we move off Claude?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-answer"><p>You keep all of it. That's designed in, not luck.</p><p>Everything in the vault is plain markdown and plain YAML. Your instructions live in <code>AGENTS.md</code>, an open standard stewarded by the Linux Foundation and read by 30+ AI agents including Codex CLI, Cursor, Gemini CLI and Aider. <code>CLAUDE.md</code> is a three-line pointer to it, not a copy, so the two can never drift apart. Your skills are instructions written in English, not code written against one vendor's API.</p><p>Switching agents means pointing the new one at the same folder and reconnecting your tools. Your knowledge transfers untouched: there's no export step, no database, no proprietary format. The real work in any switch is connector coverage, so check that the new agent can reach Slack, email and your ATS before you commit. <code>PORTABILITY.md</code> in the vault has the full detail and the honest caveats.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">Who do I contact if I need help?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
