@@ -2,7 +2,15 @@
 
 A local markdown knowledge base that an AI agent reads, writes, and keeps current for you. Built for People and TA professionals who want a second brain for their work that they actually own.
 
-**New here? Start with [SETUP.md](SETUP.md), or open `walkthrough.html` in a browser for the visual version.**
+## Start here
+
+1. Click the green **Code** button above, then **Download ZIP**, and unzip it somewhere permanent (`~/Documents/PeopleVault` is a good spot).
+2. Open **`walkthrough.html`** from that folder in your browser. Double-click it. That is the visual setup guide, and it tailors itself to your role.
+3. Follow it. About 30 minutes, and a setup wizard does the configuration so you are not editing files by hand.
+
+Prefer plain text? [SETUP.md](SETUP.md) is the same guide in written form.
+
+> Do not click `walkthrough.html` here on GitHub. It will show you the page source instead of the page. Download the ZIP first, then open it from your own folder.
 
 ---
 
