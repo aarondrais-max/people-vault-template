@@ -45,10 +45,16 @@ ingests:
     ingest_received: true          # Include received emails
 
   glean:
-    enabled: true
+    enabled: false
     lookback_hours: 48
-    # Glean captures: Google Drive, Confluence, Slack long-tail (channels not in list above),
-    # and other cross-app activity. Gmail excluded — covered by direct ingest.
+    # OFF by default, deliberately. In practice this ingest re-reads most of what the Slack and
+    # Gmail ingests already captured, so it roughly doubles cost for a small amount of new signal.
+    # Turn it on only if a lot of your work lands in places those two never see (Confluence,
+    # Drive comments, channels you have not listed above) — and check the value after a week.
+    #
+    # Note this is separate from `validation.glean_sweep` below, which stays ON. The sweep is a
+    # cheap coverage check that finds channels and docs you have NOT configured. That one earns
+    # its keep; this full ingest usually does not.
     projects:
       # Add Glean project names you want monitored.
       # These are Glean search project identifiers, not Greenhouse req IDs.

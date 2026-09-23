@@ -1,130 +1,110 @@
 # People Team Knowledge Vault
 
-A local markdown knowledge base maintained by Claude — built for TA and People team professionals who want an AI-powered second brain for their recruiting work.
+A local markdown knowledge base that an AI agent reads, writes, and keeps current for you. Built for People and TA professionals who want a second brain for their work that they actually own.
+
+## Start here
+
+1. Click the green **Code** button above, then **Download ZIP**, and unzip it somewhere permanent (`~/Documents/PeopleVault` is a good spot).
+2. Open **`walkthrough.html`** from that folder in your browser. Double-click it. That is the visual setup guide, and it tailors itself to your role.
+3. Follow it. About 30 minutes, and a setup wizard does the configuration so you are not editing files by hand.
+
+Prefer plain text? [SETUP.md](SETUP.md) is the same guide in written form.
+
+> Do not click `walkthrough.html` here on GitHub. It will show you the page source instead of the page. Download the ZIP first, then open it from your own folder.
 
 ---
 
 ## What it is
 
-The People Team Knowledge Vault is a structured set of markdown files that Claude reads, writes, and maintains on your behalf. It lives on your computer (or in a git repo you control), works in Obsidian as a browsable knowledge base, and connects to your existing tools — Slack, Gmail, Glean, meeting notes — to stay current without manual entry.
+A structured set of markdown files on your computer. It opens in Obsidian as a browsable, linked knowledge base, and it connects to the tools you already use so it stays current without you typing things twice.
 
-Think of it as a local database of everything you know: open reqs, active candidates, hiring manager relationships, recruiting patterns. Claude keeps it up to date. You query it in plain English.
+Think of it as a local database of what you know: the people you work with, the work in flight, the decisions you have made and why. The agent keeps it up to date. You ask it questions in plain English.
 
----
+It is a complement to your systems of record, not a replacement. Your ATS or HRIS stays authoritative for stages, compliance, and reporting. The vault captures what those systems never hold: what a manager actually meant, the concern someone raised off the record, the context behind a decision six months ago.
 
 ## What it does
 
 Each pipeline run:
 
-1. **Ingests** from Slack, Gmail, Glean, and meeting notes (Granola) — capturing signals you'd otherwise lose
-2. **Updates** structured wiki pages — reqs, candidates, hiring managers — with new information, flagging changes and contradictions
-3. **Generates a state snapshot** (HOT.md) that tells you what needs attention today
-4. **Produces a morning brief** — prioritized, opinionated, under 60 lines
+1. **Ingests** from the sources you connect (Slack, email, meeting notes, your ATS), capturing signals you would otherwise lose.
+2. **Updates** structured wiki pages, flagging what changed and what contradicts what.
+3. **Regenerates `HOT.md`**, a single snapshot of what needs attention.
+4. **Writes a brief**, prioritised and short.
 
-You start each Claude session by running `/vault-boot`. Claude reads the snapshot and you're in context within seconds.
+Then you start a session, load context in a few seconds, and ask it things.
 
----
+## Who it is for
 
-## Two setup paths
+The setup wizard configures the vault for your role:
 
-### Standard (no code required)
-Best for: TA professionals who use Claude.ai in a browser and Obsidian for notes.
-
-- Download or clone this repo
-- Open the folder in Obsidian
-- Fill in your details in CLAUDE.md and vault.yaml
-- Use Claude.ai chat — paste skill files as instructions
-- Update wiki pages manually with Claude's help
-
-See **[SETUP-STANDARD.md](SETUP-STANDARD.md)** for step-by-step instructions.
-
-### Tech (Claude Code + automated pipeline)
-Best for: users who have Claude Code CLI installed and want a fully automated pipeline.
-
-- Requires: Claude Code CLI, MCP integrations (Slack, Gmail, Glean, Granola, Greenhouse)
-- Automated ingest + wiki update on a schedule
-- `claude` → `/vault-orchestrator` runs the full pipeline
-- Cron-schedulable for hands-free daily runs
-
-See **[SETUP-TECH.md](SETUP-TECH.md)** for step-by-step instructions.
+| Role | Tracks |
+|---|---|
+| **Recruiter** | Reqs, candidates, pipeline, hiring managers |
+| **HR Business Partner** | Manager relationships, team health, ER cases, people initiatives |
+| **Comp & Total Rewards** | Comp cycles, benchmarks, offers, pay decisions |
+| **Generic** | Meetings, decisions, projects, commitments (People Ops, L&D, Facilities) |
 
 ---
 
-## Prerequisites
+## You are not locked in
 
-### Standard path
-- [Obsidian](https://obsidian.md) (free) — for browsing and editing the vault
-- Claude.ai account (any plan)
+The agent maintaining this vault is a replaceable part, on purpose.
 
-### Tech path
-- Claude Code CLI (`npm install -g @anthropic-ai/claude-code` or see docs)
-- MCP integrations configured for the tools you use (Slack, Gmail, Glean, Granola)
-- Git (optional but recommended for snapshots)
-- Greenhouse access (optional — for interview prep skill)
+Everything is plain markdown, plain YAML, and instructions written in English. Instructions live in [`AGENTS.md`](AGENTS.md), the open convention stewarded by the Agentic AI Foundation and read by 30+ agents including Codex CLI, Cursor, Gemini CLI and Aider. `CLAUDE.md` is a three-line pointer to it, not a copy, so the two cannot drift.
+
+Switching agents means reconnecting your tools. Your knowledge transfers untouched. See [PORTABILITY.md](PORTABILITY.md) for the full picture, including the honest caveats.
 
 ---
 
-## Vault structure
+## Structure
 
 ```
 vault/
-├── CLAUDE.md          ← Schema file Claude reads every session
-├── vault.yaml         ← Your configuration (channels, contacts, schedule)
-├── HOT.md             ← Auto-generated state snapshot — start every session here
-├── pending-signals.md ← Unresolved signals needing triage
-├── scan-intelligence.md ← Learned recruiting patterns
-├── index.md           ← Cross-reference of all wiki pages
-├── log.md             ← Pipeline run history
+├── AGENTS.md            ← agent instructions, single source of truth
+├── CLAUDE.md            ← 3-line pointer to AGENTS.md
+├── vault.yaml           ← your configuration
+├── HOT.md               ← auto-generated state snapshot, start here each session
+├── pending-signals.md   ← unresolved signals needing triage
+├── index.md             ← cross-reference of all wiki pages
+├── log.md               ← pipeline run history
 │
-├── wiki/              ← Maintained structured pages
-│   ├── reqs/          ← One page per requisition
-│   ├── candidates/    ← Active (Tier 1) or archived stub (Tier 2)
-│   ├── people/        ← Hiring managers, stakeholders, key contacts
-│   ├── patterns/      ← Scan intelligence patterns
-│   ├── decisions/     ← Key decisions with rationale
-│   ├── concepts/      ← Market intel, comp benchmarks, process notes
-│   ├── projects/      ← Cross-functional TA projects
-│   └── threads/       ← Active tracked conversations
+├── wiki/                ← your maintained pages
+│   ├── reqs/ candidates/ people/      (recruiter)
+│   ├── patterns/ decisions/ concepts/
+│   └── projects/ threads/
 │
-├── sources/           ← Immutable raw ingest records (never edit these)
-│   ├── slack/
-│   ├── gmail/
-│   ├── glean/
-│   ├── meetings/
-│   └── documents/
+├── sources/             ← immutable raw ingest records, never edit
+│   └── slack/ gmail/ glean/ meetings/ documents/
 │
-├── outputs/           ← Daily briefs archive
-├── queries/           ← On-demand query results
-└── skills/            ← Skill instruction files for Claude
+├── roles/               ← role variants of AGENTS.md, removed after setup
+├── skills/              ← one directory per skill, each with a SKILL.md
+├── scripts/             ← deterministic checks and helpers
+├── outputs/             ← brief archive
+└── queries/             ← on-demand query results
 ```
-
----
-
-## Designed to work alongside your existing tools
-
-The vault is a complement, not a replacement. It captures soft intel that your ATS (Greenhouse, Lever, etc.) doesn't: what an interviewer said off-scorecard, a candidate's competing offer timeline, a hiring manager's unstated preferences. Your ATS remains the system of record for pipeline stages and compliance data.
-
-The vault integrates with:
-- **Greenhouse** — for interview prep (pulls resumes, application data)
-- **Slack** — for team signals and hiring manager communications
-- **Gmail** — for candidate and stakeholder email
-- **Glean** — for cross-app activity and document signals
-- **Granola** — for meeting notes from screens, debriefs, and intakes
-
----
-
-## Example files
-
-The `wiki/` directories contain example files prefixed with `EXAMPLE-`. These show the expected format and structure. Delete them once you've created your own pages.
-
----
 
 ## Skills
 
-The `skills/` directory contains instruction files for each vault operation. See [skills/README.md](skills/README.md) for a full description of each skill and how to use them.
+Each skill is a markdown instruction file at `skills/<name>/SKILL.md`. Run one by telling your agent to read and follow it. In Claude Code, `/vault-boot` is a shortcut for the same thing.
+
+See [skills/README.md](skills/README.md) for what each one does and which need external connections.
+
+## Example pages
+
+`wiki/` ships with files prefixed `EXAMPLE-` showing the expected format. Read them, then delete them.
+
+## Maintaining the template
+
+If you edit the template itself, run the health check before sharing it:
+
+```bash
+python3 scripts/check_template.py
+```
+
+It verifies that referenced paths exist, skill frontmatter is standard, and no stale layout references have crept back in.
 
 ---
 
-## Questions and feedback
+## Feedback
 
-This template was built from a working recruiting vault. If something doesn't fit your workflow, the skill files in `skills/` are plain markdown — edit them to match how you actually work.
+This template came out of a working vault that runs daily. If something does not fit how you work, the skill files are plain markdown. Edit them.

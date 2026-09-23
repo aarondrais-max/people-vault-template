@@ -1,82 +1,89 @@
-# Skills — How to Use
+# Skills
 
-Skills are instruction files that tell Claude exactly what to do when you invoke them. They contain step-by-step logic for vault operations: reading files, updating wiki pages, generating outputs.
+A skill is a markdown file of step-by-step instructions for one vault operation. Each lives at `skills/<name>/SKILL.md`.
+
+They are plain prose, not code. Any agent that can read a file and follow instructions can run them.
 
 ---
 
-## How to invoke skills
+## Running a skill
 
-### In Claude Code (tech setup)
-Type the skill name as a slash command:
+**The portable way**, works in any agent:
+
 ```
-/vault-boot
-/vault-orchestrator
-/daily-brief
+Read skills/vault-boot/SKILL.md and follow it.
 ```
 
-Claude Code reads the skill file from `skills/[skill-name].md` and executes the steps.
+**In Claude Code**, `/vault-boot` is a shortcut for exactly that.
 
-### In Claude.ai chat (standard setup)
-1. Open the skill file in Obsidian or a text editor
-2. Copy everything below the `---` frontmatter block (i.e., the body of the file)
-3. Paste it as your first message in a new Claude.ai conversation
-4. Attach or paste the relevant vault files Claude will need (HOT.md, specific wiki pages, etc.)
-5. Claude will follow the skill instructions
-
-For skills that need to read many files, it works best to paste the HOT.md contents into the conversation and reference specific wiki pages by name — Claude will ask for them if needed.
+**In a plain chat window** with no file access: open the `SKILL.md`, copy everything below the frontmatter, paste it as your first message, then paste or attach the vault files it asks for. Start with `HOT.md`.
 
 ---
 
-## Skills that work in both chat and Claude Code
+## What each skill does
 
-| Skill | What it does | Requires external tools? |
-|---|---|---|
-| `vault-boot` | Load vault context, report what's urgent | No — reads local files only |
-| `vault-refresh` | Re-sync context after another session ran the pipeline | No — reads local files only |
-| `vault-hot` | Regenerate HOT.md from current wiki state | No — reads local files only |
-| `vault-lint` | Weekly health check — flag stale pages, ghost candidates, orphaned sources | No — reads local files only |
-| `daily-brief` | Generate morning brief from HOT.md and calendar | Calendar MCP (optional) |
-| `interview-prep` | Prep notes for a named candidate + req | Greenhouse MCP (optional) |
-| `process-meeting-note` | Process a meeting note file into wiki updates | No — reads local files only |
+These need no external connections. They only read and write files in your vault, so they work anywhere.
 
----
+| Skill | What it does |
+|---|---|
+| `vault-boot` | Load vault context at the start of a session, report what is urgent |
+| `vault-refresh` | Re-sync context after another session ran the pipeline |
+| `vault-hot` | Regenerate `HOT.md` from current wiki state |
+| `vault-lint` | Weekly health check: stale pages, ghost entries, orphaned sources, broken links |
+| `vault-daily-sync` | Update wiki pages from the signal inbox and new source files |
+| `vault-setup` | The setup wizard. Run once, at the start |
+| `process-meeting-note` | Turn a meeting note into wiki updates |
 
-## Skills that require Claude Code
+These reach outside the vault and need the relevant connection configured.
 
-These skills call external APIs (Slack, Gmail, Glean, Granola) and need MCP integrations configured:
+| Skill | Needs |
+|---|---|
+| `vault-orchestrator` | Runs the full pipeline, so whatever your enabled ingests need |
+| `ingest-slack` | Slack |
+| `ingest-gmail` | Email |
+| `ingest-glean` | Enterprise search |
+| `ingest-granola` | Meeting notes |
+| `ingest-gh-pipeline-report` | Google Sheets and an ATS report (recruiter only) |
+| `vault-validate` | Enterprise search, to benchmark vault coverage |
+| `glean-sweep` | Enterprise search |
+| `daily-brief` | Calendar, optional |
+| `interview-prep` | ATS, optional (recruiter only) |
 
-| Skill | What it does | Requires |
-|---|---|---|
-| `vault-orchestrator` | Run the full pipeline — ingest + wiki update + brief | All enabled MCP integrations |
-| `vault-daily-sync` | Wiki update only — reads signal inbox, updates pages | No external calls (reads from sources/) |
-| `vault-validate` | Validate vault coverage against Glean sweep benchmark | Glean MCP |
-| `ingest-slack` | Ingest Slack channels and DMs into sources/ | Slack MCP |
-| `ingest-gmail` | Ingest Gmail into sources/ | Gmail MCP |
-| `ingest-glean` | Ingest Glean cross-app activity into sources/ | Glean MCP |
-| `ingest-granola` | Ingest Granola meeting notes into sources/ | Granola MCP |
-
----
-
-## Skill dependency order
-
-When running manually (not via orchestrator), run in this order:
-
-1. Ingest skills (parallel — can run at same time)
-2. `vault-daily-sync` (needs signal-inbox.md populated by ingest)
-3. `vault-hot` (needs wiki pages updated by vault-daily-sync)
-4. `daily-brief` (needs HOT.md current)
-
-`vault-orchestrator` handles all of this automatically.
+If you do not have a source, set `enabled: false` for it in `vault.yaml` and the pipeline skips it.
 
 ---
 
-## Customizing skills
+## Order of operations
 
-Skills are plain markdown. If the default behavior doesn't fit your workflow, edit the skill file directly. Common customizations:
+`vault-orchestrator` handles all of this. Only relevant if you are running steps by hand:
 
-- Change the HOT.md output format in `vault-hot.md`
-- Adjust the brief format in `daily-brief.md`
-- Add or remove pipeline stages in `vault-daily-sync.md`
-- Change lookback windows in ingest skills
+1. Ingest skills, all independent, can run at the same time
+2. `vault-daily-sync`, needs the signal inbox populated by ingest
+3. `vault-hot`, needs pages updated by the sync
+4. `daily-brief`, needs `HOT.md` current
 
-Every skill file has a `rules:` section at the bottom — read it before customizing to understand what's non-negotiable.
+---
+
+## Writing or editing a skill
+
+Every `SKILL.md` starts with exactly two frontmatter fields:
+
+```yaml
+---
+name: skill-name
+description: One line on what it does and when to use it.
+---
+```
+
+`name` must match the directory name. Do not add other fields: they are non-standard, most agents ignore them, and some linters reject them. If the description contains a colon, wrap the value in double quotes.
+
+Common edits: the `HOT.md` layout in `vault-hot`, the brief format in `daily-brief`, lookback windows in the ingest skills.
+
+Two rules worth keeping when you edit:
+
+- **Refer to skills by path**, not by slash command, so they stay portable.
+- **Name capabilities, not vendor tools.** Write "read the team's Slack channels", not a specific tool identifier.
+
+Most skills have a `rules:` section at the end. Read it before changing behaviour, it marks what is load-bearing.
+
+After editing, run `python3 scripts/check_template.py` from the vault root.
